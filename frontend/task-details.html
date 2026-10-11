@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Complete dashboard UI design — Task Details — TaskFlow</title>
+  <meta name="description" content="View complete task information, manage subtasks, attachments, comments, deadlines, and activity history in TaskFlow.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="task-details.css">
+</head>
+<body>
+  <!-- App Layout Container -->
+  <div class="app-layout">
+    
+    <!-- Mobile Sidebar Backdrop -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop" aria-hidden="true"></div>
+
+    <!-- =========================================================================
+         1. Left Navigation Sidebar (240px)
+         ========================================================================= -->
+    <aside class="app-sidebar" id="appSidebar" aria-label="Main Navigation">
+      
+      <!-- Top Brand Logo -->
+      <div class="sidebar-brand-row">
+        <a href="dashboard.html" class="brand-logo" aria-label="TaskFlow Dashboard">
+          <div class="logo-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <span class="brand-name">TaskFlow</span>
+        </a>
+        <button class="mobile-close-sidebar-btn" id="closeSidebarBtn" aria-label="Close sidebar navigation">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <!-- Workspace Selector Dropdown Trigger -->
+      <div class="workspace-selector-wrap">
+        <button class="workspace-selector-btn" id="workspaceBtn" aria-expanded="false" aria-haspopup="true">
+          <div class="workspace-avatar">T</div>
+          <div class="workspace-info">
+            <span class="workspace-label">WORKSPACE</span>
+            <span class="workspace-name" id="currentWorkspaceName">Team Workspace</span>
+          </div>
+          <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+
+        <!-- Workspace Dropdown Menu -->
+        <div class="dropdown-menu workspace-dropdown" id="workspaceDropdown" role="menu">
+          <button class="dropdown-item active" role="menuitem" data-workspace="Team Workspace">
+            <span class="item-dot dot-blue"></span> Team Workspace
+          </button>
+          <button class="dropdown-item" role="menuitem" data-workspace="Personal Workspace">
+            <span class="item-dot dot-purple"></span> Personal Workspace
+          </button>
+          <div class="dropdown-divider"></div>
+          <button class="dropdown-item item-action" id="createWorkspaceOption" role="menuitem">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            <span>Create Workspace</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Navigation Menu (Exact Established Order) -->
+      <nav class="sidebar-nav" aria-label="Workspace Pages">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="dashboard.html" class="nav-link">
+              <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+              <span>Overview</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <!-- Active Navigation Context: My Tasks -->
+            <a href="my-tasks.html" class="nav-link active" aria-current="page">
+              <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+              <span>My Tasks</span>
+              <span class="nav-badge" id="sidebarTaskBadge">6</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="projects.html" class="nav-link">
+              <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+              <span>Projects</span>
+              <span class="nav-badge" id="sidebarProjectsBadge">6</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="inbox.html" class="nav-link">
+              <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"></polyline><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path></svg>
+              <span>Inbox</span>
+              <span class="nav-badge badge-unread" id="sidebarInboxBadge">3</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="calendar.html" class="nav-link">
+              <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              <span>Calendar</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Auxiliary Navigation (Starred, Settings, Help) -->
+      <div class="sidebar-secondary-nav">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <button class="nav-link-btn" id="sidebarStarredBtn">
+              <svg class="nav-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+              <span>Starred</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Bottom Sidebar Controls -->
+      <div class="sidebar-bottom-controls">
+        <ul class="bottom-nav-list">
+          <li>
+            <button class="bottom-nav-btn" id="sidebarSettingsBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+              <span>Settings</span>
+            </button>
+          </li>
+          <li>
+            <button class="bottom-nav-btn" id="sidebarHelpBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+              <span>Help & Support</span>
+            </button>
+          </li>
+        </ul>
+
+        <!-- User Profile Pill -->
+        <div class="user-profile-wrap">
+          <button class="user-profile-btn" id="profileBtn" aria-expanded="false" aria-haspopup="true">
+            <div class="user-avatar" id="sidebarAvatar">YB</div>
+            <div class="user-meta">
+              <span class="user-name" id="sidebarUserName">Your Name</span>
+              <span class="user-role">Team Member</span>
+            </div>
+            <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+
+          <!-- User Profile Dropdown -->
+          <div class="dropdown-menu profile-dropdown" id="profileDropdown" role="menu">
+            <div class="profile-dropdown-header">
+              <span class="user-name-full">Your Name</span>
+              <span class="user-email-full">your.email@workspace.com</span>
+            </div>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item" id="menuMyProfile" role="menuitem">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              <span>My Profile</span>
+            </button>
+            <button class="dropdown-item" id="menuAccountSettings" role="menuitem">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+              <span>Account Settings</span>
+            </button>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item item-danger" id="menuLogOut" role="menuitem">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+              <span>Log Out</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- =========================================================================
+         2. Main Application Area (Header + Task Workspace)
+         ========================================================================= -->
+    <div class="app-main">
+      
+      <!-- Top Header (72px) -->
+      <header class="app-header">
+        
+        <!-- Left: Hamburger (Mobile) + Return Back Link & Breadcrumb -->
+        <div class="header-left">
+          <button class="mobile-hamburger-btn" id="mobileHamburgerBtn" aria-label="Open sidebar menu">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+          
+          <a href="my-tasks.html" class="btn-back-link" title="Return to My Tasks">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            <span>Back to My Tasks</span>
+          </a>
+
+          <div class="header-divider-v"></div>
+
+          <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+            <span class="breadcrumb-root">Workspace</span>
+            <span class="breadcrumb-sep">/</span>
+            <a href="my-tasks.html" class="breadcrumb-link">My Tasks</a>
+            <span class="breadcrumb-sep">/</span>
+            <span class="breadcrumb-current">Task Details</span>
+          </nav>
+        </div>
+
+        <!-- Center: Search Input -->
+        <div class="header-center">
+          <div class="search-input-wrapper">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input 
+              type="search" 
+              id="globalSearchInput" 
+              class="global-search-input" 
+              placeholder="Search tasks, subtasks, or attachments…"
+              aria-label="Search task details"
+              autocomplete="off"
+            >
+            <kbd class="search-shortcut" title="Press Ctrl+K to search">Ctrl K</kbd>
+
+            <!-- Search Dropdown Results -->
+            <div class="search-results-dropdown" id="searchResultsDropdown" role="listbox">
+              <div class="search-results-header">Matching Elements</div>
+              <div class="search-results-list" id="searchResultsList"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Actions & Controls -->
+        <div class="header-right">
+          
+          <!-- Notifications Bell -->
+          <div class="notification-wrap">
+            <a href="notifications.html" class="header-icon-btn" id="notificationsBtn" aria-label="Notifications" title="View notifications">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+              <span class="notification-indicator"></span>
+            </a>
+          </div>
+
+          <!-- Help Icon -->
+          <div class="help-wrap">
+            <button class="header-icon-btn" id="helpHeaderBtn" aria-label="Help and resources" aria-expanded="false">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            </button>
+            <div class="dropdown-menu help-dropdown" id="helpDropdown">
+              <div class="dropdown-header-sm">Help & Resources</div>
+              <a href="#" class="dropdown-item" id="helpDocsOption">
+                <span>Task Collaboration Guide</span>
+              </a>
+              <a href="#" class="dropdown-item" id="helpShortcutsOption">
+                <span>Keyboard Shortcuts (E for Edit, S for Star)</span>
+              </a>
+              <a href="#" class="dropdown-item" id="helpContactOption">
+                <span>Contact Project Support</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- User Avatar Icon -->
+          <button class="header-avatar-btn" id="headerAvatarBtn" aria-label="User profile menu">
+            <span>YB</span>
+          </button>
+
+        </div>
+      </header>
+
+      <!-- =======================================================================
+           3. Main Task Details Workspace (Scrollable Area)
+           ======================================================================= -->
+      <main class="workspace-scroll-area">
+        <div class="workspace-container">
+          
+          <!-- Section 6: Task Title and Primary Actions Banner -->
+          <section class="task-title-banner">
+            
+            <div class="title-meta-left">
+              <div class="project-tag-cluster">
+                <a href="projects.html" class="project-pill-link" id="taskProjectPill" title="Open Website Redesign project">
+                  <span class="project-dot dot-blue"></span>
+                  <span id="taskProjectName">Website Redesign</span>
+                </a>
+                <span class="task-id-badge" id="taskIdBadge">#TASK-1042</span>
+                <span class="status-pill status-in-progress" id="headerStatusBadge">In Progress</span>
+              </div>
+              
+              <h1 class="task-main-heading" id="taskTitleDisplay">Complete dashboard UI design</h1>
+            </div>
+
+            <!-- Primary Actions Cluster -->
+            <div class="title-actions-right">
+              
+              <!-- Share Button -->
+              <button class="btn-action-outline" id="shareTaskBtn" title="Copy task shareable link">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+                <span>Share</span>
+              </button>
+
+              <!-- Star / Favorite Button -->
+              <button class="btn-icon-square" id="starTaskBtn" title="Star this task" aria-label="Star task">
+                <svg class="star-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+              </button>
+
+              <!-- Three-dot Task Menu -->
+              <div class="task-menu-wrap">
+                <button class="btn-icon-square" id="taskMoreBtn" aria-label="More task actions" aria-expanded="false">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+                </button>
+                <div class="dropdown-menu task-action-dropdown" id="taskMoreDropdown">
+                  <button class="dropdown-item" id="menuCopyTaskLink">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                    <span>Copy task link</span>
+                  </button>
+                  <button class="dropdown-item" id="menuDuplicateTask">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span>Duplicate task</span>
+                  </button>
+                  <button class="dropdown-item" id="menuArchiveTask">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line></svg>
+                    <span>Archive task</span>
+                  </button>
+                  <div class="dropdown-divider"></div>
+                  <button class="dropdown-item item-danger" id="menuDeleteTask">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                    <span>Delete task</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Primary Edit Task Button -->
+              <button class="btn-primary-action" id="openEditTaskModalBtn">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                <span>Edit Task</span>
+              </button>
+
+            </div>
+
+          </section>
+
+          <!-- Section 7: Task Status and Metadata Properties Row -->
+          <section class="task-metadata-toolbar">
+            
+            <!-- Property 1: Status Dropdown -->
+            <div class="meta-prop-item">
+              <span class="meta-prop-label">Status</span>
+              <div class="select-chip-wrapper">
+                <select id="metaStatusSelect" class="chip-select select-status-in-progress" aria-label="Task status">
+                  <option value="To Do">To Do</option>
+                  <option value="In Progress" selected>In Progress</option>
+                  <option value="In Review">In Review</option>
+                  <option value="Completed">Completed</option>
+                  <option value="Blocked">Blocked</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Property 2: Priority Dropdown -->
+            <div class="meta-prop-item">
+              <span class="meta-prop-label">Priority</span>
+              <div class="select-chip-wrapper">
+                <select id="metaPrioritySelect" class="chip-select select-priority-high" aria-label="Task priority">
+                  <option value="Low">Low</option>
+                  <option value="Medium">Medium</option>
+                  <option value="High" selected>High</option>
+                  <option value="Urgent">Urgent</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Property 3: Assignee Dropdown -->
+            <div class="meta-prop-item">
+              <span class="meta-prop-label">Assignee</span>
+              <div class="assignee-select-wrapper">
+                <div class="assignee-pill-avatar" id="assigneeAvatarThumb">AM</div>
+                <select id="metaAssigneeSelect" class="meta-property-select" aria-label="Assigned team member">
+                  <option value="Alex Morgan" selected>Alex Morgan</option>
+                  <option value="Sarah Wilson">Sarah Wilson</option>
+                  <option value="Marcus Lee">Marcus Lee</option>
+                  <option value="Jordan Davis">Jordan Davis</option>
+                  <option value="Your Name">Your Name (You)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Property 4: Due Date Picker -->
+            <div class="meta-prop-item">
+              <span class="meta-prop-label">Due Date</span>
+              <div class="date-input-wrapper">
+                <svg class="date-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                <input type="date" id="metaDueDateInput" class="meta-date-input" value="2026-10-18" aria-label="Task deadline">
+              </div>
+            </div>
+
+            <!-- Property 5: Project Link -->
+            <div class="meta-prop-item">
+              <span class="meta-prop-label">Project</span>
+              <a href="projects.html" class="meta-project-link" id="metaProjectLink" title="View Project">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                <span>Website Redesign</span>
+              </a>
+            </div>
+
+            <!-- Property 6: Created By -->
+            <div class="meta-prop-item">
+              <span class="meta-prop-label">Created By</span>
+              <div class="meta-creator-box">
+                <span class="creator-avatar">YB</span>
+                <span class="creator-name">Your Name (Lead)</span>
+              </div>
+            </div>
+
+          </section>
+
+          <!-- ===================================================================
+               Section 8: Two-Column Main Content & Sidebar Layout
+               =================================================================== -->
+          <div class="task-details-columns-layout">
+            
+            <!-- Left Main Column (~68%) -->
+            <div class="task-main-content-column">
+              
+              <!-- Section 9: Description Card -->
+              <div class="content-card description-card">
+                <div class="card-header-row">
+                  <div class="card-header-left">
+                    <svg class="card-title-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                    <h2 class="card-section-title">Description</h2>
+                  </div>
+                  <button class="btn-card-edit" id="editDescriptionBtn" title="Edit task description">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                    <span>Edit</span>
+                  </button>
+                </div>
+
+                <!-- Display Mode -->
+                <div class="description-view-mode" id="descriptionViewMode">
+                  <p id="descriptionTextParagraph">
+                    Design and finalize the modern responsive dashboard interface mockups for TaskFlow. This deliverable focuses on core KPI metric summary cards, interactive project progress timelines, team task workload tables, and accessible micro-interactions.
+                  </p>
+                  <ul class="description-checklist">
+                    <li>Strict adherence to the established blue-and-white SaaS color scheme (Primary Blue <code>#2563EB</code>, Dark Navy <code>#172B4D</code>).</li>
+                    <li>Full desktop resolution optimization for 1440 × 900 viewports with clean panel boundaries.</li>
+                    <li>Implement WCAG AA compliant contrast for typography tokens and interactive button hover states.</li>
+                  </ul>
+                </div>
+
+                <!-- Edit Mode (Hidden initially) -->
+                <div class="description-edit-mode" id="descriptionEditMode" style="display: none;">
+                  <textarea id="descriptionEditTextarea" class="description-textarea" rows="6" placeholder="Provide a detailed description of the task requirements…"></textarea>
+                  <div class="description-edit-actions">
+                    <button type="button" class="btn-modal-secondary" id="cancelDescriptionEditBtn">Cancel</button>
+                    <button type="button" class="btn-modal-primary" id="saveDescriptionEditBtn">Save Description</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Section 10: Subtasks and Checklist Card -->
+              <div class="content-card subtasks-card">
+                <div class="card-header-row">
+                  <div class="card-header-left">
+                    <svg class="card-title-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h2 class="card-section-title">Subtasks & Checklist</h2>
+                    <span class="subtask-progress-badge" id="subtaskCountBadge">3 of 5 completed</span>
+                  </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="subtask-progress-track">
+                  <div class="subtask-progress-fill" id="subtaskProgressFill" style="width: 60%;"></div>
+                </div>
+
+                <!-- Subtask Items List -->
+                <div class="subtasks-list-container" id="subtasksListContainer">
+                  <!-- Dynamically populated subtask items -->
+                </div>
+
+                <!-- Inline Add Subtask Input Form -->
+                <form class="add-subtask-form" id="addSubtaskForm">
+                  <svg class="add-subtask-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                  <input 
+                    type="text" 
+                    id="newSubtaskInput" 
+                    class="add-subtask-input" 
+                    placeholder="Add a new subtask or deliverable criteria…" 
+                    aria-label="New subtask title"
+                  >
+                  <button type="submit" class="btn-add-subtask" id="addSubtaskBtn">Add subtask</button>
+                </form>
+              </div>
+
+              <!-- Section 11: Attachments Card -->
+              <div class="content-card attachments-card">
+                <div class="card-header-row">
+                  <div class="card-header-left">
+                    <svg class="card-title-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>
+                    <h2 class="card-section-title">Attachments</h2>
+                    <span class="attachment-count-badge" id="attachmentCountBadge">3 files</span>
+                  </div>
+                  
+                  <label class="btn-card-upload-label" for="attachmentFileInput">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                    <span>Upload File</span>
+                    <input type="file" id="attachmentFileInput" class="hidden-file-input" multiple>
+                  </label>
+                </div>
+
+                <div class="attachments-grid" id="attachmentsGrid">
+                  <!-- Dynamically populated attachment cards -->
+                </div>
+
+                <div class="attachments-empty-state" id="attachmentsEmptyState" style="display: none;">
+                  <p>No attachments yet. Add a file to share design mockups, specs, or documents with your team.</p>
+                </div>
+              </div>
+
+              <!-- Section 12: Comments & Discussion Card -->
+              <div class="content-card comments-card">
+                <div class="card-header-row">
+                  <div class="card-header-left">
+                    <svg class="card-title-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    <h2 class="card-section-title">Comments & Discussion</h2>
+                    <span class="comments-count-badge" id="commentCountBadge">2 comments</span>
+                  </div>
+                  
+                  <div class="comments-sort-wrap">
+                    <select id="commentsSortSelect" class="sort-select" aria-label="Sort comments">
+                      <option value="newest">Newest first</option>
+                      <option value="oldest">Oldest first</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Existing Comments Feed -->
+                <div class="comments-feed-list" id="commentsFeedList">
+                  <!-- Dynamically injected comment entries -->
+                </div>
+
+                <!-- Empty comments placeholder -->
+                <div class="comments-empty-state" id="commentsEmptyState" style="display: none;">
+                  <p>No comments yet. Start the team discussion below.</p>
+                </div>
+
+                <!-- New Comment Composer -->
+                <form class="comment-composer-form" id="commentComposerForm">
+                  <div class="composer-avatar">YB</div>
+                  <div class="composer-input-column">
+                    <textarea 
+                      id="newCommentTextarea" 
+                      class="composer-textarea" 
+                      rows="3" 
+                      placeholder="Write a comment, share feedback, or mention a teammate…" 
+                      required
+                    ></textarea>
+                    <div class="composer-toolbar-bottom">
+                      <span class="composer-tip">Press Ctrl+Enter to post</span>
+                      <button type="submit" class="btn-primary-action" id="postCommentBtn">Post comment</button>
+                    </div>
+                  </div>
+                </form>
+
+              </div>
+
+            </div>
+
+            <!-- Right Sidebar Column (~32%) -->
+            <aside class="task-details-sidebar-column" aria-label="Task Metadata Sidebar">
+              
+              <!-- Card A: Schedule Dates -->
+              <div class="sidebar-card">
+                <h3 class="sidebar-card-title">Schedule & Dates</h3>
+                <div class="sidebar-meta-list">
+                  <div class="sidebar-meta-row">
+                    <span class="meta-label">Start Date</span>
+                    <span class="meta-value" id="sideStartDate">Oct 08, 2026</span>
+                  </div>
+                  <div class="sidebar-meta-row">
+                    <span class="meta-label">Due Date</span>
+                    <span class="meta-value-due" id="sideDueDate">Oct 18, 2026 (In 7 days)</span>
+                  </div>
+                  <div class="sidebar-meta-row">
+                    <span class="meta-label">Created Date</span>
+                    <span class="meta-value-sub" id="sideCreatedDate">Oct 08, 2026, 09:30 AM</span>
+                  </div>
+                  <div class="sidebar-meta-row">
+                    <span class="meta-label">Last Updated</span>
+                    <span class="meta-value-sub" id="sideUpdatedDate">Today, 11:45 AM</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card B: People & Collaborators -->
+              <div class="sidebar-card">
+                <h3 class="sidebar-card-title">People & Roles</h3>
+                <div class="sidebar-people-list">
+                  <div class="person-role-row">
+                    <div class="person-avatar av-alex">AM</div>
+                    <div class="person-meta">
+                      <span class="person-name" id="sideAssigneeName">Alex Morgan</span>
+                      <span class="person-role-tag">Assignee (Lead Designer)</span>
+                    </div>
+                  </div>
+                  <div class="person-role-row">
+                    <div class="person-avatar av-lead">YB</div>
+                    <div class="person-meta">
+                      <span class="person-name">Your Name</span>
+                      <span class="person-role-tag">Reporter & Creator</span>
+                    </div>
+                  </div>
+                  <div class="person-role-row">
+                    <div class="person-avatar av-sarah">SW</div>
+                    <div class="person-meta">
+                      <span class="person-name">Sarah Wilson</span>
+                      <span class="person-role-tag">Design System Collaborator</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card C: Project Information -->
+              <div class="sidebar-card">
+                <h3 class="sidebar-card-title">Associated Project</h3>
+                <div class="sidebar-project-box">
+                  <div class="proj-box-header">
+                    <div class="proj-box-icon">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                    </div>
+                    <div class="proj-box-info">
+                      <h4 class="proj-box-title" id="sideProjectName">Website Redesign</h4>
+                      <span class="proj-box-status">Active • Sprint 42</span>
+                    </div>
+                  </div>
+                  <a href="projects.html" class="proj-open-link">
+                    <span>Open full project workspace</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                  </a>
+                </div>
+              </div>
+
+              <!-- Card D: Task Tags -->
+              <div class="sidebar-card">
+                <div class="sidebar-card-header-flex">
+                  <h3 class="sidebar-card-title">Tags & Labels</h3>
+                </div>
+                <div class="tags-cluster" id="tagsCluster">
+                  <span class="task-chip-tag" data-tag="UI/UX">UI/UX <button class="tag-remove-btn" aria-label="Remove tag">&times;</button></span>
+                  <span class="task-chip-tag" data-tag="Frontend">Frontend <button class="tag-remove-btn" aria-label="Remove tag">&times;</button></span>
+                  <span class="task-chip-tag" data-tag="Design System">Design System <button class="tag-remove-btn" aria-label="Remove tag">&times;</button></span>
+                </div>
+                <!-- Inline Tag Input -->
+                <form class="add-tag-inline-form" id="addTagForm">
+                  <input type="text" id="newTagInput" class="inline-tag-input" placeholder="+ Add a tag…" aria-label="Add tag">
+                </form>
+              </div>
+
+              <!-- Card E: Progress Summary -->
+              <div class="sidebar-card">
+                <h3 class="sidebar-card-title">Subtask Completion</h3>
+                <div class="progress-meta-summary">
+                  <div class="progress-num-large" id="sideProgressPercent">60%</div>
+                  <div class="progress-details-text">
+                    <span id="sideProgressDetail">3 of 5 subtasks completed</span>
+                    <span class="progress-sub-estimate">Estimated 1 day remaining</span>
+                  </div>
+                </div>
+                <div class="subtask-progress-track">
+                  <div class="subtask-progress-fill" id="sideProgressFill" style="width: 60%;"></div>
+                </div>
+              </div>
+
+              <!-- Card F: Activity Timeline -->
+              <div class="sidebar-card">
+                <h3 class="sidebar-card-title">Activity Timeline</h3>
+                <div class="activity-timeline-list" id="activityTimelineList">
+                  <!-- Dynamically populated chronological activity records -->
+                </div>
+              </div>
+
+            </aside>
+
+          </div>
+
+        </div>
+      </main>
+
+    </div>
+
+  </div>
+
+  <!-- =========================================================================
+       14. Edit Task Modal
+       ========================================================================= -->
+  <div class="app-modal-backdrop" id="editTaskModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="editModalTitle">
+    <div class="app-modal-card modal-task-size">
+      
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title" id="editModalTitle">Edit Task Details</h3>
+          <p class="modal-subtitle">Update core task information, deadline, priority, and assignees.</p>
+        </div>
+        <button class="modal-close-btn" id="closeEditModalBtn" aria-label="Close edit task modal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <form id="editTaskForm" class="modal-body-form">
+        <div class="modal-form-padding">
+          
+          <!-- Task Title -->
+          <div class="form-group">
+            <label class="form-label" for="editTitleInput">Task Title <span class="req">*</span></label>
+            <input type="text" id="editTitleInput" class="form-input" required value="Complete dashboard UI design">
+          </div>
+
+          <!-- Status & Priority Row -->
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="editStatusSelect">Status</label>
+              <select id="editStatusSelect" class="form-select">
+                <option value="To Do">To Do</option>
+                <option value="In Progress" selected>In Progress</option>
+                <option value="In Review">In Review</option>
+                <option value="Completed">Completed</option>
+                <option value="Blocked">Blocked</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="editPrioritySelect">Priority</label>
+              <select id="editPrioritySelect" class="form-select">
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High" selected>High</option>
+                <option value="Urgent">Urgent</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Assignee & Due Date Row -->
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="editAssigneeSelect">Assignee</label>
+              <select id="editAssigneeSelect" class="form-select">
+                <option value="Alex Morgan" selected>Alex Morgan</option>
+                <option value="Sarah Wilson">Sarah Wilson</option>
+                <option value="Marcus Lee">Marcus Lee</option>
+                <option value="Jordan Davis">Jordan Davis</option>
+                <option value="Your Name">Your Name</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="editDueDateInput">Due Date</label>
+              <input type="date" id="editDueDateInput" class="form-input" value="2026-10-18">
+            </div>
+          </div>
+
+          <!-- Project -->
+          <div class="form-group">
+            <label class="form-label" for="editProjectSelect">Project</label>
+            <select id="editProjectSelect" class="form-select">
+              <option value="Website Redesign" selected>Website Redesign</option>
+              <option value="Mobile App">Mobile App</option>
+              <option value="Marketing Campaign">Marketing Campaign</option>
+              <option value="Design System">Design System</option>
+            </select>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-modal-secondary" id="cancelEditModalBtn">Cancel</button>
+          <button type="submit" class="btn-modal-primary" id="saveEditModalBtn">Save Changes</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- Delete Task Confirmation Modal -->
+  <div class="app-modal-backdrop" id="deleteConfirmModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="app-modal-card modal-compact">
+      <div class="modal-header">
+        <h3 class="modal-title">Delete Task Confirmation</h3>
+        <button class="modal-close-btn" id="closeDeleteModalBtn" aria-label="Close modal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal-body-detail">
+        <p style="font-size: 0.92rem; color: var(--color-body); line-height: 1.5;">
+          Are you sure you want to permanently delete <strong id="deleteTaskTargetName">"Complete dashboard UI design"</strong>? All subtasks, attachments, and comments will be removed.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-modal-secondary" id="cancelDeleteBtn">Cancel</button>
+        <button type="button" class="btn-modal-danger" id="confirmDeleteBtn">Delete Task</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Feedback Container -->
+  <div class="app-toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <script src="api.js"></script>
+  <script src="websocket.js"></script>
+  <script src="task-details.js"></script>
+</body>
+</html>

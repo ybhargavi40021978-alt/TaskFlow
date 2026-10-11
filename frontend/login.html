@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — TaskFlow</title>
+  <meta name="description" content="Sign in to your TaskFlow workspace. Plan smarter, work better, and collaborate with your team.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="login.css">
+</head>
+<body>
+  <div class="login-viewport">
+    
+    <!-- =========================================================================
+         Left Panel — Brand, Welcome & Miniature Workspace Illustration (55%)
+         ========================================================================= -->
+    <section class="left-panel" aria-label="TaskFlow Introduction">
+      
+      <!-- Top Brand Logo -->
+      <header class="panel-header">
+        <a href="index.html" class="brand-logo" aria-label="TaskFlow Home">
+          <div class="logo-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <span class="brand-name">TaskFlow</span>
+        </a>
+      </header>
+
+      <!-- Center Welcome Content & Miniature Illustration -->
+      <div class="welcome-center-content">
+        
+        <!-- Welcome Heading & Supporting Copy -->
+        <div class="welcome-text-block">
+          <h1 class="welcome-heading">
+            Welcome back to<br>
+            your <span class="highlight-workspace">workspace.</span>
+          </h1>
+          <p class="welcome-paragraph">
+            Your projects, tasks, and team are waiting for you. Sign in to pick up where you left off and keep great work moving forward.
+          </p>
+        </div>
+
+        <!-- Decorative Miniature Project Management Illustration (Built with HTML & CSS) -->
+        <div class="mini-workspace-illustration" aria-hidden="true">
+          
+          <!-- Illustration Top Bar -->
+          <div class="illus-top-bar">
+            <div class="illus-controls">
+              <span class="illus-dot dot-red"></span>
+              <span class="illus-dot dot-yellow"></span>
+              <span class="illus-dot dot-green"></span>
+            </div>
+            <div class="illus-title-wrap">
+              <div class="illus-mini-badge"></div>
+              <span class="illus-title">Active Sprint Overview</span>
+            </div>
+            <div class="illus-avatars">
+              <span class="illus-avatar av-blue">JD</span>
+              <span class="illus-avatar av-purple">SC</span>
+              <span class="illus-avatar av-emerald">+2</span>
+            </div>
+          </div>
+
+          <!-- Illustration Columns Stack -->
+          <div class="illus-columns">
+            
+            <!-- Column 1: To Do -->
+            <div class="illus-column">
+              <div class="illus-col-header">
+                <div class="illus-indicator-group">
+                  <span class="illus-status-dot dot-blue"></span>
+                  <span class="illus-col-name">To Do</span>
+                </div>
+                <span class="illus-count">2</span>
+              </div>
+              <div class="illus-card border-blue">
+                <span class="illus-card-title">API Integration</span>
+                <div class="illus-card-meta">
+                  <span class="illus-tag tag-blue">Backend</span>
+                  <span class="illus-avatar-mini">AL</span>
+                </div>
+              </div>
+              <div class="illus-card border-blue">
+                <span class="illus-card-title">User testing</span>
+                <div class="illus-card-meta">
+                  <span class="illus-tag tag-blue">QA</span>
+                  <span class="illus-avatar-mini">MK</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Column 2: In Progress -->
+            <div class="illus-column">
+              <div class="illus-col-header">
+                <div class="illus-indicator-group">
+                  <span class="illus-status-dot dot-amber"></span>
+                  <span class="illus-col-name">In Progress</span>
+                </div>
+                <span class="illus-count">1</span>
+              </div>
+              <div class="illus-card border-amber">
+                <span class="illus-card-title">Dashboard Polish</span>
+                <div class="illus-card-meta">
+                  <span class="illus-tag tag-amber">Design</span>
+                  <span class="illus-avatar-mini">SC</span>
+                </div>
+              </div>
+              <!-- Mini Progress Bar Indicator -->
+              <div class="illus-progress-box">
+                <div class="progress-labels">
+                  <span>Sprint Velocity</span>
+                  <span class="progress-pct">84%</span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill-bar" style="width: 84%;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Column 3: Completed -->
+            <div class="illus-column">
+              <div class="illus-col-header">
+                <div class="illus-indicator-group">
+                  <span class="illus-status-dot dot-green"></span>
+                  <span class="illus-col-name">Completed</span>
+                </div>
+                <span class="illus-count">2</span>
+              </div>
+              <div class="illus-card border-green card-done">
+                <span class="illus-card-title">Auth Architecture</span>
+                <div class="illus-card-meta">
+                  <span class="illus-tag tag-green">Done</span>
+                  <span class="illus-check-icon">✓</span>
+                </div>
+              </div>
+              <div class="illus-card border-green card-done">
+                <span class="illus-card-title">Design Tokens</span>
+                <div class="illus-card-meta">
+                  <span class="illus-tag tag-green">Done</span>
+                  <span class="illus-check-icon">✓</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Reassurance Text -->
+      <footer class="panel-footer">
+        <p class="reassurance-text">Organize better. Collaborate smarter. Achieve more.</p>
+      </footer>
+
+    </section>
+
+    <!-- =========================================================================
+         Right Panel — Login Form (45%)
+         ========================================================================= -->
+    <main class="right-panel" aria-label="Sign In Form Area">
+      <div class="form-wrapper">
+        
+        <!-- Mobile-Only Brand Header -->
+        <div class="mobile-brand-bar">
+          <a href="index.html" class="brand-logo" aria-label="TaskFlow Home">
+            <div class="logo-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <span class="brand-name">TaskFlow</span>
+          </a>
+        </div>
+
+        <!-- Form Heading -->
+        <header class="form-header">
+          <h2 class="form-title">Sign in to TaskFlow</h2>
+          <p class="form-subtitle">Enter your details to access your workspace.</p>
+        </header>
+
+        <!-- Development Notice Banner (Clean info when backend endpoint is not yet connected) -->
+        <div id="devNoticeBanner" class="dev-notice-banner" role="status" aria-live="polite">
+          <svg class="notice-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+          <span id="devNoticeText">Frontend authentication interface ready. Connects to backend API.</span>
+        </div>
+
+        <!-- Login Form -->
+        <form class="login-form" id="loginForm" novalidate>
+          
+          <!-- Email Field -->
+          <div class="form-group" id="groupEmail">
+            <label class="form-label" for="emailInput">
+              Email address <span class="required-mark" aria-hidden="true">*</span>
+            </label>
+            <div class="input-wrapper">
+              <input 
+                type="email" 
+                id="emailInput" 
+                name="email" 
+                class="form-input" 
+                placeholder="you@example.com" 
+                autocomplete="email" 
+                required 
+                aria-required="true"
+                aria-describedby="emailError"
+              >
+            </div>
+            <div class="error-container" id="emailError" role="alert" aria-live="polite"></div>
+          </div>
+
+          <!-- Password Field -->
+          <div class="form-group" id="groupPassword">
+            <label class="form-label" for="passwordInput">
+              Password <span class="required-mark" aria-hidden="true">*</span>
+            </label>
+            <div class="input-wrapper input-with-action">
+              <input 
+                type="password" 
+                id="passwordInput" 
+                name="password" 
+                class="form-input" 
+                placeholder="Enter your password" 
+                autocomplete="current-password" 
+                required 
+                aria-required="true"
+                aria-describedby="passwordError"
+              >
+              <button 
+                type="button" 
+                id="togglePasswordBtn" 
+                class="toggle-password-btn" 
+                aria-label="Show password"
+                title="Show password"
+              >
+                <!-- Eye Open Icon (Default) -->
+                <svg class="icon-eye eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <!-- Eye Closed Icon (When visible) -->
+                <svg class="icon-eye eye-closed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                  <line x1="1" y1="1" x2="23" y2="23"></line>
+                </svg>
+              </button>
+            </div>
+            <div class="error-container" id="passwordError" role="alert" aria-live="polite"></div>
+          </div>
+
+          <!-- Remember Me & Forgot Password Row -->
+          <div class="form-meta-row">
+            <label class="remember-label" for="rememberMeCheckbox">
+              <input type="checkbox" id="rememberMeCheckbox" name="remember" class="custom-checkbox">
+              <span class="remember-text">Remember me</span>
+            </label>
+            <a href="forgot-password.html" class="forgot-link" id="forgotPasswordLink">Forgot password?</a>
+          </div>
+
+          <!-- Primary Submit Button -->
+          <button type="submit" class="btn-submit" id="submitLoginBtn">
+            <span class="btn-spinner" id="btnSpinner" aria-hidden="true"></span>
+            <span class="btn-text" id="btnText">Sign In</span>
+            <svg class="btn-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+
+          <!-- Alternative Divider -->
+          <div class="form-divider" aria-hidden="true">
+            <span class="divider-line"></span>
+            <span class="divider-text">OR</span>
+            <span class="divider-line"></span>
+          </div>
+
+          <!-- Registration Link -->
+          <div class="registration-row">
+            <span class="reg-text">Don't have an account?</span>
+            <a href="register.html" class="reg-link" id="createAccountLink">Create an account</a>
+          </div>
+
+        </form>
+
+        <!-- Small Form Footer -->
+        <footer class="form-footer">
+          <p class="copyright-text">&copy; 2026 TaskFlow. All rights reserved.</p>
+        </footer>
+
+      </div>
+    </main>
+
+  </div>
+
+  <script src="api.js"></script>
+  <script src="login.js"></script>
+</body>
+</html>

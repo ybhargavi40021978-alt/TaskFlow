@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team Chat & Real-Time Collaboration — TaskFlow</title>
+  <meta name="description" content="Collaborate in real-time with team members, direct messaging, project group channels, rich attachments, and instant discussions in TaskFlow.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="team-chat.css">
+  <script src="api.js" defer></script>
+  <script src="websocket.js" defer></script>
+  <script src="team-chat.js" defer></script>
+</head>
+<body>
+  <!-- App Layout Container (100% Width, 100vh Full Screen) -->
+  <div class="app-layout" id="appLayout">
+    
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop" aria-hidden="true"></div>
+
+    <!-- =========================================================================
+         1. Left Sidebar Navigation (240px Fixed)
+         ========================================================================= -->
+    <aside class="app-sidebar" id="appSidebar" aria-label="Main Navigation">
+      
+      <!-- Top Brand Logo -->
+      <div class="sidebar-brand-row">
+        <a href="dashboard.html" class="brand-logo" aria-label="TaskFlow Dashboard">
+          <div class="logo-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <span class="brand-name">TaskFlow</span>
+        </a>
+        <button class="mobile-close-sidebar-btn" id="closeSidebarBtn" aria-label="Close sidebar navigation" type="button">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <!-- Workspace Selector Dropdown Trigger -->
+      <div class="workspace-selector-wrap">
+        <button class="workspace-selector-btn" id="workspaceBtn" aria-expanded="false" aria-haspopup="true" type="button">
+          <div class="workspace-avatar" id="currentWorkspaceAvatar">T</div>
+          <div class="workspace-info">
+            <span class="workspace-label">WORKSPACE</span>
+            <span class="workspace-name" id="currentWorkspaceName">Team Workspace</span>
+          </div>
+          <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+
+        <!-- Workspace Dropdown Menu -->
+        <div class="dropdown-menu workspace-dropdown" id="workspaceDropdown" role="menu">
+          <button class="dropdown-item active" role="menuitem" data-workspace="Team Workspace" data-avatar="T" type="button">
+            <span class="item-dot dot-blue"></span> 
+            <div class="ws-drop-text">
+              <strong>Team Workspace</strong>
+              <small>18 team members • Pro</small>
+            </div>
+          </button>
+          <button class="dropdown-item" role="menuitem" data-workspace="Acme Corp Enterprise" data-avatar="A" type="button">
+            <span class="item-dot dot-emerald"></span> 
+            <div class="ws-drop-text">
+              <strong>Acme Corp Enterprise</strong>
+              <small>48 members • Enterprise</small>
+            </div>
+          </button>
+          <button class="dropdown-item" role="menuitem" data-workspace="Personal Workspace" data-avatar="P" type="button">
+            <span class="item-dot dot-purple"></span> 
+            <div class="ws-drop-text">
+              <strong>Personal Workspace</strong>
+              <small>Solo projects & notes</small>
+            </div>
+          </button>
+          <div class="dropdown-divider"></div>
+          <button class="dropdown-item item-action" id="createWorkspaceOption" role="menuitem" type="button">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            <span>Create New Workspace</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Navigation Menu (Established 5 items in order) -->
+      <nav class="sidebar-nav" aria-label="Workspace Pages">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="dashboard.html" class="nav-link">
+              <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+              <span>Overview</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="my-tasks.html" class="nav-link">
+              <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+              <span>My Tasks</span>
+              <span class="nav-badge" id="sidebarTaskBadge">6</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="projects.html" class="nav-link">
+              <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+              <span>Projects</span>
+              <span class="nav-badge" id="sidebarProjectsBadge">6</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <!-- Active item: Inbox / Team Chat -->
+            <a href="team-chat.html" class="nav-link active" aria-current="page">
+              <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"></polyline><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path></svg>
+              <span>Inbox</span>
+              <span class="nav-badge badge-unread" id="sidebarChatBadge">4</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="calendar.html" class="nav-link">
+              <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              <span>Calendar</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Secondary Navigation -->
+      <div class="sidebar-secondary-nav">
+        <span class="nav-section-title">PREFERENCES</span>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="projects.html?filter=starred" class="nav-link">
+              <svg class="nav-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+              <span>Starred</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="settings.html" class="nav-link">
+              <svg class="nav-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+              <span>Settings</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="help-support.html" class="nav-link">
+              <svg class="nav-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+              <span>Help & Support</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- User Profile Pill at Bottom -->
+      <div class="sidebar-bottom-controls">
+        <div class="user-profile-wrap">
+          <button class="user-profile-btn" id="profileBtn" aria-expanded="false" aria-haspopup="true" type="button">
+            <div class="user-avatar" id="sidebarAvatar">YB</div>
+            <div class="user-meta">
+              <span class="user-name" id="sidebarUserName">Your Name</span>
+              <span class="user-role">Lead Product Designer</span>
+            </div>
+            <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+
+          <!-- User Profile Dropdown -->
+          <div class="dropdown-menu profile-dropdown" id="profileDropdown" role="menu">
+            <div class="profile-dropdown-header">
+              <span class="user-name-full" id="menuFullName">Your Name</span>
+              <span class="user-email-full" id="menuEmail">your.name@taskflow.dev</span>
+            </div>
+            <div class="dropdown-divider"></div>
+            <a href="my-profile.html" class="dropdown-item" role="menuitem">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              <span>My Profile</span>
+            </a>
+            <a href="settings.html" class="dropdown-item" role="menuitem">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+              <span>Account Settings</span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="login.html" class="dropdown-item item-danger" role="menuitem">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+              <span>Log Out</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- =========================================================================
+         2. Main Application Area (Header + Three-Panel Chat Workspace)
+         ========================================================================= -->
+    <div class="app-main">
+      
+      <!-- Top Header (72px) -->
+      <header class="app-header">
+        
+        <!-- Left: Hamburger (Mobile) + Breadcrumb & Title -->
+        <div class="header-left">
+          <button class="mobile-hamburger-btn" id="mobileHamburgerBtn" aria-label="Open sidebar menu" type="button">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+          <div class="header-title-block">
+            <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+              <span class="breadcrumb-root">Home</span>
+              <span class="breadcrumb-sep">/</span>
+              <a href="inbox.html" class="breadcrumb-link">Inbox</a>
+              <span class="breadcrumb-sep">/</span>
+              <span class="breadcrumb-current">Team Chat</span>
+            </nav>
+            <div class="header-sub-row">
+              <h1 class="header-main-title">Team Chat</h1>
+              <span class="header-subtitle">Real-time team messaging & collaboration</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Center: Global Search Field -->
+        <div class="header-center">
+          <div class="search-input-wrapper">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input 
+              type="search" 
+              id="globalSearchInput" 
+              class="global-search-input" 
+              placeholder="Search anything..."
+              aria-label="Search anything"
+              autocomplete="off"
+            >
+            <kbd class="search-shortcut" title="Press Ctrl+K to search">Ctrl K</kbd>
+
+            <!-- Global Search Results Dropdown -->
+            <div class="search-results-dropdown" id="searchResultsDropdown" role="listbox">
+              <div class="search-results-header">Matching Conversations & Messages</div>
+              <div class="search-results-list" id="searchResultsList"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Actions & User Controls -->
+        <div class="header-right">
+          
+          <!-- Help Icon -->
+          <div class="help-wrap">
+            <button class="header-icon-btn" id="helpHeaderBtn" aria-label="Help and resources" aria-expanded="false" type="button">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            </button>
+            <div class="dropdown-menu help-dropdown" id="helpDropdown">
+              <div class="dropdown-header-sm">Help & Shortcuts</div>
+              <a href="help-support.html" class="dropdown-item">
+                <span>Knowledge Base & Guides</span>
+              </a>
+              <div class="dropdown-item">
+                <span class="shortcut-tip">Enter to send, Shift+Enter for newline</span>
+              </div>
+              <a href="help-support.html#contact" class="dropdown-item">
+                <span>Contact Workspace Support</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Notification Bell -->
+          <div class="notification-wrap">
+            <button class="header-icon-btn" id="notificationsBtn" aria-label="Notifications" aria-expanded="false" type="button">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+              <span class="notification-indicator" id="notifBadge"></span>
+            </button>
+            <div class="dropdown-menu notif-dropdown" id="notifDropdown">
+              <div class="notif-dropdown-header">
+                <span class="notif-title">Notifications</span>
+                <button class="notif-mark-read-btn" id="markAllReadBtn" type="button">Mark all read</button>
+              </div>
+              <ul class="notif-list" id="notifList">
+                <li class="notif-item unread">
+                  <div class="notif-avatar av-blue">SC</div>
+                  <div class="notif-text-wrap">
+                    <p class="notif-text"><strong>Sarah Connor</strong> mentioned you in <em>#design-system-core</em></p>
+                    <span class="notif-time">5m ago</span>
+                  </div>
+                </li>
+                <li class="notif-item unread">
+                  <div class="notif-avatar av-purple">AM</div>
+                  <div class="notif-text-wrap">
+                    <p class="notif-text"><strong>Alex Morgan</strong> sent a file in direct chat</p>
+                    <span class="notif-time">32m ago</span>
+                  </div>
+                </li>
+                <li class="notif-item">
+                  <div class="notif-avatar av-green">TF</div>
+                  <div class="notif-text-wrap">
+                    <p class="notif-text">Real-time sync established for Team Workspace</p>
+                    <span class="notif-time">2h ago</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- User Avatar Dropdown -->
+          <div class="header-avatar-wrap">
+            <button class="header-avatar-btn" id="headerAvatarBtn" aria-label="User profile menu" aria-expanded="false" type="button">
+              <span id="headerAvatarText">YB</span>
+              <svg class="chevron-sm" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="dropdown-menu header-user-dropdown" id="headerUserDropdown" role="menu">
+              <div class="profile-dropdown-header">
+                <span class="user-name-full" id="headerDropName">Your Name</span>
+                <span class="user-email-full" id="headerDropEmail">your.name@taskflow.dev</span>
+              </div>
+              <div class="dropdown-divider"></div>
+              <a href="my-profile.html" class="dropdown-item" role="menuitem">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                <span>My Profile</span>
+              </a>
+              <a href="settings.html" class="dropdown-item" role="menuitem">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                <span>Settings</span>
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="login.html" class="dropdown-item item-danger" role="menuitem">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                <span>Log Out</span>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </header>
+
+      <!-- =======================================================================
+           3. Full-Height 3-Panel Main Chat Workspace
+           ======================================================================= -->
+      <main class="chat-workspace" id="chatWorkspace">
+        
+        <!-- =====================================================================
+             Panel 1: Conversations List (~300px)
+             ===================================================================== -->
+        <section class="chat-conversations-panel" id="conversationsPanel" aria-label="Conversation list">
+          
+          <!-- Heading Row + Compose Icon Button -->
+          <div class="conv-panel-header">
+            <div class="conv-heading-wrap">
+              <h2 class="conv-panel-title">Messages</h2>
+              <span class="conv-unread-pill" id="totalUnreadCount">4</span>
+            </div>
+            <button class="btn-compose-chat" id="composeMessageBtn" title="Compose new message" aria-label="Compose new message" type="button">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 20h9"></path>
+                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Search Conversations Field -->
+          <div class="conv-search-box">
+            <svg class="conv-search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input 
+              type="text" 
+              id="conversationSearchInput" 
+              class="conv-search-input" 
+              placeholder="Search conversations..."
+              aria-label="Search conversations"
+            >
+            <button class="conv-search-clear-btn" id="convSearchClearBtn" aria-label="Clear conversation search" type="button" style="display: none;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+          </div>
+
+          <!-- Filter Tabs: All, Unread, Direct, Groups -->
+          <div class="conv-filter-tabs" role="tablist" aria-label="Conversation category filters">
+            <button class="conv-tab-btn active" data-filter="all" role="tab" aria-selected="true" id="tabAll">All</button>
+            <button class="conv-tab-btn" data-filter="unread" role="tab" aria-selected="false" id="tabUnread">Unread</button>
+            <button class="conv-tab-btn" data-filter="direct" role="tab" aria-selected="false" id="tabDirect">Direct</button>
+            <button class="conv-tab-btn" data-filter="groups" role="tab" aria-selected="false" id="tabGroups">Groups</button>
+          </div>
+
+          <!-- Scrollable Conversation List Items -->
+          <div class="conversations-scroll-container" id="conversationsList" role="list">
+            <!-- Dynamically populated by team-chat.js -->
+          </div>
+
+          <!-- Left Panel Empty State (When search / filter has no matches) -->
+          <div class="conversations-empty-state" id="convEmptyState" style="display: none;">
+            <div class="empty-icon-circle">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </div>
+            <p class="empty-state-title">No conversations yet</p>
+            <p class="empty-state-desc">Start a conversation with a team member to collaborate in TaskFlow.</p>
+            <button class="btn-primary-sm" id="emptyNewMessageBtn" type="button">New Message</button>
+          </div>
+
+        </section>
+
+        <!-- =====================================================================
+             Panel 2: Center Active Conversation Panel (Flexible Width)
+             ===================================================================== -->
+        <section class="chat-active-panel" id="activeChatPanel" aria-label="Active conversation messages">
+          
+          <!-- Empty State (When no conversation is selected) -->
+          <div class="chat-no-selection" id="noSelectionState" style="display: none;">
+            <div class="empty-selection-card">
+              <div class="empty-chat-graphic">
+                <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+              </div>
+              <h3>Select a conversation</h3>
+              <p>Choose a conversation from the list to start messaging or create a new direct thread.</p>
+              <button class="btn-primary-sm" id="btnSelectCompose" type="button">New Message</button>
+            </div>
+          </div>
+
+          <!-- Active Conversation Header -->
+          <header class="active-chat-header" id="activeChatHeader">
+            
+            <!-- Left Info: Back Button (Mobile) + Avatar + Name + Presence -->
+            <div class="active-header-left">
+              <button class="mobile-chat-back-btn" id="mobileChatBackBtn" aria-label="Back to conversations list" type="button">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+              </button>
+              
+              <div class="header-contact-avatar-wrap">
+                <div class="contact-avatar-bubble" id="activeContactAvatar">SC</div>
+                <span class="presence-indicator-dot online" id="activePresenceDot" title="Online"></span>
+              </div>
+
+              <div class="active-contact-meta">
+                <div class="contact-name-row">
+                  <h2 class="active-contact-name" id="activeContactName">Sarah Connor</h2>
+                  <span class="chat-pinned-badge" id="activePinnedBadge" title="Pinned conversation" style="display: none;">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M16 12V4h1V2H7v2h1v8l-2 2v2h5.2v6h1.6v-6H18v-2l-2-2z"/></svg>
+                  </span>
+                </div>
+                <div class="active-contact-status" id="activeContactStatus">
+                  <span class="status-text">Online • Product Design Lead</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Actions: Search within conversation, Details toggle, More menu -->
+            <div class="active-header-actions">
+              
+              <!-- Search within active conversation -->
+              <button class="header-action-btn" id="btnSearchInChat" title="Search within conversation" aria-label="Search within conversation" type="button">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              </button>
+
+              <!-- Conversation details toggle -->
+              <button class="header-action-btn" id="btnToggleDetails" title="Toggle conversation details" aria-label="Toggle conversation details" aria-expanded="true" type="button">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              </button>
+
+              <!-- More Options Dropdown -->
+              <div class="more-options-wrap">
+                <button class="header-action-btn" id="btnChatMoreOptions" title="More options" aria-label="More options" aria-haspopup="true" aria-expanded="false" type="button">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+                </button>
+                <div class="dropdown-menu chat-options-dropdown" id="chatOptionsDropdown" role="menu">
+                  <button class="dropdown-item" id="optMarkUnread" role="menuitem" type="button">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    <span>Mark as unread</span>
+                  </button>
+                  <button class="dropdown-item" id="optMuteNotifications" role="menuitem" type="button">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13.73 21a2 2 0 0 1-3.46 0"></path><path d="M18.63 13A17.89 17.89 0 0 1 18 8"></path><path d="M6.26 6.26A5.86 5.86 0 0 0 6 8c0 7-3 9-3 9h14"></path><path d="M18 8a6 6 0 0 0-9.33-5"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                    <span id="optMuteText">Mute notifications</span>
+                  </button>
+                  <button class="dropdown-item" id="optPinConversation" role="menuitem" type="button">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="17" x2="12" y2="22"></line><path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.89A2 2 0 0 1 15 10.77V4a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v6.77a2 2 0 0 1-1.11 1.79l-1.78.89A2 2 0 0 0 5 15.24Z"></path></svg>
+                    <span id="optPinText">Pin conversation</span>
+                  </button>
+                  <button class="dropdown-item" id="optClearSearch" role="menuitem" type="button">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="8" y1="8" x2="14" y2="14"></line><line x1="14" y1="8" x2="8" y2="14"></line></svg>
+                    <span>Clear search</span>
+                  </button>
+                  <div class="dropdown-divider"></div>
+                  <button class="dropdown-item item-danger" id="optLeaveOrDelete" role="menuitem" type="button">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
+                    <span id="optDeleteText">Clear conversation history</span>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </header>
+
+          <!-- In-Chat Search Bar (Revealed by search button) -->
+          <div class="in-chat-search-bar" id="inChatSearchBar" style="display: none;">
+            <svg class="search-bar-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input 
+              type="text" 
+              id="inChatSearchInput" 
+              class="in-chat-search-input" 
+              placeholder="Search in this conversation..."
+              aria-label="Search within active conversation"
+            >
+            <span class="in-chat-match-count" id="inChatMatchCount">0 matches</span>
+            <button class="in-chat-search-close" id="btnCloseChatSearch" aria-label="Close search" type="button">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+          </div>
+
+          <!-- Message History Container (Scrollable) -->
+          <div class="chat-messages-container" id="chatMessagesContainer" tabindex="0" aria-label="Message history">
+            <!-- Messages, Date Dividers, Bubbles rendered dynamically -->
+          </div>
+
+          <!-- Empty Messages State (When conversation has 0 messages) -->
+          <div class="chat-no-messages-prompt" id="chatNoMessagesPrompt" style="display: none;">
+            <div class="first-message-icon">👋</div>
+            <h4 class="first-message-title">Start the conversation</h4>
+            <p class="first-message-desc">Send the first message to begin collaborating.</p>
+          </div>
+
+          <!-- Message Composer Area (Anchored at Bottom) -->
+          <footer class="chat-composer-area" id="chatComposerArea">
+            
+            <!-- Quoted Reply Bar (Appears when replying) -->
+            <div class="composer-reply-preview" id="composerReplyPreview" style="display: none;">
+              <div class="reply-preview-border"></div>
+              <div class="reply-preview-content">
+                <span class="reply-preview-sender" id="replyPreviewSender">Replying to Sarah Connor</span>
+                <p class="reply-preview-text" id="replyPreviewText">"Let's finalize the UI token scale before tomorrow's standup."</p>
+              </div>
+              <button class="reply-preview-cancel" id="cancelReplyBtn" title="Cancel reply" aria-label="Cancel reply" type="button">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
+            </div>
+
+            <!-- Attachment Preview Chip Area (Appears when file selected) -->
+            <div class="composer-attachment-preview" id="composerAttachmentPreview" style="display: none;">
+              <div class="attachment-preview-chip">
+                <div class="att-preview-icon" id="attPreviewIcon">📎</div>
+                <div class="att-preview-meta">
+                  <span class="att-preview-name" id="attPreviewName">design-tokens.fig</span>
+                  <span class="att-preview-size" id="attPreviewSize">2.4 MB</span>
+                </div>
+                <button class="att-preview-remove" id="removeAttachmentBtn" title="Remove attachment" aria-label="Remove attachment" type="button">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Hidden File Input for Attachment Button -->
+            <input type="file" id="fileAttachmentInput" style="display: none;" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.zip,.txt,.fig" aria-label="Upload file attachment">
+
+            <!-- Composer Input Row -->
+            <div class="composer-row">
+              
+              <!-- Attachment Button -->
+              <button class="composer-tool-btn" id="attachFileBtn" title="Attach file or screenshot" aria-label="Attach file" type="button">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
+                </svg>
+              </button>
+
+              <!-- Emoji Popover Trigger -->
+              <div class="composer-emoji-wrap">
+                <button class="composer-tool-btn" id="emojiPickerBtn" title="Insert emoji" aria-label="Insert emoji" aria-haspopup="true" aria-expanded="false" type="button">
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                    <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                    <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                  </svg>
+                </button>
+                
+                <!-- Quick Emoji Popover Menu -->
+                <div class="emoji-quick-picker" id="emojiQuickPicker" role="menu">
+                  <div class="emoji-picker-title">Quick Reactions & Emojis</div>
+                  <div class="emoji-grid">
+                    <button class="emoji-btn" data-emoji="👍" title="Thumbs up" type="button">👍</button>
+                    <button class="emoji-btn" data-emoji="❤️" title="Heart" type="button">❤️</button>
+                    <button class="emoji-btn" data-emoji="🚀" title="Rocket" type="button">🚀</button>
+                    <button class="emoji-btn" data-emoji="🔥" title="Fire" type="button">🔥</button>
+                    <button class="emoji-btn" data-emoji="🎉" title="Party" type="button">🎉</button>
+                    <button class="emoji-btn" data-emoji="👏" title="Clap" type="button">👏</button>
+                    <button class="emoji-btn" data-emoji="🙌" title="Celebration" type="button">🙌</button>
+                    <button class="emoji-btn" data-emoji="💡" title="Idea" type="button">💡</button>
+                    <button class="emoji-btn" data-emoji="✨" title="Sparkles" type="button">✨</button>
+                    <button class="emoji-btn" data-emoji="👀" title="Eyes" type="button">👀</button>
+                    <button class="emoji-btn" data-emoji="💯" title="100" type="button">💯</button>
+                    <button class="emoji-btn" data-emoji="😂" title="Laugh" type="button">😂</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Multiline Text Input Field -->
+              <div class="composer-textarea-wrap">
+                <textarea 
+                  id="messageInput" 
+                  class="message-textarea" 
+                  placeholder="Write a message... (Enter to send, Shift+Enter for newline)"
+                  rows="1"
+                  aria-label="Write a message"
+                ></textarea>
+              </div>
+
+              <!-- Send Message Button -->
+              <button class="composer-send-btn" id="sendMessageBtn" title="Send message (Enter)" aria-label="Send message" disabled type="button">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="22" y1="2" x2="11" y2="13"></line>
+                  <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+              </button>
+
+            </div>
+
+            <!-- Composer Helper Footnote -->
+            <div class="composer-hint-bar">
+              <span class="hint-text"><kbd>Enter</kbd> to send • <kbd>Shift + Enter</kbd> for new line</span>
+              <span class="encryption-note">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                End-to-end workspace encrypted
+              </span>
+            </div>
+
+          </footer>
+
+        </section>
+
+        <!-- =====================================================================
+             Panel 3: Right Conversation Details Panel (~260px Collapsible)
+             ===================================================================== -->
+        <aside class="chat-details-panel" id="conversationDetailsPanel" aria-label="Conversation details and settings">
+          
+          <div class="details-panel-header">
+            <h3 class="details-heading">Details</h3>
+            <button class="details-close-btn" id="closeDetailsPanelBtn" aria-label="Close details panel" title="Close details panel" type="button">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+          </div>
+
+          <div class="details-scroll-content">
+            
+            <!-- Contact / Group Profile Card -->
+            <div class="details-profile-card">
+              <div class="details-avatar-lg" id="detailsAvatar">SC</div>
+              <h3 class="details-name" id="detailsName">Sarah Connor</h3>
+              <p class="details-role" id="detailsRole">Product Design Lead</p>
+              <div class="details-presence-badge" id="detailsPresence">
+                <span class="details-presence-dot"></span>
+                <span id="detailsPresenceText">Active in Workspace</span>
+              </div>
+            </div>
+
+            <!-- Fast Action Icons Row -->
+            <div class="details-quick-actions">
+              <button class="quick-action-btn" id="qaMuteBtn" title="Mute conversation" type="button">
+                <div class="qa-icon-wrap" id="qaMuteIcon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                </div>
+                <span>Mute</span>
+              </button>
+              <button class="quick-action-btn" id="qaPinBtn" title="Pin conversation" type="button">
+                <div class="qa-icon-wrap" id="qaPinIcon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="17" x2="12" y2="22"></line><path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.89A2 2 0 0 1 15 10.77V4a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v6.77a2 2 0 0 1-1.11 1.79l-1.78.89A2 2 0 0 0 5 15.24Z"></path></svg>
+                </div>
+                <span>Pin</span>
+              </button>
+              <button class="quick-action-btn" id="qaSearchBtn" title="Search messages" type="button">
+                <div class="qa-icon-wrap">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </div>
+                <span>Search</span>
+              </button>
+            </div>
+
+            <!-- Details Section: Info & Meta -->
+            <div class="details-section">
+              <span class="details-section-title">CONTACT INFORMATION</span>
+              <div class="details-info-list">
+                <div class="info-row">
+                  <span class="info-label">Email</span>
+                  <span class="info-val" id="detailsEmail">sarah.connor@taskflow.dev</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">Department</span>
+                  <span class="info-val" id="detailsDepartment">Product Design</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">Timezone</span>
+                  <span class="info-val" id="detailsTimezone">EST (UTC-5) • 11:24 AM</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Details Section: Shared Project Association -->
+            <div class="details-section">
+              <span class="details-section-title">ASSOCIATED PROJECT</span>
+              <div class="shared-project-card" id="sharedProjectCard">
+                <div class="project-badge-dot"></div>
+                <div class="project-card-meta">
+                  <span class="project-card-title" id="sharedProjectTitle">TaskFlow Web 2.0 Redesign</span>
+                  <span class="project-card-status">Active Sprint 4 • 78% Complete</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Details Section: Group Members (For Groups) -->
+            <div class="details-section" id="groupMembersSection" style="display: none;">
+              <div class="section-title-row">
+                <span class="details-section-title">MEMBERS (<span id="membersCountNumber">12</span>)</span>
+                <button class="btn-link-action" id="btnAddMemberBtn" type="button">+ Add</button>
+              </div>
+              <ul class="members-mini-list" id="groupMembersList">
+                <!-- Populated dynamically -->
+              </ul>
+            </div>
+
+            <!-- Details Section: Shared Files & Media -->
+            <div class="details-section">
+              <div class="section-title-row">
+                <span class="details-section-title">SHARED FILES & ASSETS</span>
+                <span class="files-count-badge" id="sharedFilesCount">4</span>
+              </div>
+              <div class="shared-files-list" id="sharedFilesList">
+                <a href="#" class="shared-file-item" download>
+                  <div class="file-icon-square icon-fig">FIG</div>
+                  <div class="file-info-col">
+                    <span class="file-name">TaskFlow_Design_Tokens_v2.fig</span>
+                    <span class="file-meta">3.2 MB • Oct 10, 2026</span>
+                  </div>
+                  <svg class="file-download-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                </a>
+                <a href="#" class="shared-file-item" download>
+                  <div class="file-icon-square icon-pdf">PDF</div>
+                  <div class="file-info-col">
+                    <span class="file-name">Sprint_4_Milestone_Roadmap.pdf</span>
+                    <span class="file-meta">1.8 MB • Oct 8, 2026</span>
+                  </div>
+                  <svg class="file-download-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                </a>
+                <a href="#" class="shared-file-item" download>
+                  <div class="file-icon-square icon-png">PNG</div>
+                  <div class="file-info-col">
+                    <span class="file-name">Mobile_Drawer_Navigation_Spec.png</span>
+                    <span class="file-meta">840 KB • Oct 7, 2026</span>
+                  </div>
+                  <svg class="file-download-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                </a>
+              </div>
+            </div>
+
+            <!-- Details Section: Conversation Actions -->
+            <div class="details-section">
+              <span class="details-section-title">CONVERSATION SETTINGS</span>
+              <div class="settings-action-rows">
+                <button class="settings-row-btn" id="btnToggleMuteRow" type="button">
+                  <div class="setting-row-left">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                    <span>Mute Notifications</span>
+                  </div>
+                  <span class="toggle-pill" id="muteTogglePill">Off</span>
+                </button>
+                <button class="settings-row-btn" id="btnTogglePinRow" type="button">
+                  <div class="setting-row-left">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="17" x2="12" y2="22"></line><path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.89A2 2 0 0 1 15 10.77V4a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v6.77a2 2 0 0 1-1.11 1.79l-1.78.89A2 2 0 0 0 5 15.24Z"></path></svg>
+                    <span>Pin to Top</span>
+                  </div>
+                  <span class="toggle-pill" id="pinTogglePill">Off</span>
+                </button>
+                <button class="settings-row-btn danger-btn-row" id="btnDangerLeaveOrDelete" type="button">
+                  <div class="setting-row-left">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
+                    <span id="dangerActionLabel">Clear Conversation History</span>
+                  </div>
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+        </aside>
+
+      </main>
+
+    </div>
+
+  </div>
+
+  <!-- =========================================================================
+       4. Modals & Dialogs
+       ========================================================================= -->
+
+  <!-- Modal Backdrop -->
+  <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true"></div>
+
+  <!-- New Message Dialog Modal -->
+  <div class="taskflow-modal" id="newMessageModal" role="dialog" aria-modal="true" aria-labelledby="modalNewMsgTitle">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalNewMsgTitle">New Message</h3>
+        <button class="modal-close-btn" id="closeNewMsgModalBtn" aria-label="Close dialog" type="button">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        
+        <!-- Recipient Search Selection -->
+        <div class="form-group">
+          <label class="form-label" for="recipientSearchInput">To</label>
+          <div class="recipient-input-box">
+            <svg class="search-mini-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input 
+              type="text" 
+              id="recipientSearchInput" 
+              class="recipient-search-field" 
+              placeholder="Search team members by name or role..." 
+              autocomplete="off"
+            >
+          </div>
+          
+          <!-- Recipient Pick List -->
+          <div class="recipient-results-list" id="recipientResultsList">
+            <!-- Populated dynamically with team members -->
+          </div>
+        </div>
+
+        <!-- Selected Recipient Chip -->
+        <div class="selected-recipient-pill" id="selectedRecipientPill" style="display: none;">
+          <div class="selected-rec-avatar" id="selectedRecAvatar">SC</div>
+          <span class="selected-rec-name" id="selectedRecName">Sarah Connor</span>
+          <button class="selected-rec-remove" id="removeSelectedRecBtn" aria-label="Remove recipient" type="button">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+
+        <!-- Initial Message Content -->
+        <div class="form-group" style="margin-top: 16px;">
+          <label class="form-label" for="initialMessageInput">Message</label>
+          <textarea 
+            id="initialMessageInput" 
+            class="modal-textarea" 
+            placeholder="Write your initial message here..."
+            rows="4"
+          ></textarea>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-secondary" id="cancelNewMsgBtn" type="button">Cancel</button>
+        <button class="btn-primary" id="startConversationBtn" disabled type="button">Start Conversation</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Message Modal -->
+  <div class="taskflow-modal" id="editMessageModal" role="dialog" aria-modal="true" aria-labelledby="modalEditTitle">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalEditTitle">Edit Message</h3>
+        <button class="modal-close-btn" id="closeEditModalBtn" aria-label="Close dialog" type="button">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" for="editMessageTextarea">Message Text</label>
+          <textarea id="editMessageTextarea" class="modal-textarea" rows="4"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="cancelEditBtn" type="button">Cancel</button>
+        <button class="btn-primary" id="saveEditBtn" type="button">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirmation Modal (Destructive Actions) -->
+  <div class="taskflow-modal" id="confirmActionModal" role="dialog" aria-modal="true" aria-labelledby="confirmModalTitle">
+    <div class="modal-card modal-card-sm">
+      <div class="modal-header">
+        <h3 class="modal-title" id="confirmModalTitle">Confirm Action</h3>
+        <button class="modal-close-btn" id="closeConfirmModalBtn" aria-label="Close dialog" type="button">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="confirm-message" id="confirmModalText">Are you sure you want to proceed with this action?</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="cancelConfirmBtn" type="button">Cancel</button>
+        <button class="btn-danger" id="executeConfirmBtn" type="button">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Feedback Container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+</body>
+</html>

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Your Account — TaskFlow</title>
+  <meta name="description" content="Sign up for TaskFlow. Plan smarter, work better, and achieve more with your team.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="register.css">
+</head>
+<body>
+  <div class="register-viewport">
+    
+    <!-- =========================================================================
+         Left Panel — Branding, Welcome & Project Illustration (55%)
+         ========================================================================= -->
+    <section class="left-panel" aria-label="TaskFlow Welcome Overview">
+      
+      <!-- Top Brand Logo -->
+      <header class="panel-header">
+        <a href="index.html" class="brand-logo" aria-label="TaskFlow Home">
+          <div class="logo-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <span class="brand-name">TaskFlow</span>
+        </a>
+      </header>
+
+      <!-- Center Welcome Content & Miniature Illustration -->
+      <div class="welcome-center-content">
+        
+        <!-- Welcome Heading & Supporting Copy -->
+        <div class="welcome-text-block">
+          <h1 class="welcome-heading">
+            Great work starts<br>
+            with a <span class="highlight-team">great team.</span>
+          </h1>
+          <p class="welcome-paragraph">
+            Create your free TaskFlow account to organize projects, manage tasks, and collaborate with your team — all in one place.
+          </p>
+        </div>
+
+        <!-- Decorative Miniature Project Management Illustration (Pure HTML & CSS) -->
+        <div class="mini-kanban-illustration" aria-hidden="true">
+          
+          <!-- Illustration Top Bar -->
+          <div class="illus-top-bar">
+            <div class="illus-controls">
+              <span class="illus-dot dot-red"></span>
+              <span class="illus-dot dot-yellow"></span>
+              <span class="illus-dot dot-green"></span>
+            </div>
+            <div class="illus-title-wrap">
+              <div class="illus-mini-badge"></div>
+              <span class="illus-title">Sprint Workspace • Q4 Roadmap</span>
+            </div>
+            <div class="illus-avatars">
+              <span class="illus-avatar av-blue">AR</span>
+              <span class="illus-avatar av-purple">SC</span>
+              <span class="illus-avatar av-teal">+3</span>
+            </div>
+          </div>
+
+          <!-- Illustration Kanban Columns Stack (To Do, In Progress, Done) -->
+          <div class="illus-columns">
+            
+            <!-- Column 1: To Do -->
+            <div class="illus-column">
+              <div class="illus-col-header">
+                <div class="illus-indicator-group">
+                  <span class="illus-status-dot dot-blue"></span>
+                  <span class="illus-col-name">To Do</span>
+                </div>
+                <span class="illus-count">2</span>
+              </div>
+              <div class="illus-card border-blue">
+                <span class="illus-card-title">Setup CI/CD pipeline</span>
+                <div class="illus-card-meta">
+                  <span class="illus-tag tag-blue">DevOps</span>
+                  <span class="illus-priority pri-high">High</span>
+                </div>
+              </div>
+              <div class="illus-card border-blue">
+                <span class="illus-card-title">User interviews</span>
+                <div class="illus-card-meta">
+                  <span class="illus-tag tag-blue">Product</span>
+                  <span class="illus-avatar-mini">SC</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Column 2: In Progress -->
+            <div class="illus-column">
+              <div class="illus-col-header">
+                <div class="illus-indicator-group">
+                  <span class="illus-status-dot dot-amber"></span>
+                  <span class="illus-col-name">In Progress</span>
+                </div>
+                <span class="illus-count">1</span>
+              </div>
+              <div class="illus-card border-amber">
+                <span class="illus-card-title">UI Design System</span>
+                <div class="illus-card-meta">
+                  <span class="illus-tag tag-amber">Design</span>
+                  <span class="illus-priority pri-med">Med</span>
+                </div>
+              </div>
+              <!-- Compact Progress Box -->
+              <div class="illus-progress-box">
+                <div class="progress-labels">
+                  <span>Sprint Completion</span>
+                  <span class="progress-pct">78%</span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill-bar" style="width: 78%;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Column 3: Done -->
+            <div class="illus-column">
+              <div class="illus-col-header">
+                <div class="illus-indicator-group">
+                  <span class="illus-status-dot dot-green"></span>
+                  <span class="illus-col-name">Done</span>
+                </div>
+                <span class="illus-count">2</span>
+              </div>
+              <div class="illus-card border-green card-done">
+                <span class="illus-card-title">Project kickoff</span>
+                <div class="illus-card-meta">
+                  <span class="illus-tag tag-green">Done</span>
+                  <span class="illus-check-icon">✓</span>
+                </div>
+              </div>
+              <div class="illus-card border-green card-done">
+                <span class="illus-card-title">Domain verification</span>
+                <div class="illus-card-meta">
+                  <span class="illus-tag tag-green">Done</span>
+                  <span class="illus-check-icon">✓</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom-Left Message -->
+      <footer class="panel-footer">
+        <p class="bottom-message">Your next great project starts here.</p>
+      </footer>
+
+    </section>
+
+    <!-- =========================================================================
+         Right Panel — Registration Form (45%)
+         ========================================================================= -->
+    <main class="right-panel" aria-label="Account Registration Form Area">
+      <div class="form-wrapper">
+        
+        <!-- Mobile-Only Brand Bar -->
+        <div class="mobile-brand-bar">
+          <a href="index.html" class="brand-logo" aria-label="TaskFlow Home">
+            <div class="logo-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <span class="brand-name">TaskFlow</span>
+          </a>
+        </div>
+
+        <!-- Form Heading -->
+        <header class="form-header">
+          <h2 class="form-title">Create your account</h2>
+          <p class="form-subtitle">Get started with TaskFlow for free.</p>
+        </header>
+
+        <!-- Development Status Notice Banner -->
+        <div id="devNoticeBanner" class="dev-notice-banner" role="status" aria-live="polite">
+          <svg class="notice-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+          <span id="devNoticeText">Frontend registration interface ready. Connects to backend API.</span>
+        </div>
+
+        <!-- Registration Form -->
+        <form class="register-form" id="registerForm" novalidate>
+          
+          <!-- Field 1: Full Name -->
+          <div class="form-group" id="groupFullName">
+            <label class="form-label" for="fullNameInput">
+              Full name <span class="required-mark" aria-hidden="true">*</span>
+            </label>
+            <div class="input-wrapper">
+              <input 
+                type="text" 
+                id="fullNameInput" 
+                name="fullName" 
+                class="form-input" 
+                placeholder="Enter your full name" 
+                autocomplete="name" 
+                required 
+                aria-required="true"
+                aria-describedby="fullNameError"
+              >
+            </div>
+            <div class="error-container" id="fullNameError" role="alert" aria-live="polite"></div>
+          </div>
+
+          <!-- Field 2: Email Address -->
+          <div class="form-group" id="groupEmail">
+            <label class="form-label" for="emailInput">
+              Email address <span class="required-mark" aria-hidden="true">*</span>
+            </label>
+            <div class="input-wrapper">
+              <input 
+                type="email" 
+                id="emailInput" 
+                name="email" 
+                class="form-input" 
+                placeholder="you@example.com" 
+                autocomplete="email" 
+                required 
+                aria-required="true"
+                aria-describedby="emailError"
+              >
+            </div>
+            <div class="error-container" id="emailError" role="alert" aria-live="polite"></div>
+          </div>
+
+          <!-- Field 3: Password -->
+          <div class="form-group" id="groupPassword">
+            <label class="form-label" for="passwordInput">
+              Password <span class="required-mark" aria-hidden="true">*</span>
+            </label>
+            <div class="input-wrapper input-with-action">
+              <input 
+                type="password" 
+                id="passwordInput" 
+                name="password" 
+                class="form-input" 
+                placeholder="Create a password" 
+                autocomplete="new-password" 
+                required 
+                aria-required="true"
+                aria-describedby="passwordError passwordHelper passwordStrengthLabel"
+              >
+              <button 
+                type="button" 
+                id="togglePasswordBtn" 
+                class="toggle-password-btn" 
+                aria-label="Show password"
+                title="Show password"
+              >
+                <!-- Eye Open Icon (Default) -->
+                <svg class="icon-eye eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <!-- Eye Closed Icon -->
+                <svg class="icon-eye eye-closed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                  <line x1="1" y1="1" x2="23" y2="23"></line>
+                </svg>
+              </button>
+            </div>
+            
+            <!-- Password Helper Text & Dynamic Strength Indicator -->
+            <div class="password-meta-row">
+              <span class="password-helper" id="passwordHelper">Use at least 8 characters.</span>
+              <span class="strength-label" id="passwordStrengthLabel">Strength: <strong>Too short</strong></span>
+            </div>
+
+            <!-- Compact 4-Segment Strength Bar -->
+            <div class="strength-meter" id="strengthMeter" aria-hidden="true">
+              <span class="strength-bar-seg" id="seg1"></span>
+              <span class="strength-bar-seg" id="seg2"></span>
+              <span class="strength-bar-seg" id="seg3"></span>
+              <span class="strength-bar-seg" id="seg4"></span>
+            </div>
+
+            <div class="error-container" id="passwordError" role="alert" aria-live="polite"></div>
+          </div>
+
+          <!-- Field 4: Confirm Password -->
+          <div class="form-group" id="groupConfirmPassword">
+            <label class="form-label" for="confirmPasswordInput">
+              Confirm password <span class="required-mark" aria-hidden="true">*</span>
+            </label>
+            <div class="input-wrapper input-with-action">
+              <input 
+                type="password" 
+                id="confirmPasswordInput" 
+                name="confirmPassword" 
+                class="form-input" 
+                placeholder="Re-enter your password" 
+                autocomplete="new-password" 
+                required 
+                aria-required="true"
+                aria-describedby="confirmPasswordError"
+              >
+              <button 
+                type="button" 
+                id="toggleConfirmPasswordBtn" 
+                class="toggle-password-btn" 
+                aria-label="Show password"
+                title="Show password"
+              >
+                <!-- Eye Open Icon -->
+                <svg class="icon-eye eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <!-- Eye Closed Icon -->
+                <svg class="icon-eye eye-closed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                  <line x1="1" y1="1" x2="23" y2="23"></line>
+                </svg>
+              </button>
+            </div>
+            <div class="error-container" id="confirmPasswordError" role="alert" aria-live="polite"></div>
+          </div>
+
+          <!-- Terms and Privacy Agreement -->
+          <div class="form-consent-group" id="groupTerms">
+            <label class="consent-label" for="termsCheckbox">
+              <input 
+                type="checkbox" 
+                id="termsCheckbox" 
+                name="terms" 
+                class="custom-checkbox" 
+                required 
+                aria-required="true"
+                aria-describedby="termsError"
+              >
+              <span class="consent-text">
+                I agree to the <a href="terms.html" class="legal-link" target="_blank" rel="noopener">Terms of Service</a> and <a href="privacy.html" class="legal-link" target="_blank" rel="noopener">Privacy Policy</a>.
+              </span>
+            </label>
+            <div class="error-container" id="termsError" role="alert" aria-live="polite"></div>
+          </div>
+
+          <!-- Primary Submit Button -->
+          <button type="submit" class="btn-submit" id="submitRegisterBtn">
+            <span class="btn-spinner" id="btnSpinner" aria-hidden="true"></span>
+            <span class="btn-text" id="btnText">Create Account</span>
+            <svg class="btn-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+
+          <!-- Divider -->
+          <div class="form-divider" aria-hidden="true">
+            <span class="divider-line"></span>
+            <span class="divider-text">OR</span>
+            <span class="divider-line"></span>
+          </div>
+
+          <!-- Existing Account Link -->
+          <div class="login-redirect-row">
+            <span class="login-redirect-text">Already have an account?</span>
+            <a href="login.html" class="login-redirect-link" id="signInLink">Sign in</a>
+          </div>
+
+        </form>
+
+        <!-- Small Form Footer -->
+        <footer class="form-footer">
+          <p class="copyright-text">&copy; 2026 TaskFlow. All rights reserved.</p>
+        </footer>
+
+      </div>
+    </main>
+
+  </div>
+
+  <script src="api.js"></script>
+  <script src="register.js"></script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+# Python & Django
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Environment and Secrets
+.env
+.env.local
+*.env
+
+# SQLite Database & Backups
+*.sqlite3
+db.sqlite3
+*.backup
+*.bak
+
+
+# Media and Uploads
+backend/media/*
+!backend/media/.gitkeep
+
+# Static files cache
+backend/staticfiles/
+
+# Logs
+*.log
+logs/
+
+# IDE & OS Files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

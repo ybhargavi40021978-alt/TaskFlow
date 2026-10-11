@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calendar — TaskFlow</title>
+  <meta name="description" content="Plan your work, track deadlines, manage project milestones, and view team schedules in TaskFlow.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="calendar.css">
+</head>
+<body>
+  <!-- App Layout Container -->
+  <div class="app-layout">
+    
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop" aria-hidden="true"></div>
+
+    <!-- =========================================================================
+         1. Left Navigation Sidebar (240px)
+         ========================================================================= -->
+    <aside class="app-sidebar" id="appSidebar" aria-label="Main Navigation">
+      
+      <!-- Top Brand Logo -->
+      <div class="sidebar-brand-row">
+        <a href="dashboard.html" class="brand-logo" aria-label="TaskFlow Dashboard">
+          <div class="logo-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <span class="brand-name">TaskFlow</span>
+        </a>
+        <button class="mobile-close-sidebar-btn" id="closeSidebarBtn" aria-label="Close sidebar navigation">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <!-- Workspace Selector Dropdown Trigger -->
+      <div class="workspace-selector-wrap">
+        <button class="workspace-selector-btn" id="workspaceBtn" aria-expanded="false" aria-haspopup="true">
+          <div class="workspace-avatar">T</div>
+          <div class="workspace-info">
+            <span class="workspace-label">WORKSPACE</span>
+            <span class="workspace-name" id="currentWorkspaceName">Team Workspace</span>
+          </div>
+          <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+
+        <!-- Workspace Dropdown Menu -->
+        <div class="dropdown-menu workspace-dropdown" id="workspaceDropdown" role="menu">
+          <button class="dropdown-item active" role="menuitem" data-workspace="Team Workspace">
+            <span class="item-dot dot-blue"></span> Team Workspace
+          </button>
+          <button class="dropdown-item" role="menuitem" data-workspace="Personal Workspace">
+            <span class="item-dot dot-purple"></span> Personal Workspace
+          </button>
+          <div class="dropdown-divider"></div>
+          <button class="dropdown-item item-action" id="createWorkspaceOption" role="menuitem">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            <span>Create Workspace</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Navigation Menu -->
+      <nav class="sidebar-nav" aria-label="Workspace Pages">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="dashboard.html" class="nav-link">
+              <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+              <span>Overview</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="my-tasks.html" class="nav-link">
+              <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+              <span>My Tasks</span>
+              <span class="nav-badge" id="sidebarTaskBadge">6</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="projects.html" class="nav-link">
+              <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+              <span>Projects</span>
+              <span class="nav-badge" id="sidebarProjectsBadge">6</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="inbox.html" class="nav-link">
+              <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"></polyline><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path></svg>
+              <span>Inbox</span>
+              <span class="nav-badge badge-unread" id="sidebarInboxBadge">3</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <!-- ACTIVE: Calendar -->
+            <a href="calendar.html" class="nav-link active" aria-current="page">
+              <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              <span>Calendar</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Auxiliary Navigation (Starred, Settings, Help) -->
+      <div class="sidebar-secondary-nav">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <button class="nav-link-btn" id="sidebarStarredBtn">
+              <svg class="nav-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+              <span>Starred</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Bottom Sidebar Controls -->
+      <div class="sidebar-bottom-controls">
+        <ul class="bottom-nav-list">
+          <li>
+            <button class="bottom-nav-btn" id="sidebarSettingsBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+              <span>Settings</span>
+            </button>
+          </li>
+          <li>
+            <button class="bottom-nav-btn" id="sidebarHelpBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+              <span>Help & Support</span>
+            </button>
+          </li>
+        </ul>
+
+        <!-- User Profile Pill -->
+        <div class="user-profile-wrap">
+          <button class="user-profile-btn" id="profileBtn" aria-expanded="false" aria-haspopup="true">
+            <div class="user-avatar" id="sidebarAvatar">YB</div>
+            <div class="user-meta">
+              <span class="user-name" id="sidebarUserName">Your Name</span>
+              <span class="user-role">Team Member</span>
+            </div>
+            <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+
+          <!-- User Profile Dropdown -->
+          <div class="dropdown-menu profile-dropdown" id="profileDropdown" role="menu">
+            <div class="profile-dropdown-header">
+              <span class="user-name-full">Your Name</span>
+              <span class="user-email-full">your.email@workspace.com</span>
+            </div>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item" id="menuMyProfile" role="menuitem">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              <span>My Profile</span>
+            </button>
+            <button class="dropdown-item" id="menuAccountSettings" role="menuitem">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+              <span>Account Settings</span>
+            </button>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item item-danger" id="menuLogOut" role="menuitem">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+              <span>Log Out</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- =========================================================================
+         2. Main Application Area (Header + Calendar Workspace)
+         ========================================================================= -->
+    <div class="app-main">
+      
+      <!-- Top Header (72px) -->
+      <header class="app-header">
+        
+        <!-- Left: Hamburger (Mobile) + Breadcrumb & Title -->
+        <div class="header-left">
+          <button class="mobile-hamburger-btn" id="mobileHamburgerBtn" aria-label="Open sidebar menu">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+          <div class="header-title-block">
+            <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+              <span class="breadcrumb-root">Workspace</span>
+              <span class="breadcrumb-sep">/</span>
+              <span class="breadcrumb-current">Calendar</span>
+            </nav>
+            <div class="header-sub-row">
+              <h1 class="header-main-title">Calendar</h1>
+              <span class="header-subtitle">Manage your schedule and deadlines.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Center: Search Input -->
+        <div class="header-center">
+          <div class="search-input-wrapper">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input 
+              type="search" 
+              id="globalSearchInput" 
+              class="global-search-input" 
+              placeholder="Search events, tasks, or milestones…"
+              aria-label="Search events, tasks, or milestones"
+              autocomplete="off"
+            >
+            <kbd class="search-shortcut" title="Press Ctrl+K to search">Ctrl K</kbd>
+
+            <!-- Search Dropdown Results -->
+            <div class="search-results-dropdown" id="searchResultsDropdown" role="listbox">
+              <div class="search-results-header">Matching Calendar Events</div>
+              <div class="search-results-list" id="searchResultsList"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Actions & Controls -->
+        <div class="header-right">
+          
+          <!-- Notifications Bell -->
+          <div class="notification-wrap">
+            <button class="header-icon-btn" id="notificationsBtn" aria-label="Notifications" aria-expanded="false">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+              <span class="notification-indicator" id="notifBadge"></span>
+            </button>
+            <div class="dropdown-menu notif-dropdown" id="notifDropdown">
+              <div class="notif-dropdown-header">
+                <span class="notif-title">Notifications</span>
+                <button class="notif-mark-read-btn" id="markAllReadBtn">Mark all read</button>
+              </div>
+              <ul class="notif-list" id="notifList">
+                <li class="notif-item unread">
+                  <div class="notif-avatar av-purple">MT</div>
+                  <div class="notif-text-wrap">
+                    <p class="notif-text"><strong>Sprint Planning Meeting</strong> starts in 30 minutes</p>
+                    <span class="notif-time">30m ago</span>
+                  </div>
+                </li>
+                <li class="notif-item unread">
+                  <div class="notif-avatar av-amber">DL</div>
+                  <div class="notif-text-wrap">
+                    <p class="notif-text">Deadline approaching for <strong>Submit project report</strong></p>
+                    <span class="notif-time">2h ago</span>
+                  </div>
+                </li>
+                <li class="notif-item">
+                  <div class="notif-avatar av-green">MS</div>
+                  <div class="notif-text-wrap">
+                    <p class="notif-text">Milestone achieved: <strong>Beta Release v1.0</strong></p>
+                    <span class="notif-time">Yesterday</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Help Icon -->
+          <div class="help-wrap">
+            <button class="header-icon-btn" id="helpHeaderBtn" aria-label="Help and resources" aria-expanded="false">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            </button>
+            <div class="dropdown-menu help-dropdown" id="helpDropdown">
+              <div class="dropdown-header-sm">Help & Resources</div>
+              <a href="#" class="dropdown-item" id="helpDocsOption">
+                <span>Calendar Documentation</span>
+              </a>
+              <a href="#" class="dropdown-item" id="helpShortcutsOption">
+                <span>Keyboard Shortcuts (T for Today, M/W/D views)</span>
+              </a>
+              <a href="#" class="dropdown-item" id="helpContactOption">
+                <span>Contact Schedule Support</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- User Avatar Icon -->
+          <button class="header-avatar-btn" id="headerAvatarBtn" aria-label="User profile menu">
+            <span>YB</span>
+          </button>
+
+        </div>
+      </header>
+
+      <!-- =======================================================================
+           3. Main Calendar Workspace (Scrollable Area)
+           ======================================================================= -->
+      <main class="workspace-scroll-area">
+        <div class="workspace-container">
+          
+          <!-- Section 6: Calendar Page Heading and Navigation Controls -->
+          <section class="calendar-heading-toolbar">
+            <div class="heading-text-group">
+              <h2 class="calendar-title">Calendar</h2>
+              <p class="calendar-subtitle">Plan your work, track deadlines, and stay on schedule.</p>
+            </div>
+
+            <!-- Toolbar Controls Row -->
+            <div class="calendar-controls-group">
+              
+              <!-- Month Navigation (Today, <, >, Month Year) -->
+              <div class="calendar-nav-cluster">
+                <button class="btn-today-pill" id="todayNavBtn" title="Jump to today's date">Today</button>
+                <div class="nav-arrows-wrap">
+                  <button class="nav-arrow-btn" id="prevPeriodBtn" title="Previous month" aria-label="Previous month">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                  </button>
+                  <button class="nav-arrow-btn" id="nextPeriodBtn" title="Next month" aria-label="Next month">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                  </button>
+                </div>
+                <span class="current-period-display" id="currentPeriodLabel">October 2026</span>
+              </div>
+
+              <!-- View Selector Segmented Control (Month, Week, Day) -->
+              <div class="view-segmented-control" role="radiogroup" aria-label="Calendar view mode">
+                <button class="view-segment-btn active" data-view="month" role="radio" aria-checked="true" id="viewMonthBtn">Month</button>
+                <button class="view-segment-btn" data-view="week" role="radio" aria-checked="false" id="viewWeekBtn">Week</button>
+                <button class="view-segment-btn" data-view="day" role="radio" aria-checked="false" id="viewDayBtn">Day</button>
+              </div>
+
+              <!-- Primary + Create Event Button -->
+              <button class="btn-primary-add" id="createEventBtn">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                <span>+ Create event</span>
+              </button>
+
+            </div>
+          </section>
+
+          <!-- Section 7: Calendar Summary Cards (Row of 4) -->
+          <section class="summary-cards-grid" aria-label="Schedule Metrics">
+            
+            <!-- Card 1: Upcoming Tasks -->
+            <div class="summary-card" data-filter-type="Task" role="button" tabindex="0" title="Filter upcoming tasks">
+              <div class="card-icon-wrap icon-bg-blue">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+              </div>
+              <div class="card-info">
+                <span class="card-label">Upcoming Tasks</span>
+                <span class="card-count" id="countUpcomingTasks">08</span>
+                <span class="card-subtext">On track</span>
+              </div>
+            </div>
+
+            <!-- Card 2: Due Today -->
+            <div class="summary-card" data-filter-type="today" role="button" tabindex="0" title="Filter items due today">
+              <div class="card-icon-wrap icon-bg-amber">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              </div>
+              <div class="card-info">
+                <span class="card-label">Due Today</span>
+                <span class="card-count count-amber" id="countDueToday">02</span>
+                <span class="card-subtext">Requires focus</span>
+              </div>
+            </div>
+
+            <!-- Card 3: Overdue -->
+            <div class="summary-card" data-filter-type="overdue" role="button" tabindex="0" title="Filter overdue items">
+              <div class="card-icon-wrap icon-bg-red">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+              </div>
+              <div class="card-info">
+                <span class="card-label">Overdue</span>
+                <span class="card-count count-red" id="countOverdue">01</span>
+                <span class="card-subtext">Needs attention</span>
+              </div>
+            </div>
+
+            <!-- Card 4: Milestones -->
+            <div class="summary-card" data-filter-type="Milestone" role="button" tabindex="0" title="Filter project milestones">
+              <div class="card-icon-wrap icon-bg-green">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
+              </div>
+              <div class="card-info">
+                <span class="card-label">Milestones</span>
+                <span class="card-count count-green" id="countMilestones">03</span>
+                <span class="card-subtext">Key deliverables</span>
+              </div>
+            </div>
+
+          </section>
+
+          <!-- Section 13: Filters and Search Toolbar -->
+          <section class="calendar-filters-bar" aria-label="Calendar Event Filters">
+            
+            <div class="filter-controls-left">
+              <!-- Search within events -->
+              <div class="filter-search-box">
+                <svg class="filter-search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input 
+                  type="text" 
+                  id="eventSearchFilterInput" 
+                  class="filter-search-input" 
+                  placeholder="Filter events or dates…" 
+                  aria-label="Filter events"
+                >
+              </div>
+
+              <!-- Event Category Filter -->
+              <div class="select-wrap">
+                <select id="categoryFilterSelect" class="toolbar-select" aria-label="Filter by event category">
+                  <option value="all">All Events</option>
+                  <option value="Task">Tasks</option>
+                  <option value="Meeting">Meetings</option>
+                  <option value="Deadline">Deadlines</option>
+                  <option value="Milestone">Milestones</option>
+                </select>
+              </div>
+
+              <!-- Project Filter -->
+              <div class="select-wrap">
+                <select id="projectFilterSelect" class="toolbar-select" aria-label="Filter by project">
+                  <option value="all">All Projects</option>
+                  <option value="Website Redesign">Website Redesign</option>
+                  <option value="Mobile App">Mobile App</option>
+                  <option value="Marketing Campaign">Marketing Campaign</option>
+                  <option value="Design System">Design System</option>
+                </select>
+              </div>
+
+              <!-- Reset Filter Button -->
+              <button class="btn-clear-filters" id="clearFiltersBtn" title="Reset all filters">Reset</button>
+            </div>
+
+            <!-- Category Legend -->
+            <div class="category-legend-wrap" aria-label="Event category color legend">
+              <span class="legend-item"><span class="legend-dot dot-blue"></span> Task</span>
+              <span class="legend-item"><span class="legend-dot dot-purple"></span> Meeting</span>
+              <span class="legend-item"><span class="legend-dot dot-amber"></span> Deadline</span>
+              <span class="legend-item"><span class="legend-dot dot-green"></span> Milestone</span>
+            </div>
+
+          </section>
+
+          <!-- ===================================================================
+               Main Calendar Grid & Right Upcoming Panel Container
+               =================================================================== -->
+          <div class="calendar-main-layout">
+            
+            <!-- Left / Center: Calendar Area Panel -->
+            <div class="calendar-viewport-panel" id="calendarViewportPanel">
+              
+              <!-- A. Month View Container (Default) -->
+              <div class="calendar-month-view" id="monthViewWrapper">
+                
+                <!-- Weekday Headers (Sun through Sat) -->
+                <div class="month-weekday-header">
+                  <div class="weekday-cell">Sun</div>
+                  <div class="weekday-cell">Mon</div>
+                  <div class="weekday-cell">Tue</div>
+                  <div class="weekday-cell">Wed</div>
+                  <div class="weekday-cell">Thu</div>
+                  <div class="weekday-cell">Fri</div>
+                  <div class="weekday-cell">Sat</div>
+                </div>
+
+                <!-- 7-Column Days Grid (Dynamic) -->
+                <div class="month-days-grid" id="monthDaysGrid">
+                  <!-- Populated dynamically by calendar.js -->
+                </div>
+
+              </div>
+
+              <!-- B. Week View Container -->
+              <div class="calendar-week-view" id="weekViewWrapper" style="display: none;">
+                
+                <!-- Week Header Row -->
+                <div class="week-header-row" id="weekHeaderRow">
+                  <!-- Weekday titles and dates injected here -->
+                </div>
+
+                <!-- Week Time Axis + Columns Grid -->
+                <div class="week-time-grid-scroll">
+                  <div class="week-grid-body" id="weekGridBody">
+                    <!-- Hourly time slots injected here -->
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- C. Day View Container -->
+              <div class="calendar-day-view" id="dayViewWrapper" style="display: none;">
+                
+                <!-- Day Header -->
+                <div class="day-view-header" id="dayViewHeader">
+                  <h3 class="day-header-title" id="dayHeaderTitle">Sunday, October 11, 2026</h3>
+                  <span class="day-header-meta" id="dayHeaderMeta">3 events scheduled</span>
+                </div>
+
+                <!-- Day Schedule Timeline -->
+                <div class="day-timeline-scroll">
+                  <div class="day-timeline-body" id="dayTimelineBody">
+                    <!-- Day schedule items -->
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+            <!-- Right: Upcoming Events Panel (~270px) -->
+            <aside class="upcoming-events-panel" id="upcomingPanel" aria-label="Upcoming Events">
+              
+              <div class="upcoming-panel-header">
+                <h3 class="upcoming-heading">Upcoming Events</h3>
+                <button class="view-all-link-btn" id="upcomingViewAllBtn">View all</button>
+              </div>
+
+              <div class="upcoming-scroll-list" id="upcomingScrollList">
+                <!-- Dynamically populated upcoming events grouped by Today, Tomorrow, Upcoming -->
+              </div>
+
+            </aside>
+
+          </div>
+
+        </div>
+      </main>
+
+    </div>
+
+  </div>
+
+  <!-- =========================================================================
+       11. Create / Edit Event Modal
+       ========================================================================= -->
+  <div class="app-modal-backdrop" id="eventModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modalEventHeading">
+    <div class="app-modal-card modal-event-size">
+      
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title" id="modalEventHeading">Create Event</h3>
+          <p class="modal-subtitle" id="modalEventSubheading">Schedule a task deadline, team meeting, or project milestone.</p>
+        </div>
+        <button class="modal-close-btn" id="closeEventModalBtn" aria-label="Close modal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <form class="modal-form" id="eventForm">
+        <input type="hidden" id="eventFormId" value="">
+
+        <!-- Event Title -->
+        <div class="modal-form-group">
+          <label class="modal-label" for="eventTitleInput">Event Title <span class="req">*</span></label>
+          <input 
+            type="text" 
+            id="eventTitleInput" 
+            class="modal-input" 
+            placeholder="e.g. Design review with client" 
+            required
+          >
+        </div>
+
+        <!-- Event Type & Project Row -->
+        <div class="modal-form-row">
+          <div class="modal-form-group">
+            <label class="modal-label" for="eventTypeSelect">Event Type <span class="req">*</span></label>
+            <select id="eventTypeSelect" class="modal-select" required>
+              <option value="Task">Task</option>
+              <option value="Meeting">Meeting</option>
+              <option value="Deadline">Deadline</option>
+              <option value="Milestone">Milestone</option>
+            </select>
+          </div>
+          <div class="modal-form-group">
+            <label class="modal-label" for="eventProjectSelect">Project</label>
+            <select id="eventProjectSelect" class="modal-select">
+              <option value="Website Redesign">Website Redesign</option>
+              <option value="Mobile App">Mobile App</option>
+              <option value="Marketing Campaign">Marketing Campaign</option>
+              <option value="Design System">Design System</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Date & Times Row -->
+        <div class="modal-form-group">
+          <label class="modal-label" for="eventDateInput">Date <span class="req">*</span></label>
+          <input type="date" id="eventDateInput" class="modal-input" required value="2026-10-11">
+        </div>
+
+        <div class="modal-form-row">
+          <div class="modal-form-group">
+            <label class="modal-label" for="eventStartTimeInput">Start Time</label>
+            <input type="time" id="eventStartTimeInput" class="modal-input" value="10:00">
+          </div>
+          <div class="modal-form-group">
+            <label class="modal-label" for="eventEndTimeInput">End Time</label>
+            <input type="time" id="eventEndTimeInput" class="modal-input" value="11:00">
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="modal-form-group">
+          <label class="modal-label" for="eventDescInput">Description</label>
+          <textarea 
+            id="eventDescInput" 
+            class="modal-textarea" 
+            rows="3" 
+            placeholder="Provide context, agenda, or deliverable criteria…"
+          ></textarea>
+        </div>
+
+        <!-- Participants -->
+        <div class="modal-form-group">
+          <label class="modal-label" for="eventParticipantsSelect">Participants</label>
+          <select id="eventParticipantsSelect" class="modal-select">
+            <option value="Team (All Members)">Team (All Members)</option>
+            <option value="Alex Morgan, Sarah Wilson">Alex Morgan, Sarah Wilson</option>
+            <option value="Jordan Davis, Marcus Lee">Jordan Davis, Marcus Lee</option>
+            <option value="Assigned to Me Only">Assigned to Me Only</option>
+          </select>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-modal-secondary" id="cancelEventModalBtn">Cancel</button>
+          <button type="submit" class="btn-modal-primary" id="saveEventModalBtn">Create Event</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       12. Event Details Modal
+       ========================================================================= -->
+  <div class="app-modal-backdrop" id="eventDetailsModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="detailEventTitle">
+    <div class="app-modal-card modal-event-size">
+      <div class="modal-header">
+        <div class="detail-header-tags">
+          <span class="detail-category-tag tag-task" id="detailCategoryTag">Task</span>
+          <span class="detail-project-tag" id="detailProjectTag">Website Redesign</span>
+        </div>
+        <button class="modal-close-btn" id="closeDetailModalBtn" aria-label="Close modal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div class="modal-body-detail">
+        <h3 class="detail-title" id="detailEventTitle">Design review with client</h3>
+        
+        <div class="detail-meta-grid">
+          <div class="meta-item">
+            <span class="meta-label">Date & Time</span>
+            <span class="meta-val" id="detailDateTimeVal">Oct 11, 2026 • 10:00 AM - 11:00 AM</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Assigned Team</span>
+            <span class="meta-val" id="detailParticipantsVal">Alex Morgan, Sarah Wilson</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Created By</span>
+            <span class="meta-val" id="detailCreatorVal">Your Name (Lead)</span>
+          </div>
+        </div>
+
+        <div class="detail-desc-box">
+          <span class="meta-label">Description & Agenda</span>
+          <p class="detail-description" id="detailEventDesc">
+            Walkthrough of responsive layout mockups, micro-interactions, and acceptance criteria before final sign-off.
+          </p>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-modal-danger-outline" id="deleteEventFromDetailBtn">Delete</button>
+        <button type="button" class="btn-modal-secondary" id="editEventFromDetailBtn">Edit Event</button>
+        <button type="button" class="btn-modal-primary" id="closeDetailDoneBtn">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div class="app-modal-backdrop" id="deleteConfirmModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="app-modal-card modal-compact">
+      <div class="modal-header">
+        <h3 class="modal-title">Delete Event Confirmation</h3>
+        <button class="modal-close-btn" id="closeDeleteModalBtn" aria-label="Close modal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal-body-detail">
+        <p style="font-size: 0.92rem; color: var(--color-body); line-height: 1.5;">
+          Are you sure you want to delete <strong id="deleteTargetEventName">this event</strong>? This will remove it from the schedule and team calendars.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-modal-secondary" id="cancelDeleteBtn">Cancel</button>
+        <button type="button" class="btn-modal-danger" id="confirmDeleteBtn">Delete Event</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="api.js"></script>
+  <script src="websocket.js"></script>
+  <script src="calendar.js"></script>
+</body>
+</html>

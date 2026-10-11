@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — TaskFlow</title>
+  <meta name="description" content="Manage projects, assigned tasks, team activity, and workspace productivity with TaskFlow.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+  <!-- App Layout Container -->
+  <div class="app-layout">
+    
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop" aria-hidden="true"></div>
+
+    <!-- =========================================================================
+         1. Left Sidebar Navigation (240px)
+         ========================================================================= -->
+    <aside class="app-sidebar" id="appSidebar" aria-label="Main Navigation">
+      
+      <!-- Top Brand Logo -->
+      <div class="sidebar-brand-row">
+        <a href="dashboard.html" class="brand-logo" aria-label="TaskFlow Dashboard">
+          <div class="logo-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <span class="brand-name">TaskFlow</span>
+        </a>
+        <button class="mobile-close-sidebar-btn" id="closeSidebarBtn" aria-label="Close sidebar navigation">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <!-- Workspace Selector Dropdown Trigger -->
+      <div class="workspace-selector-wrap">
+        <button class="workspace-selector-btn" id="workspaceBtn" aria-expanded="false" aria-haspopup="true">
+          <div class="workspace-avatar">T</div>
+          <div class="workspace-info">
+            <span class="workspace-label">WORKSPACE</span>
+            <span class="workspace-name" id="currentWorkspaceName">Team Workspace</span>
+          </div>
+          <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+
+        <!-- Workspace Dropdown Menu -->
+        <div class="dropdown-menu workspace-dropdown" id="workspaceDropdown" role="menu">
+          <button class="dropdown-item active" role="menuitem" data-workspace="Team Workspace">
+            <span class="item-dot dot-blue"></span> Team Workspace
+          </button>
+          <button class="dropdown-item" role="menuitem" data-workspace="Personal Workspace">
+            <span class="item-dot dot-purple"></span> Personal Workspace
+          </button>
+          <div class="dropdown-divider"></div>
+          <button class="dropdown-item item-action" id="createWorkspaceOption" role="menuitem">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            <span>Create Workspace</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Navigation Menu -->
+      <nav class="sidebar-nav" aria-label="Workspace Pages">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="dashboard.html" class="nav-link active" aria-current="page">
+              <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+              <span>Overview</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="my-tasks.html" class="nav-link" id="navMyTasks">
+              <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+              <span>My Tasks</span>
+              <span class="nav-badge" id="sidebarMyTasksBadge">0</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="projects.html" class="nav-link" id="navProjects">
+              <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+              <span>Projects</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="inbox.html" class="nav-link" id="navInbox">
+              <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"></polyline><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path></svg>
+              <span>Inbox</span>
+              <span class="nav-badge badge-unread" id="sidebarInboxBadge">0</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="calendar.html" class="nav-link" id="navCalendar">
+              <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              <span>Calendar</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Projects Section -->
+      <div class="sidebar-projects-section">
+        <div class="section-title-row">
+          <span class="section-label">YOUR PROJECTS</span>
+          <button class="mini-icon-btn" id="sidebarAddProjectBtn" title="Create new project" aria-label="Create new project">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          </button>
+        </div>
+        <ul class="projects-list" id="sidebarProjectsList">
+          <li class="project-item">
+            <button class="project-btn" data-project="Website Redesign">
+              <span class="project-dot dot-blue"></span>
+              <span class="project-name">Website Redesign</span>
+            </button>
+          </li>
+          <li class="project-item">
+            <button class="project-btn" data-project="Mobile App">
+              <span class="project-dot dot-purple"></span>
+              <span class="project-name">Mobile App</span>
+            </button>
+          </li>
+          <li class="project-item">
+            <button class="project-btn" data-project="Marketing Campaign">
+              <span class="project-dot dot-amber"></span>
+              <span class="project-name">Marketing Campaign</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Bottom Sidebar Controls -->
+      <div class="sidebar-bottom-controls">
+        <ul class="bottom-nav-list">
+          <li>
+            <button class="bottom-nav-btn" id="sidebarSettingsBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+              <span>Settings</span>
+            </button>
+          </li>
+          <li>
+            <button class="bottom-nav-btn" id="sidebarHelpBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+              <span>Help & Support</span>
+            </button>
+          </li>
+        </ul>
+
+        <!-- User Profile Pill -->
+        <div class="user-profile-wrap">
+          <button class="user-profile-btn" id="profileBtn" aria-expanded="false" aria-haspopup="true">
+            <div class="user-avatar" id="sidebarAvatar">YB</div>
+            <div class="user-meta">
+              <span class="user-name" id="sidebarUserName">Your Name</span>
+              <span class="user-role">Team Member</span>
+            </div>
+            <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+
+          <!-- User Profile Dropdown -->
+          <div class="dropdown-menu profile-dropdown" id="profileDropdown" role="menu">
+            <div class="profile-dropdown-header">
+              <span class="user-name-full">Your Name</span>
+              <span class="user-email-full">your.email@workspace.com</span>
+            </div>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item" id="menuMyProfile" role="menuitem">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              <span>My Profile</span>
+            </button>
+            <button class="dropdown-item" id="menuAccountSettings" role="menuitem">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+              <span>Account Settings</span>
+            </button>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item item-danger" id="menuLogOut" role="menuitem">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+              <span>Log Out</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- =========================================================================
+         2. Main Application Area (Header + Main Content)
+         ========================================================================= -->
+    <div class="app-main">
+      
+      <!-- Top Header (72px) -->
+      <header class="app-header">
+        
+        <!-- Left: Hamburger (Mobile) + Breadcrumb -->
+        <div class="header-left">
+          <button class="mobile-hamburger-btn" id="mobileHamburgerBtn" aria-label="Open sidebar menu">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+          <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+            <span class="breadcrumb-root">Workspace</span>
+            <span class="breadcrumb-sep">/</span>
+            <span class="breadcrumb-current">Overview</span>
+          </nav>
+        </div>
+
+        <!-- Center: Search Field -->
+        <div class="header-center">
+          <div class="search-input-wrapper">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input 
+              type="search" 
+              id="globalSearchInput" 
+              class="global-search-input" 
+              placeholder="Search tasks, projects, or people…"
+              aria-label="Search tasks, projects, or people"
+              autocomplete="off"
+            >
+            <kbd class="search-shortcut" title="Press Ctrl+K to search">Ctrl K</kbd>
+
+            <!-- Search Results Dropdown -->
+            <div class="search-results-dropdown" id="searchResultsDropdown" role="listbox">
+              <div class="search-results-header">Search results</div>
+              <div class="search-results-list" id="searchResultsList"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Actions & User Controls -->
+        <div class="header-right">
+          
+          <!-- Create New Button + Menu -->
+          <div class="create-new-wrap">
+            <button class="btn-create-new" id="createNewBtn" aria-expanded="false" aria-haspopup="true">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <span>Create New</span>
+            </button>
+            <div class="dropdown-menu create-dropdown" id="createDropdown" role="menu">
+              <button class="dropdown-item" id="actionCreateTask" role="menuitem">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                <span>Create Task</span>
+              </button>
+              <button class="dropdown-item" id="actionCreateProject" role="menuitem">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                <span>Create Project</span>
+              </button>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item" id="actionInviteMember" role="menuitem">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+                <span>Invite Team Member</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Notification Bell -->
+          <div class="notification-wrap">
+            <button class="header-icon-btn" id="notificationsBtn" aria-label="Notifications" aria-expanded="false">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+              <span class="notification-indicator" id="notifBadge"></span>
+            </button>
+            <div class="dropdown-menu notif-dropdown" id="notifDropdown">
+              <div class="notif-dropdown-header">
+                <span class="notif-title">Notifications</span>
+                <button class="notif-mark-read-btn" id="markAllReadBtn">Mark all read</button>
+              </div>
+              <ul class="notif-list" id="notifList">
+                <li class="notif-item unread">
+                  <div class="notif-avatar av-blue">SC</div>
+                  <div class="notif-text-wrap">
+                    <p class="notif-text"><strong>Sarah Chen</strong> assigned you to <em>Finalize homepage wireframes</em></p>
+                    <span class="notif-time">10m ago</span>
+                  </div>
+                </li>
+                <li class="notif-item unread">
+                  <div class="notif-avatar av-purple">JD</div>
+                  <div class="notif-text-wrap">
+                    <p class="notif-text"><strong>Jordan Davis</strong> commented on <em>Marketing Campaign launch</em></p>
+                    <span class="notif-time">45m ago</span>
+                  </div>
+                </li>
+                <li class="notif-item">
+                  <div class="notif-avatar av-green">TF</div>
+                  <div class="notif-text-wrap">
+                    <p class="notif-text">Sprint milestone <strong>Q4 Beta</strong> reached 78% completion</p>
+                    <span class="notif-time">2h ago</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Help Icon -->
+          <div class="help-wrap">
+            <button class="header-icon-btn" id="helpHeaderBtn" aria-label="Help and resources" aria-expanded="false">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            </button>
+            <div class="dropdown-menu help-dropdown" id="helpDropdown">
+              <div class="dropdown-header-sm">Help & Resources</div>
+              <a href="#" class="dropdown-item" onclick="event.preventDefault(); alert('TaskFlow Documentation opening soon.');">
+                <span>Documentation</span>
+              </a>
+              <a href="#" class="dropdown-item" onclick="event.preventDefault(); alert('TaskFlow Keyboard Shortcuts: Ctrl+K to Search, Esc to close modals.');">
+                <span>Keyboard Shortcuts</span>
+              </a>
+              <a href="#" class="dropdown-item" onclick="event.preventDefault(); alert('Support team reachable at support@taskflow.app');">
+                <span>Contact Support</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- User Avatar Icon -->
+          <button class="header-avatar-btn" id="headerAvatarBtn" aria-label="User profile menu">
+            <span>YB</span>
+          </button>
+
+        </div>
+      </header>
+
+      <!-- =======================================================================
+           3. Main Workspace Content
+           ======================================================================= -->
+      <main class="workspace-scroll-area">
+        <div class="workspace-container">
+          
+          <!-- Section 5: Welcome Section -->
+          <section class="dashboard-welcome-row">
+            <div class="welcome-heading-group">
+              <h1 class="welcome-heading" id="dynamicWelcomeGreeting">Good morning, Your Name 👋</h1>
+              <p class="welcome-subtext">Here's what's happening with your projects today.</p>
+            </div>
+            <div class="welcome-action-group">
+              <div class="date-display-pill" id="currentDatePill">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                <span id="dateText">Wednesday, Oct 11, 2026</span>
+              </div>
+              <button class="btn-customize-dashboard" id="customizeDashboardBtn" title="Customize layout preferences">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
+                <span>Customize</span>
+              </button>
+            </div>
+          </section>
+
+          <!-- Section 6: Summary Cards (Row of 4) -->
+          <section class="summary-cards-grid" aria-label="Key Performance Metrics">
+            
+            <!-- Card 1 — Total Projects -->
+            <div class="summary-card">
+              <div class="card-icon-wrap icon-bg-blue">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+              </div>
+              <div class="card-metric-info">
+                <span class="card-metric-label">Total Projects</span>
+                <span class="card-metric-number" id="metricTotalProjects">12</span>
+                <span class="card-metric-subtext">Across your workspace</span>
+              </div>
+            </div>
+
+            <!-- Card 2 — My Tasks -->
+            <div class="summary-card">
+              <div class="card-icon-wrap icon-bg-purple">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+              </div>
+              <div class="card-metric-info">
+                <span class="card-metric-label">My Tasks</span>
+                <span class="card-metric-number" id="metricMyTasks">24</span>
+                <span class="card-metric-subtext">Assigned to you</span>
+              </div>
+            </div>
+
+            <!-- Card 3 — In Progress -->
+            <div class="summary-card">
+              <div class="card-icon-wrap icon-bg-amber">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              </div>
+              <div class="card-metric-info">
+                <span class="card-metric-label">In Progress</span>
+                <span class="card-metric-number" id="metricInProgress">08</span>
+                <span class="card-metric-subtext">Tasks currently active</span>
+              </div>
+            </div>
+
+            <!-- Card 4 — Completed -->
+            <div class="summary-card">
+              <div class="card-icon-wrap icon-bg-green">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+              </div>
+              <div class="card-metric-info">
+                <span class="card-metric-label">Completed</span>
+                <span class="card-metric-number" id="metricCompleted">16</span>
+                <span class="card-metric-subtext">Tasks finished this week</span>
+              </div>
+            </div>
+
+          </section>
+
+          <!-- Section 7: Main Content Grid (Two Columns: 58% / 42%) -->
+          <div class="main-content-grid">
+            
+            <!-- Panel A — My Tasks (58%) -->
+            <section class="dashboard-panel panel-tasks" aria-label="My Tasks Panel">
+              <div class="panel-header">
+                <div class="panel-title-wrap">
+                  <h2 class="panel-title">My Tasks</h2>
+                  <span class="badge-count" id="taskActiveCount">4</span>
+                </div>
+                <div class="panel-actions">
+                  <div class="filter-dropdown-wrap">
+                    <button class="panel-filter-btn" id="filterTasksBtn" title="Filter tasks" aria-label="Filter tasks">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+                      <span>Filter</span>
+                    </button>
+                    <div class="dropdown-menu filter-menu" id="filterTasksMenu">
+                      <button class="dropdown-item active" data-filter="all">All Tasks</button>
+                      <button class="dropdown-item" data-filter="high">High Priority</button>
+                      <button class="dropdown-item" data-filter="today">Due Today</button>
+                    </div>
+                  </div>
+                  <a href="#view-all-tasks" class="panel-link" id="viewAllTasksLink">View all</a>
+                </div>
+              </div>
+
+              <!-- Task List (Compact Rows) -->
+              <div class="task-rows-list" id="dashboardTaskList">
+                
+                <!-- Task 1 -->
+                <div class="task-row" data-id="task-1" data-priority="high" data-due="today">
+                  <div class="task-check-wrap">
+                    <input type="checkbox" class="task-checkbox" id="check-task-1" aria-label="Mark Finalize homepage wireframes complete">
+                  </div>
+                  <div class="task-main-col">
+                    <span class="task-name-text">Finalize homepage wireframes</span>
+                    <div class="task-sub-meta">
+                      <span class="task-project-pill tag-blue">Website Redesign</span>
+                    </div>
+                  </div>
+                  <div class="task-right-meta">
+                    <span class="priority-badge pri-high">High</span>
+                    <span class="due-date-text due-urgent">Today</span>
+                  </div>
+                </div>
+
+                <!-- Task 2 -->
+                <div class="task-row" data-id="task-2" data-priority="medium" data-due="tomorrow">
+                  <div class="task-check-wrap">
+                    <input type="checkbox" class="task-checkbox" id="check-task-2" aria-label="Mark Review API documentation complete">
+                  </div>
+                  <div class="task-main-col">
+                    <span class="task-name-text">Review API documentation</span>
+                    <div class="task-sub-meta">
+                      <span class="task-project-pill tag-purple">Mobile App</span>
+                    </div>
+                  </div>
+                  <div class="task-right-meta">
+                    <span class="priority-badge pri-med">Medium</span>
+                    <span class="due-date-text">Tomorrow</span>
+                  </div>
+                </div>
+
+                <!-- Task 3 -->
+                <div class="task-row" data-id="task-3" data-priority="low" data-due="later">
+                  <div class="task-check-wrap">
+                    <input type="checkbox" class="task-checkbox" id="check-task-3" aria-label="Mark Prepare campaign assets complete">
+                  </div>
+                  <div class="task-main-col">
+                    <span class="task-name-text">Prepare campaign assets</span>
+                    <div class="task-sub-meta">
+                      <span class="task-project-pill tag-amber">Marketing Campaign</span>
+                    </div>
+                  </div>
+                  <div class="task-right-meta">
+                    <span class="priority-badge pri-low">Low</span>
+                    <span class="due-date-text">Oct 14</span>
+                  </div>
+                </div>
+
+                <!-- Task 4 -->
+                <div class="task-row" data-id="task-4" data-priority="medium" data-due="later">
+                  <div class="task-check-wrap">
+                    <input type="checkbox" class="task-checkbox" id="check-task-4" aria-label="Mark Test responsive layouts complete">
+                  </div>
+                  <div class="task-main-col">
+                    <span class="task-name-text">Test responsive layouts</span>
+                    <div class="task-sub-meta">
+                      <span class="task-project-pill tag-blue">Website Redesign</span>
+                    </div>
+                  </div>
+                  <div class="task-right-meta">
+                    <span class="priority-badge pri-med">Medium</span>
+                    <span class="due-date-text">Oct 16</span>
+                  </div>
+                </div>
+
+              </div>
+            </section>
+
+            <!-- Panel B — Project Progress (42%) -->
+            <section class="dashboard-panel panel-progress" aria-label="Project Progress Panel">
+              <div class="panel-header">
+                <h2 class="panel-title">Project Progress</h2>
+                <div class="progress-timeframe-wrap">
+                  <select class="select-timeframe" id="progressTimeframeSelect" aria-label="Select timeframe for project progress">
+                    <option value="month" selected>This month</option>
+                    <option value="quarter">This quarter</option>
+                    <option value="year">All time</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="progress-rows-stack">
+                
+                <!-- Project 1: Website Redesign (75%) -->
+                <div class="project-progress-card">
+                  <div class="progress-title-row">
+                    <div class="project-label-group">
+                      <span class="project-dot dot-blue"></span>
+                      <span class="project-title-name">Website Redesign</span>
+                    </div>
+                    <span class="progress-pct-val val-blue">75%</span>
+                  </div>
+                  <div class="progress-track-bar">
+                    <div class="progress-fill-blue" style="width: 75%;"></div>
+                  </div>
+                  <div class="progress-tasks-subtext">
+                    <span>12 of 16 tasks completed</span>
+                    <span class="eta-tag">4 remaining</span>
+                  </div>
+                </div>
+
+                <!-- Project 2: Mobile App (48%) -->
+                <div class="project-progress-card">
+                  <div class="progress-title-row">
+                    <div class="project-label-group">
+                      <span class="project-dot dot-purple"></span>
+                      <span class="project-title-name">Mobile App</span>
+                    </div>
+                    <span class="progress-pct-val val-purple">48%</span>
+                  </div>
+                  <div class="progress-track-bar">
+                    <div class="progress-fill-purple" style="width: 48%;"></div>
+                  </div>
+                  <div class="progress-tasks-subtext">
+                    <span>12 of 25 tasks completed</span>
+                    <span class="eta-tag">13 remaining</span>
+                  </div>
+                </div>
+
+                <!-- Project 3: Marketing Campaign (90%) -->
+                <div class="project-progress-card">
+                  <div class="progress-title-row">
+                    <div class="project-label-group">
+                      <span class="project-dot dot-amber"></span>
+                      <span class="project-title-name">Marketing Campaign</span>
+                    </div>
+                    <span class="progress-pct-val val-amber">90%</span>
+                  </div>
+                  <div class="progress-track-bar">
+                    <div class="progress-fill-amber" style="width: 90%;"></div>
+                  </div>
+                  <div class="progress-tasks-subtext">
+                    <span>18 of 20 tasks completed</span>
+                    <span class="eta-tag">2 remaining</span>
+                  </div>
+                </div>
+
+              </div>
+            </section>
+
+          </div>
+
+          <!-- Section 8: Lower Dashboard Sections (Deadlines & Recent Activity) -->
+          <div class="lower-content-grid">
+            
+            <!-- Panel C — Upcoming Deadlines -->
+            <section class="dashboard-panel panel-deadlines" aria-label="Upcoming Deadlines Panel">
+              <div class="panel-header">
+                <h2 class="panel-title">Upcoming Deadlines</h2>
+                <a href="#calendar" class="panel-link" id="viewCalendarLink">View calendar</a>
+              </div>
+
+              <div class="deadlines-list">
+                
+                <!-- Deadline 1 -->
+                <div class="deadline-row">
+                  <div class="deadline-date-box date-urgent">
+                    <span class="date-box-month">OCT</span>
+                    <span class="date-box-day">11</span>
+                  </div>
+                  <div class="deadline-main-info">
+                    <span class="deadline-task-name">Homepage review</span>
+                    <span class="deadline-project-name">Website Redesign</span>
+                  </div>
+                  <div class="deadline-badge-wrap">
+                    <span class="priority-badge pri-high">High</span>
+                    <span class="due-label label-today">Today</span>
+                  </div>
+                </div>
+
+                <!-- Deadline 2 -->
+                <div class="deadline-row">
+                  <div class="deadline-date-box date-soon">
+                    <span class="date-box-month">OCT</span>
+                    <span class="date-box-day">12</span>
+                  </div>
+                  <div class="deadline-main-info">
+                    <span class="deadline-task-name">API integration</span>
+                    <span class="deadline-project-name">Mobile App</span>
+                  </div>
+                  <div class="deadline-badge-wrap">
+                    <span class="priority-badge pri-med">Medium</span>
+                    <span class="due-label">Tomorrow</span>
+                  </div>
+                </div>
+
+                <!-- Deadline 3 -->
+                <div class="deadline-row">
+                  <div class="deadline-date-box">
+                    <span class="date-box-month">OCT</span>
+                    <span class="date-box-day">16</span>
+                  </div>
+                  <div class="deadline-main-info">
+                    <span class="deadline-task-name">Campaign launch checklist</span>
+                    <span class="deadline-project-name">Marketing Campaign</span>
+                  </div>
+                  <div class="deadline-badge-wrap">
+                    <span class="priority-badge pri-low">Low</span>
+                    <span class="due-label">Oct 16</span>
+                  </div>
+                </div>
+
+              </div>
+            </section>
+
+            <!-- Panel D — Recent Activity -->
+            <section class="dashboard-panel panel-activity" aria-label="Recent Activity Panel">
+              <div class="panel-header">
+                <h2 class="panel-title">Recent Activity</h2>
+                <a href="#view-activity" class="panel-link" id="viewActivityLink">View all</a>
+              </div>
+
+              <div class="activity-feed">
+                
+                <!-- Activity 1 -->
+                <div class="activity-row">
+                  <div class="activity-avatar av-blue">AR</div>
+                  <div class="activity-text-wrap">
+                    <p class="activity-narrative">
+                      <strong>Alex</strong> completed <a href="#task-design-system" class="activity-link">Design system review</a>
+                    </p>
+                    <span class="activity-time">12 minutes ago</span>
+                  </div>
+                </div>
+
+                <!-- Activity 2 -->
+                <div class="activity-row">
+                  <div class="activity-avatar av-purple">SC</div>
+                  <div class="activity-text-wrap">
+                    <p class="activity-narrative">
+                      <strong>Sam</strong> commented on <a href="#task-api-int" class="activity-link">API integration</a>
+                    </p>
+                    <span class="activity-time">1 hour ago</span>
+                  </div>
+                </div>
+
+                <!-- Activity 3 -->
+                <div class="activity-row">
+                  <div class="activity-avatar av-amber">JD</div>
+                  <div class="activity-text-wrap">
+                    <p class="activity-narrative">
+                      <strong>Jordan</strong> updated the <a href="#project-marketing" class="activity-link">Marketing Campaign</a>
+                    </p>
+                    <span class="activity-time">3 hours ago</span>
+                  </div>
+                </div>
+
+              </div>
+            </section>
+
+          </div>
+
+        </div>
+      </main>
+
+    </div>
+
+  </div>
+
+  <!-- =========================================================================
+       Modals for Interactive Actions
+       ========================================================================= -->
+
+  <!-- Modal 1: Create Task Modal -->
+  <div class="app-modal-backdrop" id="createTaskModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="createTaskTitle">
+    <div class="app-modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title" id="createTaskTitle">Create New Task</h3>
+        <button class="modal-close-btn" id="closeCreateTaskModal" aria-label="Close modal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <form class="modal-form" id="createTaskForm">
+        <div class="modal-form-group">
+          <label class="modal-label" for="newTaskTitleInput">Task title <span class="req">*</span></label>
+          <input type="text" id="newTaskTitleInput" class="modal-input" placeholder="e.g. Update typography tokens" required>
+        </div>
+        <div class="modal-form-row">
+          <div class="modal-form-group">
+            <label class="modal-label" for="newTaskProjectSelect">Project</label>
+            <select id="newTaskProjectSelect" class="modal-select">
+              <option value="Website Redesign">Website Redesign</option>
+              <option value="Mobile App">Mobile App</option>
+              <option value="Marketing Campaign">Marketing Campaign</option>
+            </select>
+          </div>
+          <div class="modal-form-group">
+            <label class="modal-label" for="newTaskPrioritySelect">Priority</label>
+            <select id="newTaskPrioritySelect" class="modal-select">
+              <option value="High">High</option>
+              <option value="Medium" selected>Medium</option>
+              <option value="Low">Low</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-form-group">
+          <label class="modal-label" for="newTaskDueDateInput">Due date</label>
+          <input type="date" id="newTaskDueDateInput" class="modal-input">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-modal-secondary" id="cancelCreateTaskBtn">Cancel</button>
+          <button type="submit" class="btn-modal-primary">Create Task</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 2: Create Project Modal -->
+  <div class="app-modal-backdrop" id="createProjectModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="createProjectTitle">
+    <div class="app-modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title" id="createProjectTitle">Create New Project</h3>
+        <button class="modal-close-btn" id="closeCreateProjectModal" aria-label="Close modal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <form class="modal-form" id="createProjectForm">
+        <div class="modal-form-group">
+          <label class="modal-label" for="newProjectNameInput">Project name <span class="req">*</span></label>
+          <input type="text" id="newProjectNameInput" class="modal-input" placeholder="e.g. Design System V2" required>
+        </div>
+        <div class="modal-form-group">
+          <label class="modal-label" for="newProjectColorSelect">Badge color</label>
+          <select id="newProjectColorSelect" class="modal-select">
+            <option value="blue">Blue</option>
+            <option value="purple">Purple</option>
+            <option value="amber">Amber</option>
+            <option value="green">Green</option>
+          </select>
+        </div>
+        <div class="modal-form-group">
+          <label class="modal-label" for="newProjectDescInput">Description</label>
+          <textarea id="newProjectDescInput" class="modal-textarea" rows="3" placeholder="Brief project goal or scope..."></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-modal-secondary" id="cancelCreateProjectBtn">Cancel</button>
+          <button type="submit" class="btn-modal-primary">Create Project</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 3: Task Details Modal -->
+  <div class="app-modal-backdrop" id="taskDetailsModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="detailTaskTitle">
+    <div class="app-modal-card">
+      <div class="modal-header">
+        <div class="detail-header-tags">
+          <span class="detail-project-tag" id="detailProjectTag">Website Redesign</span>
+          <span class="detail-priority-tag pri-high" id="detailPriorityTag">High</span>
+        </div>
+        <button class="modal-close-btn" id="closeTaskDetailsModal" aria-label="Close modal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal-body-detail">
+        <h3 class="detail-title" id="detailTaskTitle">Finalize homepage wireframes</h3>
+        <p class="detail-description" id="detailTaskDescription">
+          Review layout components, navigation flow, and responsive breakpoints with the product team before handover.
+        </p>
+        <div class="detail-meta-grid">
+          <div class="meta-item">
+            <span class="meta-label">Status</span>
+            <span class="meta-val" id="detailStatusVal">In Progress</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Due Date</span>
+            <span class="meta-val" id="detailDueDateVal">Today</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Assignee</span>
+            <span class="meta-val">Your Name (YB)</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-modal-secondary" id="closeDetailBtn">Close</button>
+        <button type="button" class="btn-modal-primary" id="toggleTaskCompletionBtn">Mark as Complete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 4: Logout Confirmation Modal -->
+  <div class="app-modal-backdrop" id="logoutModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="app-modal-card modal-compact">
+      <div class="modal-header">
+        <h3 class="modal-title">Sign Out Confirmation</h3>
+        <button class="modal-close-btn" id="closeLogoutModal" aria-label="Close modal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal-body-detail">
+        <p style="font-size: 0.9375rem; color: var(--color-text-secondary); line-height: 1.6;">
+          Are you sure you want to sign out of your TaskFlow workspace?
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-modal-secondary" id="cancelLogoutBtn">Cancel</button>
+        <a href="login.html" class="btn-modal-danger" id="confirmLogoutLink">Log Out</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="api.js"></script>
+  <script src="websocket.js"></script>
+  <script src="dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects — TaskFlow</title>
+  <meta name="description" content="Organize your work, collaborate with your team, monitor progress, and track every project's progress in TaskFlow.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="projects.css">
+</head>
+<body>
+  <!-- App Layout Container -->
+  <div class="app-layout">
+    
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop" aria-hidden="true"></div>
+
+    <!-- =========================================================================
+         1. Left Sidebar Navigation (240px)
+         ========================================================================= -->
+    <aside class="app-sidebar" id="appSidebar" aria-label="Main Navigation">
+      
+      <!-- Top Brand Logo -->
+      <div class="sidebar-brand-row">
+        <a href="dashboard.html" class="brand-logo" aria-label="TaskFlow Dashboard">
+          <div class="logo-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <span class="brand-name">TaskFlow</span>
+        </a>
+        <button class="mobile-close-sidebar-btn" id="closeSidebarBtn" aria-label="Close sidebar navigation">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <!-- Workspace Selector Dropdown Trigger -->
+      <div class="workspace-selector-wrap">
+        <button class="workspace-selector-btn" id="workspaceBtn" aria-expanded="false" aria-haspopup="true">
+          <div class="workspace-avatar">T</div>
+          <div class="workspace-info">
+            <span class="workspace-label">WORKSPACE</span>
+            <span class="workspace-name" id="currentWorkspaceName">Team Workspace</span>
+          </div>
+          <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+
+        <!-- Workspace Dropdown Menu -->
+        <div class="dropdown-menu workspace-dropdown" id="workspaceDropdown" role="menu">
+          <button class="dropdown-item active" role="menuitem" data-workspace="Team Workspace">
+            <span class="item-dot dot-blue"></span> Team Workspace
+          </button>
+          <button class="dropdown-item" role="menuitem" data-workspace="Personal Workspace">
+            <span class="item-dot dot-purple"></span> Personal Workspace
+          </button>
+          <div class="dropdown-divider"></div>
+          <button class="dropdown-item item-action" id="createWorkspaceOption" role="menuitem">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            <span>Create Workspace</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Navigation Menu -->
+      <nav class="sidebar-nav" aria-label="Workspace Pages">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="dashboard.html" class="nav-link">
+              <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+              <span>Overview</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="my-tasks.html" class="nav-link">
+              <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+              <span>My Tasks</span>
+              <span class="nav-badge" id="sidebarTaskBadge">6</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <!-- ACTIVE: Projects -->
+            <a href="projects.html" class="nav-link active" aria-current="page">
+              <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+              <span>Projects</span>
+              <span class="nav-badge nav-badge-active" id="sidebarProjectsBadge">6</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="dashboard.html#inbox" class="nav-link">
+              <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"></polyline><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path></svg>
+              <span>Inbox</span>
+              <span class="nav-badge badge-unread">3</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="dashboard.html#calendar" class="nav-link">
+              <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              <span>Calendar</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Projects Section -->
+      <div class="sidebar-projects-section">
+        <div class="section-title-row">
+          <span class="section-label">YOUR PROJECTS</span>
+          <button class="mini-icon-btn" id="sidebarAddProjectBtn" title="Create new project" aria-label="Create new project">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          </button>
+        </div>
+        <ul class="projects-list" id="sidebarProjectsList">
+          <li class="project-item">
+            <button class="project-btn" data-project="Website Redesign">
+              <span class="project-dot dot-blue"></span>
+              <span class="project-name">Website Redesign</span>
+            </button>
+          </li>
+          <li class="project-item">
+            <button class="project-btn" data-project="Mobile App">
+              <span class="project-dot dot-purple"></span>
+              <span class="project-name">Mobile App</span>
+            </button>
+          </li>
+          <li class="project-item">
+            <button class="project-btn" data-project="Marketing Campaign">
+              <span class="project-dot dot-amber"></span>
+              <span class="project-name">Marketing Campaign</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Bottom Sidebar Controls -->
+      <div class="sidebar-bottom-controls">
+        <ul class="bottom-nav-list">
+          <li>
+            <button class="bottom-nav-btn" id="sidebarSettingsBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+              <span>Settings</span>
+            </button>
+          </li>
+          <li>
+            <button class="bottom-nav-btn" id="sidebarHelpBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+              <span>Help & Support</span>
+            </button>
+          </li>
+        </ul>
+
+        <!-- User Profile Pill -->
+        <div class="user-profile-wrap">
+          <button class="user-profile-btn" id="profileBtn" aria-expanded="false" aria-haspopup="true">
+            <div class="user-avatar" id="sidebarAvatar">YB</div>
+            <div class="user-meta">
+              <span class="user-name" id="sidebarUserName">Your Name</span>
+              <span class="user-role">Team Member</span>
+            </div>
+            <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+
+          <!-- User Profile Dropdown -->
+          <div class="dropdown-menu profile-dropdown" id="profileDropdown" role="menu">
+            <div class="profile-dropdown-header">
+              <span class="user-name-full">Your Name</span>
+              <span class="user-email-full">your.email@workspace.com</span>
+            </div>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item" id="menuMyProfile" role="menuitem">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              <span>My Profile</span>
+            </button>
+            <button class="dropdown-item" id="menuAccountSettings" role="menuitem">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+              <span>Account Settings</span>
+            </button>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item item-danger" id="menuLogOut" role="menuitem">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+              <span>Log Out</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- =========================================================================
+         2. Main Application Area (Header + Workspace)
+         ========================================================================= -->
+    <div class="app-main">
+      
+      <!-- Top Header (72px) -->
+      <header class="app-header">
+        
+        <!-- Left: Hamburger (Mobile) + Breadcrumb -->
+        <div class="header-left">
+          <button class="mobile-hamburger-btn" id="mobileHamburgerBtn" aria-label="Open sidebar menu">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+          <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+            <span class="breadcrumb-root">Workspace</span>
+            <span class="breadcrumb-sep">/</span>
+            <span class="breadcrumb-current">Projects</span>
+          </nav>
+        </div>
+
+        <!-- Center: Search Field -->
+        <div class="header-center">
+          <div class="search-input-wrapper">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input 
+              type="search" 
+              id="globalSearchInput" 
+              class="global-search-input" 
+              placeholder="Search projects, tasks, or people…"
+              aria-label="Search projects, tasks, or people"
+              autocomplete="off"
+            >
+            <kbd class="search-shortcut" title="Press Ctrl+K to search">Ctrl K</kbd>
+
+            <!-- Search Results Dropdown -->
+            <div class="search-results-dropdown" id="searchResultsDropdown" role="listbox">
+              <div class="search-results-header">Matching Projects & Work items</div>
+              <div class="search-results-list" id="searchResultsList"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Actions & User Controls -->
+        <div class="header-right">
+          
+          <!-- Create New Button + Menu -->
+          <div class="create-new-wrap">
+            <button class="btn-create-new" id="createNewBtn" aria-expanded="false" aria-haspopup="true">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <span>Create New</span>
+            </button>
+            <div class="dropdown-menu create-dropdown" id="createDropdown" role="menu">
+              <button class="dropdown-item" id="actionCreateTask" role="menuitem">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                <span>Create Task</span>
+              </button>
+              <button class="dropdown-item" id="actionCreateProject" role="menuitem">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                <span>Create Project</span>
+              </button>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item" id="actionInviteMember" role="menuitem">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+                <span>Invite Team Member</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Notification Bell -->
+          <div class="notification-wrap">
+            <button class="header-icon-btn" id="notificationsBtn" aria-label="Notifications" aria-expanded="false">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+              <span class="notification-indicator" id="notifBadge"></span>
+            </button>
+            <div class="dropdown-menu notif-dropdown" id="notifDropdown">
+              <div class="notif-dropdown-header">
+                <span class="notif-title">Notifications</span>
+                <button class="notif-mark-read-btn" id="markAllReadBtn">Mark all read</button>
+              </div>
+              <ul class="notif-list" id="notifList">
+                <li class="notif-item unread">
+                  <div class="notif-avatar av-blue">SC</div>
+                  <div class="notif-text-wrap">
+                    <p class="notif-text"><strong>Sarah Chen</strong> added you to <em>Design System</em> project</p>
+                    <span class="notif-time">25m ago</span>
+                  </div>
+                </li>
+                <li class="notif-item unread">
+                  <div class="notif-avatar av-purple">JD</div>
+                  <div class="notif-text-wrap">
+                    <p class="notif-text"><strong>Jordan Davis</strong> completed sprint milestone for <em>Mobile App</em></p>
+                    <span class="notif-time">2h ago</span>
+                  </div>
+                </li>
+                <li class="notif-item">
+                  <div class="notif-avatar av-amber">AL</div>
+                  <div class="notif-text-wrap">
+                    <p class="notif-text"><strong>Alex Rivera</strong> marked <em>Marketing Campaign</em> as At Risk</p>
+                    <span class="notif-time">5h ago</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Help Icon -->
+          <div class="help-wrap">
+            <button class="header-icon-btn" id="helpHeaderBtn" aria-label="Help and resources" aria-expanded="false">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            </button>
+            <div class="dropdown-menu help-dropdown" id="helpDropdown">
+              <div class="dropdown-header-sm">Help & Resources</div>
+              <a href="#" class="dropdown-item" id="helpDocsOption">
+                <span>Projects Documentation</span>
+              </a>
+              <a href="#" class="dropdown-item" id="helpShortcutsOption">
+                <span>Keyboard Shortcuts</span>
+              </a>
+              <a href="#" class="dropdown-item" id="helpContactOption">
+                <span>Contact Project Support</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- User Avatar Icon -->
+          <button class="header-avatar-btn" id="headerAvatarBtn" aria-label="User profile menu">
+            <span>YB</span>
+          </button>
+
+        </div>
+      </header>
+
+      <!-- =======================================================================
+           3. Main Workspace Area (Scrollable)
+           ======================================================================= -->
+      <main class="workspace-scroll-area">
+        <div class="workspace-container">
+          
+          <!-- Section 5: Page Heading and Action Controls -->
+          <section class="projects-heading-row">
+            <div class="heading-text-group">
+              <h1 class="page-title">Projects</h1>
+              <p class="page-subtitle">Organize your work, collaborate with your team, and track every project's progress.</p>
+            </div>
+            
+            <div class="heading-controls-group">
+              <!-- Compact View Toggle in Header Area -->
+              <div class="view-toggle-mini-group" role="radiogroup" aria-label="Project view mode">
+                <button class="view-toggle-mini-btn active" id="headerGridViewBtn" title="Grid View" role="radio" aria-checked="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                </button>
+                <button class="view-toggle-mini-btn" id="headerListViewBtn" title="List View" role="radio" aria-checked="false">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                </button>
+              </div>
+
+              <!-- Filter Quick Button -->
+              <button class="btn-filter-quick" id="quickFilterBtn" title="Quick filter projects">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+                <span>Filter</span>
+              </button>
+
+              <!-- Prominent + New Project Button -->
+              <button class="btn-primary-add" id="newProjectHeaderBtn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                <span>+ New Project</span>
+              </button>
+            </div>
+          </section>
+
+          <!-- Section 6: Project Summary Cards (Row of 4) -->
+          <section class="summary-cards-grid" aria-label="Project Summary Metrics">
+            
+            <!-- Card 1: Total Projects -->
+            <div class="summary-card" data-filter-status="all" role="button" tabindex="0" title="Click to view all projects">
+              <div class="card-icon-wrap icon-bg-blue">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+              </div>
+              <div class="card-info">
+                <span class="card-label">Total Projects</span>
+                <span class="card-count" id="countTotalProjects">12</span>
+                <span class="card-subtext">Across workspace</span>
+              </div>
+            </div>
+
+            <!-- Card 2: Active Projects -->
+            <div class="summary-card" data-filter-status="Active" role="button" tabindex="0" title="Click to filter Active projects">
+              <div class="card-icon-wrap icon-bg-purple">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+              </div>
+              <div class="card-info">
+                <span class="card-label">Active Projects</span>
+                <span class="card-count count-purple" id="countActiveProjects">08</span>
+                <span class="card-subtext">In progress</span>
+              </div>
+            </div>
+
+            <!-- Card 3: Completed -->
+            <div class="summary-card" data-filter-status="Completed" role="button" tabindex="0" title="Click to filter Completed projects">
+              <div class="card-icon-wrap icon-bg-green">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+              </div>
+              <div class="card-info">
+                <span class="card-label">Completed</span>
+                <span class="card-count count-green" id="countCompletedProjects">03</span>
+                <span class="card-subtext">Successfully shipped</span>
+              </div>
+            </div>
+
+            <!-- Card 4: At Risk -->
+            <div class="summary-card" data-filter-status="At Risk" role="button" tabindex="0" title="Click to filter At Risk projects">
+              <div class="card-icon-wrap icon-bg-amber">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+              </div>
+              <div class="card-info">
+                <span class="card-label">At Risk</span>
+                <span class="card-count count-amber" id="countAtRiskProjects">01</span>
+                <span class="card-subtext">Requires immediate review</span>
+              </div>
+            </div>
+
+          </section>
+
+          <!-- Section 7: Project Navigation Tabs -->
+          <nav class="project-tabs-bar" aria-label="Project View Filter Tabs">
+            <button class="tab-btn active" data-tab="all" id="tabAllProjects">All Projects</button>
+            <button class="tab-btn" data-tab="my" id="tabMyProjects">My Projects</button>
+            <button class="tab-btn" data-tab="shared" id="tabSharedWithMe">Shared with Me</button>
+            <button class="tab-btn" data-tab="archived" id="tabArchived">Archived</button>
+          </nav>
+
+          <!-- Section 8: Search and Filter Toolbar -->
+          <section class="project-toolbar-row" aria-label="Project Filter and View Controls">
+            
+            <div class="toolbar-left-filters">
+              <!-- Search within projects -->
+              <div class="filter-search-box">
+                <svg class="filter-search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input 
+                  type="text" 
+                  id="projectSearchFilterInput" 
+                  class="filter-search-input" 
+                  placeholder="Search projects..." 
+                  aria-label="Search projects"
+                >
+              </div>
+
+              <!-- Status Filter Dropdown -->
+              <div class="select-wrap">
+                <select id="statusFilterSelect" class="toolbar-select" aria-label="Filter by project status">
+                  <option value="all">All Statuses</option>
+                  <option value="Active">Active</option>
+                  <option value="Planning">Planning</option>
+                  <option value="Completed">Completed</option>
+                  <option value="At Risk">At Risk</option>
+                </select>
+              </div>
+
+              <!-- Team Filter Dropdown -->
+              <div class="select-wrap">
+                <select id="teamFilterSelect" class="toolbar-select" aria-label="Filter by project team">
+                  <option value="all">All Teams</option>
+                  <option value="Product">Product</option>
+                  <option value="Engineering">Engineering</option>
+                  <option value="Marketing">Marketing</option>
+                  <option value="Design">Design</option>
+                </select>
+              </div>
+
+              <!-- Sort Control -->
+              <div class="select-wrap sort-wrap">
+                <select id="sortControlSelect" class="toolbar-select" aria-label="Sort projects">
+                  <option value="recent">Recently Updated</option>
+                  <option value="name">Name A–Z</option>
+                  <option value="due">Due Date</option>
+                  <option value="progress">Progress</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- View Controls (Grid View vs List View) -->
+            <div class="view-toggle-group" role="radiogroup" aria-label="View toggle">
+              <button class="view-toggle-btn active" id="gridViewToggleBtn" role="radio" aria-checked="true" title="Grid View">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                <span>Grid</span>
+              </button>
+              <button class="view-toggle-btn" id="listViewToggleBtn" role="radio" aria-checked="false" title="List View">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                <span>List</span>
+              </button>
+            </div>
+
+          </section>
+
+          <!-- Section 9: Main Projects Content Container -->
+          <div class="main-projects-panel" id="mainProjectsPanel">
+            
+            <!-- GRID VIEW (Default) -->
+            <div class="projects-grid-wrapper" id="projectsGridWrapper">
+              <div class="projects-cards-grid" id="projectsCardsGrid">
+                <!-- Dynamically rendered project cards -->
+              </div>
+            </div>
+
+            <!-- LIST VIEW (Structured Table) -->
+            <div class="projects-table-wrapper" id="projectsTableWrapper" style="display: none;">
+              <table class="projects-table" id="projectsTable" aria-label="Projects overview table">
+                <thead>
+                  <tr>
+                    <th scope="col" class="th-project-name">Project</th>
+                    <th scope="col" class="th-status">Status</th>
+                    <th scope="col" class="th-progress">Progress</th>
+                    <th scope="col" class="th-team">Team</th>
+                    <th scope="col" class="th-due">Due Date</th>
+                    <th scope="col" class="th-updated">Last Updated</th>
+                    <th scope="col" class="th-actions">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="projectsTableBody">
+                  <!-- Dynamic project table rows -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Empty State Container -->
+            <div class="empty-state-card" id="emptyStateContainer" style="display: none;">
+              <div class="empty-icon-box">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+              </div>
+              <h3 class="empty-title">No projects found</h3>
+              <p class="empty-desc">Try changing your filters or create a new project to start collaborating with your team.</p>
+              <button class="btn-primary-add" id="emptyCreateProjectBtn">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                <span>Create Project</span>
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+      </main>
+
+    </div>
+
+  </div>
+
+  <!-- =========================================================================
+       11. Create / Edit Project Modal
+       ========================================================================= -->
+  <div class="app-modal-backdrop" id="projectModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modalProjectHeading">
+    <div class="app-modal-card modal-project-size">
+      
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title" id="modalProjectHeading">Create New Project</h3>
+          <p class="modal-subtitle" id="modalProjectSubheading">Bring your team together around a shared goal.</p>
+        </div>
+        <button class="modal-close-btn" id="closeProjectModalBtn" aria-label="Close modal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <form class="modal-form" id="projectForm">
+        <input type="hidden" id="projectFormId" value="">
+
+        <!-- Project Name -->
+        <div class="modal-form-group">
+          <label class="modal-label" for="projectNameInput">Project Name <span class="req">*</span></label>
+          <input 
+            type="text" 
+            id="projectNameInput" 
+            class="modal-input" 
+            placeholder="Enter project name" 
+            required
+          >
+        </div>
+
+        <!-- Description -->
+        <div class="modal-form-group">
+          <label class="modal-label" for="projectDescInput">Description</label>
+          <textarea 
+            id="projectDescInput" 
+            class="modal-textarea" 
+            rows="3" 
+            placeholder="What is this project about?"
+          ></textarea>
+        </div>
+
+        <!-- Project Color Picker -->
+        <div class="modal-form-group">
+          <label class="modal-label">Project Color</label>
+          <div class="color-picker-group" role="radiogroup" aria-label="Project color selection">
+            <label class="color-choice-label">
+              <input type="radio" name="projectColor" value="blue" checked class="color-choice-radio">
+              <span class="color-choice-pill color-blue" title="Blue"></span>
+            </label>
+            <label class="color-choice-label">
+              <input type="radio" name="projectColor" value="purple" class="color-choice-radio">
+              <span class="color-choice-pill color-purple" title="Purple"></span>
+            </label>
+            <label class="color-choice-label">
+              <input type="radio" name="projectColor" value="amber" class="color-choice-radio">
+              <span class="color-choice-pill color-amber" title="Amber"></span>
+            </label>
+            <label class="color-choice-label">
+              <input type="radio" name="projectColor" value="green" class="color-choice-radio">
+              <span class="color-choice-pill color-green" title="Green"></span>
+            </label>
+            <label class="color-choice-label">
+              <input type="radio" name="projectColor" value="teal" class="color-choice-radio">
+              <span class="color-choice-pill color-teal" title="Teal"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Status & Team Row -->
+        <div class="modal-form-row">
+          <div class="modal-form-group">
+            <label class="modal-label" for="projectStatusSelect">Project Status</label>
+            <select id="projectStatusSelect" class="modal-select">
+              <option value="Planning">Planning</option>
+              <option value="Active" selected>Active</option>
+              <option value="Completed">Completed</option>
+              <option value="At Risk">At Risk</option>
+            </select>
+          </div>
+          <div class="modal-form-group">
+            <label class="modal-label" for="projectTeamSelect">Team Department</label>
+            <select id="projectTeamSelect" class="modal-select">
+              <option value="Product">Product</option>
+              <option value="Design">Design</option>
+              <option value="Engineering">Engineering</option>
+              <option value="Marketing">Marketing</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Start Date & Due Date Row -->
+        <div class="modal-form-row">
+          <div class="modal-form-group">
+            <label class="modal-label" for="projectStartDateInput">Start Date</label>
+            <input type="date" id="projectStartDateInput" class="modal-input" value="2026-10-01">
+          </div>
+          <div class="modal-form-group">
+            <label class="modal-label" for="projectDueDateInput">Due Date <span class="req">*</span></label>
+            <input type="date" id="projectDueDateInput" class="modal-input" required value="2026-10-25">
+          </div>
+        </div>
+
+        <!-- Team Members Selector -->
+        <div class="modal-form-group">
+          <label class="modal-label" for="projectMembersSelect">Team Members</label>
+          <select id="projectMembersSelect" class="modal-select">
+            <option value="Core Team (AJ, SK, ML)">Core Team (AJ, SK, ML)</option>
+            <option value="Design Team (AJ, SK)">Design Team (AJ, SK)</option>
+            <option value="Engineering Team (SK, ML, YB)">Engineering Team (SK, ML, YB)</option>
+            <option value="Full Workspace (All Members)">Full Workspace (All Members)</option>
+          </select>
+          <span class="modal-field-hint">Team members will automatically receive workspace notifications.</span>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-modal-secondary" id="cancelProjectModalBtn">Cancel</button>
+          <button type="submit" class="btn-modal-primary" id="saveProjectModalBtn">Create Project</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- Manage Members Modal -->
+  <div class="app-modal-backdrop" id="membersModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="app-modal-card modal-compact">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title">Manage Members</h3>
+          <p class="modal-subtitle" id="membersProjectSubtitle">Website Redesign</p>
+        </div>
+        <button class="modal-close-btn" id="closeMembersModalBtn" aria-label="Close modal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal-body-detail">
+        <div class="invite-member-input-row">
+          <input type="email" id="inviteMemberInput" class="modal-input" placeholder="colleague@taskflow.app">
+          <button type="button" class="btn-modal-primary" id="inviteMemberBtn" style="padding: 8px 14px;">Invite</button>
+        </div>
+        <div class="members-list-wrapper" id="membersListWrapper">
+          <div class="member-row-item">
+            <div class="member-avatar av-blue">AJ</div>
+            <div class="member-info">
+              <span class="member-name">Alex Johnson</span>
+              <span class="member-email">alex.j@taskflow.app</span>
+            </div>
+            <span class="member-role-badge">Lead</span>
+          </div>
+          <div class="member-row-item">
+            <div class="member-avatar av-purple">SK</div>
+            <div class="member-info">
+              <span class="member-name">Sarah Kim</span>
+              <span class="member-email">sarah.k@taskflow.app</span>
+            </div>
+            <span class="member-role-badge">Editor</span>
+          </div>
+          <div class="member-row-item">
+            <div class="member-avatar av-green">ML</div>
+            <div class="member-info">
+              <span class="member-name">Marcus Lee</span>
+              <span class="member-email">marcus.l@taskflow.app</span>
+            </div>
+            <span class="member-role-badge">Viewer</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-modal-secondary" id="closeMembersDoneBtn">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Project Confirmation Modal -->
+  <div class="app-modal-backdrop" id="deleteProjectModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="app-modal-card modal-compact">
+      <div class="modal-header">
+        <h3 class="modal-title">Delete Project Confirmation</h3>
+        <button class="modal-close-btn" id="closeDeleteModalBtn" aria-label="Close modal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal-body-detail">
+        <p style="font-size: 0.92rem; color: var(--color-body); line-height: 1.5;">
+          Are you sure you want to delete <strong id="deleteProjectTargetName">this project</strong>? All associated tasks and documents will be removed from the workspace.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-modal-secondary" id="cancelDeleteProjectBtn">Cancel</button>
+        <button type="button" class="btn-modal-danger" id="confirmDeleteProjectBtn">Delete Project</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Archive Project Confirmation Modal -->
+  <div class="app-modal-backdrop" id="archiveProjectModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="app-modal-card modal-compact">
+      <div class="modal-header">
+        <h3 class="modal-title">Archive Project Confirmation</h3>
+        <button class="modal-close-btn" id="closeArchiveModalBtn" aria-label="Close modal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal-body-detail">
+        <p style="font-size: 0.92rem; color: var(--color-body); line-height: 1.5;">
+          Archive <strong id="archiveProjectTargetName">this project</strong>? It will be moved to the Archived tab and remain available for reference.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-modal-secondary" id="cancelArchiveProjectBtn">Cancel</button>
+        <button type="button" class="btn-modal-primary" id="confirmArchiveProjectBtn">Archive Project</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="api.js"></script>
+  <script src="websocket.js"></script>
+  <script src="projects.js"></script>
+</body>
+</html>

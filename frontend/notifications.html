@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notifications — TaskFlow</title>
+  <meta name="description" content="Stay up to date with your tasks, project activities, comments, mentions, deadlines, and team collaboration in TaskFlow.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="notifications.css">
+</head>
+<body>
+  <!-- App Layout Container -->
+  <div class="app-layout">
+    
+    <!-- Mobile Sidebar Backdrop -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop" aria-hidden="true"></div>
+
+    <!-- =========================================================================
+         1. Left Navigation Sidebar (240px)
+         ========================================================================= -->
+    <aside class="app-sidebar" id="appSidebar" aria-label="Main Navigation">
+      
+      <!-- Top Brand Logo -->
+      <div class="sidebar-brand-row">
+        <a href="dashboard.html" class="brand-logo" aria-label="TaskFlow Dashboard">
+          <div class="logo-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <span class="brand-name">TaskFlow</span>
+        </a>
+        <button class="mobile-close-sidebar-btn" id="closeSidebarBtn" aria-label="Close sidebar navigation">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <!-- Workspace Selector Dropdown Trigger -->
+      <div class="workspace-selector-wrap">
+        <button class="workspace-selector-btn" id="workspaceBtn" aria-expanded="false" aria-haspopup="true">
+          <div class="workspace-avatar">T</div>
+          <div class="workspace-info">
+            <span class="workspace-label">WORKSPACE</span>
+            <span class="workspace-name" id="currentWorkspaceName">Team Workspace</span>
+          </div>
+          <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+
+        <!-- Workspace Dropdown Menu -->
+        <div class="dropdown-menu workspace-dropdown" id="workspaceDropdown" role="menu">
+          <button class="dropdown-item active" role="menuitem" data-workspace="Team Workspace">
+            <span class="item-dot dot-blue"></span> Team Workspace
+          </button>
+          <button class="dropdown-item" role="menuitem" data-workspace="Personal Workspace">
+            <span class="item-dot dot-purple"></span> Personal Workspace
+          </button>
+          <div class="dropdown-divider"></div>
+          <button class="dropdown-item item-action" id="createWorkspaceOption" role="menuitem">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            <span>Create Workspace</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Navigation Menu (Exact Established Order) -->
+      <nav class="sidebar-nav" aria-label="Workspace Pages">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="dashboard.html" class="nav-link">
+              <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+              <span>Overview</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="my-tasks.html" class="nav-link">
+              <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+              <span>My Tasks</span>
+              <span class="nav-badge" id="sidebarTaskBadge">6</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="projects.html" class="nav-link">
+              <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+              <span>Projects</span>
+              <span class="nav-badge" id="sidebarProjectsBadge">6</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="inbox.html" class="nav-link">
+              <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"></polyline><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path></svg>
+              <span>Inbox</span>
+              <span class="nav-badge badge-unread" id="sidebarInboxBadge">3</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="calendar.html" class="nav-link">
+              <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              <span>Calendar</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Auxiliary Navigation (Starred, Settings, Help) -->
+      <div class="sidebar-secondary-nav">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <button class="nav-link-btn" id="sidebarStarredBtn">
+              <svg class="nav-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+              <span>Starred</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Bottom Sidebar Controls -->
+      <div class="sidebar-bottom-controls">
+        <ul class="bottom-nav-list">
+          <li>
+            <button class="bottom-nav-btn" id="sidebarSettingsBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+              <span>Settings</span>
+            </button>
+          </li>
+          <li>
+            <button class="bottom-nav-btn" id="sidebarHelpBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+              <span>Help & Support</span>
+            </button>
+          </li>
+        </ul>
+
+        <!-- User Profile Pill -->
+        <div class="user-profile-wrap">
+          <button class="user-profile-btn" id="profileBtn" aria-expanded="false" aria-haspopup="true">
+            <div class="user-avatar" id="sidebarAvatar">YB</div>
+            <div class="user-meta">
+              <span class="user-name" id="sidebarUserName">Your Name</span>
+              <span class="user-role">Team Member</span>
+            </div>
+            <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+
+          <!-- User Profile Dropdown -->
+          <div class="dropdown-menu profile-dropdown" id="profileDropdown" role="menu">
+            <div class="profile-dropdown-header">
+              <span class="user-name-full">Your Name</span>
+              <span class="user-email-full">your.email@workspace.com</span>
+            </div>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item" id="menuMyProfile" role="menuitem">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              <span>My Profile</span>
+            </button>
+            <button class="dropdown-item" id="menuAccountSettings" role="menuitem">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+              <span>Account Settings</span>
+            </button>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item item-danger" id="menuLogOut" role="menuitem">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+              <span>Log Out</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- =========================================================================
+         2. Main Application Area (Header + Notifications Workspace)
+         ========================================================================= -->
+    <div class="app-main">
+      
+      <!-- Top Header (72px) -->
+      <header class="app-header">
+        
+        <!-- Left: Hamburger (Mobile) + Breadcrumb & Title -->
+        <div class="header-left">
+          <button class="mobile-hamburger-btn" id="mobileHamburgerBtn" aria-label="Open sidebar menu">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+          <div class="header-title-block">
+            <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+              <span class="breadcrumb-root">Workspace</span>
+              <span class="breadcrumb-sep">/</span>
+              <span class="breadcrumb-current">Notifications</span>
+            </nav>
+            <div class="header-sub-row">
+              <h1 class="header-main-title">Notifications</h1>
+              <span class="header-subtitle">Stay up to date with your tasks, projects, and team.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Center: Search Input -->
+        <div class="header-center">
+          <div class="search-input-wrapper">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input 
+              type="search" 
+              id="globalSearchInput" 
+              class="global-search-input" 
+              placeholder="Search notifications, tasks, or teammates…"
+              aria-label="Search notifications"
+              autocomplete="off"
+            >
+            <kbd class="search-shortcut" title="Press Ctrl+K to search">Ctrl K</kbd>
+
+            <!-- Search Dropdown Results -->
+            <div class="search-results-dropdown" id="searchResultsDropdown" role="listbox">
+              <div class="search-results-header">Matching Notifications</div>
+              <div class="search-results-list" id="searchResultsList"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Actions & Controls -->
+        <div class="header-right">
+          
+          <!-- Notifications Bell (Active Destination) -->
+          <div class="notification-wrap">
+            <button class="header-icon-btn active" id="notificationsBellBtn" aria-label="Notifications" title="Notifications page">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+              <span class="notification-indicator" id="headerNotifBadge"></span>
+            </button>
+          </div>
+
+          <!-- Help Icon -->
+          <div class="help-wrap">
+            <button class="header-icon-btn" id="helpHeaderBtn" aria-label="Help and resources" aria-expanded="false">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            </button>
+            <div class="dropdown-menu help-dropdown" id="helpDropdown">
+              <div class="dropdown-header-sm">Help & Resources</div>
+              <a href="#" class="dropdown-item" id="helpDocsOption">
+                <span>Notification Settings Guide</span>
+              </a>
+              <a href="#" class="dropdown-item" id="helpShortcutsOption">
+                <span>Keyboard Shortcuts (A for All, U for Unread)</span>
+              </a>
+              <a href="#" class="dropdown-item" id="helpContactOption">
+                <span>Contact Workspace Support</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- User Avatar Icon -->
+          <button class="header-avatar-btn" id="headerAvatarBtn" aria-label="User profile menu">
+            <span>YB</span>
+          </button>
+
+        </div>
+      </header>
+
+      <!-- =======================================================================
+           3. Main Notifications Workspace
+           ======================================================================= -->
+      <main class="workspace-scroll-area">
+        <div class="workspace-container">
+          
+          <!-- Section 6: Page Heading and Actions -->
+          <section class="notifications-heading-row">
+            <div class="heading-text-group">
+              <h2 class="page-title">Notifications</h2>
+              <p class="page-subtitle">Stay up to date with your tasks, projects, and team.</p>
+            </div>
+
+            <div class="heading-actions-group">
+              <button class="btn-secondary-action" id="markAllReadBtn" title="Mark all notifications as read">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Mark all as read</span>
+              </button>
+
+              <button class="btn-settings-action" id="openSettingsModalBtn" title="Configure notification delivery preferences">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                <span>Notification settings</span>
+              </button>
+            </div>
+          </section>
+
+          <!-- Section 6: Three Summary Metric Cards -->
+          <section class="summary-cards-row" aria-label="Notification Overview Metrics">
+            
+            <!-- Card 1: All Notifications -->
+            <div class="summary-card" data-summary-filter="all" role="button" tabindex="0" title="View all notifications">
+              <div class="card-icon-wrap icon-bg-blue">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+              </div>
+              <div class="card-info">
+                <span class="card-label">All notifications</span>
+                <span class="card-count" id="countAllNotifs">06</span>
+                <span class="card-subtext">Total activity</span>
+              </div>
+            </div>
+
+            <!-- Card 2: Unread -->
+            <div class="summary-card" data-summary-filter="unread" role="button" tabindex="0" title="Filter unread notifications">
+              <div class="card-icon-wrap icon-bg-amber">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
+              </div>
+              <div class="card-info">
+                <span class="card-label">Unread</span>
+                <span class="card-count count-unread" id="countUnreadNotifs">03</span>
+                <span class="card-subtext">Requires review</span>
+              </div>
+            </div>
+
+            <!-- Card 3: Today -->
+            <div class="summary-card" data-summary-filter="today" role="button" tabindex="0" title="Filter today's notifications">
+              <div class="card-icon-wrap icon-bg-green">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              </div>
+              <div class="card-info">
+                <span class="card-label">Today</span>
+                <span class="card-count count-today" id="countTodayNotifs">04</span>
+                <span class="card-subtext">Received today</span>
+              </div>
+            </div>
+
+          </section>
+
+          <!-- Section 7: Notification Toolbar -->
+          <section class="notification-toolbar-panel" aria-label="Notification Filters and Sorting">
+            
+            <!-- Left Filter Tabs -->
+            <div class="filter-tabs-cluster" role="tablist" aria-label="Notification category filter">
+              <button class="filter-tab-btn active" data-filter="all" role="tab" aria-selected="true" id="tabAll">
+                <span>All</span>
+                <span class="tab-badge" id="badgeAll">6</span>
+              </button>
+              <button class="filter-tab-btn" data-filter="unread" role="tab" aria-selected="false" id="tabUnread">
+                <span>Unread</span>
+                <span class="tab-badge badge-amber" id="badgeUnread">3</span>
+              </button>
+              <button class="filter-tab-btn" data-filter="mentions" role="tab" aria-selected="false" id="tabMentions">
+                <span>Mentions</span>
+                <span class="tab-badge" id="badgeMentions">1</span>
+              </button>
+              <button class="filter-tab-btn" data-filter="tasks" role="tab" aria-selected="false" id="tabTasks">
+                <span>Tasks</span>
+                <span class="tab-badge" id="badgeTasks">3</span>
+              </button>
+              <button class="filter-tab-btn" data-filter="projects" role="tab" aria-selected="false" id="tabProjects">
+                <span>Projects</span>
+                <span class="tab-badge" id="badgeProjects">2</span>
+              </button>
+            </div>
+
+            <!-- Right Toolbar Controls (Search, Sort, Refresh) -->
+            <div class="toolbar-controls-cluster">
+              
+              <!-- In-Page Search Field -->
+              <div class="feed-search-box">
+                <svg class="feed-search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input 
+                  type="text" 
+                  id="feedSearchInput" 
+                  class="feed-search-input" 
+                  placeholder="Filter notifications…" 
+                  aria-label="Filter notifications"
+                >
+                <button class="clear-search-btn" id="clearSearchBtn" aria-label="Clear filter search" style="display: none;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+              </div>
+
+              <!-- Sort Dropdown -->
+              <div class="toolbar-select-wrap">
+                <svg class="select-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+                <select id="feedSortSelect" class="toolbar-select" aria-label="Sort notification order">
+                  <option value="newest">Newest first</option>
+                  <option value="oldest">Oldest first</option>
+                </select>
+              </div>
+
+              <!-- Refresh Button -->
+              <button class="btn-icon-refresh" id="refreshFeedBtn" title="Refresh notification feed" aria-label="Refresh notification feed">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+              </button>
+
+            </div>
+
+          </section>
+
+          <!-- ===================================================================
+               Section 8: Main Notification Feed Panel
+               =================================================================== -->
+          <div class="notifications-feed-card" id="feedCard">
+            
+            <!-- Feed Scroll Container -->
+            <div class="feed-scroll-container" id="feedScrollContainer">
+              <!-- Dynamically populated date-grouped notifications -->
+            </div>
+
+            <!-- Empty State Container (Hidden by default) -->
+            <div class="feed-empty-state" id="feedEmptyState" style="display: none;">
+              <!-- Dynamically filled depending on empty reason -->
+            </div>
+
+          </div>
+
+        </div>
+      </main>
+
+    </div>
+
+  </div>
+
+  <!-- =========================================================================
+       11. Notification Settings Modal
+       ========================================================================= -->
+  <div class="app-modal-backdrop" id="settingsModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="settingsModalHeading">
+    <div class="app-modal-card modal-settings-size">
+      
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title" id="settingsModalHeading">Notification Settings</h3>
+          <p class="modal-subtitle">Configure your in-app and email delivery preferences across TaskFlow.</p>
+        </div>
+        <button class="modal-close-btn" id="closeSettingsModalBtn" aria-label="Close settings modal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <form id="settingsForm" class="modal-body-form">
+        
+        <!-- Channels Legend Header -->
+        <div class="settings-table-header">
+          <span class="settings-col-title">Activity Trigger</span>
+          <div class="settings-col-channels">
+            <span class="col-tag">In-App</span>
+            <span class="col-tag">Email</span>
+          </div>
+        </div>
+
+        <div class="settings-options-list">
+          
+          <!-- Preference 1: Task assignments -->
+          <div class="setting-row">
+            <div class="setting-meta">
+              <span class="setting-name">Task assignments</span>
+              <span class="setting-desc">When you are assigned to a new task or subtask.</span>
+            </div>
+            <div class="setting-toggles">
+              <label class="switch-control" title="Enable in-app notification">
+                <input type="checkbox" id="pref_task_assigned_inapp" checked>
+                <span class="switch-slider"></span>
+              </label>
+              <label class="switch-control" title="Enable email notification">
+                <input type="checkbox" id="pref_task_assigned_email" checked>
+                <span class="switch-slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Preference 2: Task status changes -->
+          <div class="setting-row">
+            <div class="setting-meta">
+              <span class="setting-name">Task status changes</span>
+              <span class="setting-desc">When a task you created or follow changes progress stage.</span>
+            </div>
+            <div class="setting-toggles">
+              <label class="switch-control">
+                <input type="checkbox" id="pref_status_change_inapp" checked>
+                <span class="switch-slider"></span>
+              </label>
+              <label class="switch-control">
+                <input type="checkbox" id="pref_status_change_email">
+                <span class="switch-slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Preference 3: Comments and replies -->
+          <div class="setting-row">
+            <div class="setting-meta">
+              <span class="setting-name">Comments and replies</span>
+              <span class="setting-desc">When someone replies to your comment or adds notes to your tasks.</span>
+            </div>
+            <div class="setting-toggles">
+              <label class="switch-control">
+                <input type="checkbox" id="pref_comments_inapp" checked>
+                <span class="switch-slider"></span>
+              </label>
+              <label class="switch-control">
+                <input type="checkbox" id="pref_comments_email" checked>
+                <span class="switch-slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Preference 4: Mentions -->
+          <div class="setting-row">
+            <div class="setting-meta">
+              <span class="setting-name">Mentions (@you)</span>
+              <span class="setting-desc">When a teammate specifically mentions you in comments or chats.</span>
+            </div>
+            <div class="setting-toggles">
+              <label class="switch-control">
+                <input type="checkbox" id="pref_mentions_inapp" checked>
+                <span class="switch-slider"></span>
+              </label>
+              <label class="switch-control">
+                <input type="checkbox" id="pref_mentions_email" checked>
+                <span class="switch-slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Preference 5: Project updates -->
+          <div class="setting-row">
+            <div class="setting-meta">
+              <span class="setting-name">Project updates & milestones</span>
+              <span class="setting-desc">When milestones are reached or project status changes.</span>
+            </div>
+            <div class="setting-toggles">
+              <label class="switch-control">
+                <input type="checkbox" id="pref_project_inapp" checked>
+                <span class="switch-slider"></span>
+              </label>
+              <label class="switch-control">
+                <input type="checkbox" id="pref_project_email">
+                <span class="switch-slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Preference 6: Upcoming deadlines -->
+          <div class="setting-row">
+            <div class="setting-meta">
+              <span class="setting-name">Upcoming deadlines</span>
+              <span class="setting-desc">Reminders 24 hours and 2 hours before task deadlines.</span>
+            </div>
+            <div class="setting-toggles">
+              <label class="switch-control">
+                <input type="checkbox" id="pref_deadlines_inapp" checked>
+                <span class="switch-slider"></span>
+              </label>
+              <label class="switch-control">
+                <input type="checkbox" id="pref_deadlines_email" checked>
+                <span class="switch-slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Preference 7: Messages and group conversations -->
+          <div class="setting-row">
+            <div class="setting-meta">
+              <span class="setting-name">Messages & group conversations</span>
+              <span class="setting-desc">Direct chats and team room announcements in your inbox.</span>
+            </div>
+            <div class="setting-toggles">
+              <label class="switch-control">
+                <input type="checkbox" id="pref_messages_inapp" checked>
+                <span class="switch-slider"></span>
+              </label>
+              <label class="switch-control">
+                <input type="checkbox" id="pref_messages_email">
+                <span class="switch-slider"></span>
+              </label>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-modal-secondary" id="cancelSettingsBtn">Cancel</button>
+          <button type="submit" class="btn-modal-primary" id="saveSettingsBtn">Save preferences</button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div class="app-modal-backdrop" id="deleteConfirmModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="app-modal-card modal-compact">
+      <div class="modal-header">
+        <h3 class="modal-title">Delete Notification</h3>
+        <button class="modal-close-btn" id="closeDeleteModalBtn" aria-label="Close modal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal-body-detail">
+        <p style="font-size: 0.92rem; color: var(--color-body); line-height: 1.5;">
+          Are you sure you want to remove this notification? This action cannot be undone.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-modal-secondary" id="cancelDeleteBtn">Cancel</button>
+        <button type="button" class="btn-modal-danger" id="confirmDeleteBtn">Delete Notification</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Feedback Message -->
+  <div class="app-toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <script src="api.js"></script>
+  <script src="websocket.js"></script>
+  <script src="notifications.js"></script>
+</body>
+</html>

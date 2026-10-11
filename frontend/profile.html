@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile — TaskFlow</title>
+  <meta name="description" content="View and manage your personal information, work details, assigned tasks, and account settings in TaskFlow.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="my-profile.css">
+</head>
+<body>
+  <!-- App Layout Container -->
+  <div class="app-layout">
+    
+    <!-- Mobile Sidebar Backdrop -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop" aria-hidden="true"></div>
+
+    <!-- =========================================================================
+         1. Left Sidebar Navigation (240px)
+         ========================================================================= -->
+    <aside class="app-sidebar" id="appSidebar" aria-label="Main Navigation">
+      
+      <!-- Top Brand Logo -->
+      <div class="sidebar-brand-row">
+        <a href="dashboard.html" class="brand-logo" aria-label="TaskFlow Dashboard">
+          <div class="logo-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <span class="brand-name">TaskFlow</span>
+        </a>
+        <button class="mobile-close-sidebar-btn" id="closeSidebarBtn" aria-label="Close sidebar navigation" type="button">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <!-- Workspace Selector Dropdown Trigger -->
+      <div class="workspace-selector-wrap">
+        <button class="workspace-selector-btn" id="workspaceBtn" aria-expanded="false" aria-haspopup="true" type="button">
+          <div class="workspace-avatar" id="currentWorkspaceAvatar">T</div>
+          <div class="workspace-info">
+            <span class="workspace-label">WORKSPACE</span>
+            <span class="workspace-name" id="currentWorkspaceName">Team Workspace</span>
+          </div>
+          <svg class="chevron-icon" id="workspaceChevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+
+        <!-- Workspace Dropdown Menu -->
+        <div class="dropdown-menu workspace-dropdown" id="workspaceDropdown" role="menu">
+          <div class="dropdown-section-title">ACTIVE WORKSPACES</div>
+          
+          <button class="dropdown-item active ws-item" role="menuitem" data-workspace="Team Workspace" data-avatar="T" type="button">
+            <div class="ws-item-avatar bg-blue">T</div>
+            <div class="ws-item-info">
+              <span class="ws-item-title">Team Workspace</span>
+              <span class="ws-item-meta">12 members • Pro Plan</span>
+            </div>
+            <svg class="ws-item-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </button>
+
+          <button class="dropdown-item ws-item" role="menuitem" data-workspace="Personal Workspace" data-avatar="P" type="button">
+            <div class="ws-item-avatar bg-purple">P</div>
+            <div class="ws-item-info">
+              <span class="ws-item-title">Personal Workspace</span>
+              <span class="ws-item-meta">1 member • Free Tier</span>
+            </div>
+            <svg class="ws-item-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </button>
+
+          <button class="dropdown-item ws-item" role="menuitem" data-workspace="Acme Corp Enterprise" data-avatar="A" type="button">
+            <div class="ws-item-avatar bg-emerald">A</div>
+            <div class="ws-item-info">
+              <span class="ws-item-title">Acme Corp Enterprise</span>
+              <span class="ws-item-meta">48 members • Enterprise</span>
+            </div>
+            <svg class="ws-item-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </button>
+
+          <div class="dropdown-divider"></div>
+
+          <button class="dropdown-item item-action" id="createWorkspaceOption" role="menuitem" type="button">
+            <div class="action-icon-pill">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            </div>
+            <span>Create New Workspace</span>
+          </button>
+
+          <button class="dropdown-item item-action" id="workspaceSettingsOption" role="menuitem" type="button">
+            <div class="action-icon-pill">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            </div>
+            <span>Workspace Settings</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Navigation Menu (Established 5 items in order) -->
+      <div class="sidebar-nav-container">
+        
+        <div class="nav-section">
+          <span class="nav-section-title">CORE APPLICATION</span>
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="dashboard.html" class="nav-link">
+                <span class="nav-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                </span>
+                <span>Overview</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="my-tasks.html" class="nav-link">
+                <span class="nav-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                </span>
+                <span>My Tasks</span>
+                <span class="nav-badge">12</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="projects.html" class="nav-link">
+                <span class="nav-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                </span>
+                <span>Projects</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="inbox.html" class="nav-link">
+                <span class="nav-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                </span>
+                <span>Inbox</span>
+                <span class="nav-badge badge-gray">3</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="calendar.html" class="nav-link">
+                <span class="nav-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                </span>
+                <span>Calendar</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Secondary Navigation -->
+        <div class="nav-section">
+          <span class="nav-section-title">PREFERENCES</span>
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="projects.html?filter=starred" class="nav-link">
+                <span class="nav-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                </span>
+                <span>Starred</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="settings.html" class="nav-link" id="navSettingsBtn">
+                <span class="nav-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                </span>
+                <span>Settings</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="help-support.html" class="nav-link" id="navHelpBtn">
+                <span class="nav-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                </span>
+                <span>Help & Support</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- User Profile Row (Active on My Profile Page) -->
+      <div class="sidebar-footer">
+        <div class="user-profile-wrap">
+          <button class="user-profile-btn active-profile-nav" id="profileBtn" aria-expanded="false" aria-haspopup="true" type="button" title="Your Account Profile">
+            <div class="user-avatar av-lead" id="sidebarAvatar">YB</div>
+            <div class="user-meta">
+              <span class="user-name" id="sidebarUserName">Your Name</span>
+              <span class="user-role" id="sidebarUserRole">Product Lead</span>
+            </div>
+            <svg class="chevron-icon" id="profileChevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+
+          <!-- User Profile Dropdown Menu -->
+          <div class="dropdown-menu profile-dropdown" id="profileDropdown" role="menu">
+            <div class="profile-dropdown-header">
+              <div class="profile-avatar-row">
+                <div class="user-avatar av-lead" id="profileMenuAvatar">YB</div>
+                <div class="profile-header-text">
+                  <span class="user-name-full" id="profileMenuName">Your Name</span>
+                  <span class="user-email-full" id="profileMenuEmail">your.name@workspace.com</span>
+                </div>
+              </div>
+              <div class="profile-status-badge">
+                <span class="status-indicator-dot"></span>
+                <span id="profileMenuStatus">Active • Product Lead</span>
+              </div>
+            </div>
+            
+            <div class="dropdown-divider"></div>
+            
+            <a href="my-profile.html" class="dropdown-item active" role="menuitem">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              <span>My Profile</span>
+            </a>
+            <button class="dropdown-item" id="menuEditProfileQuick" role="menuitem" type="button">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+              <span>Edit Details</span>
+            </button>
+            <a href="settings.html" class="dropdown-item" id="menuAccountSettings" role="menuitem">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+              <span>Account Settings</span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item item-danger" id="menuLogOut" role="menuitem" type="button">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+              <span>Log Out</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- =========================================================================
+         2. Main Application Area (Header + Scrollable Profile Workspace)
+         ========================================================================= -->
+    <div class="app-main">
+      
+      <!-- Top Header (72px) -->
+      <header class="app-header">
+        
+        <!-- Left: Mobile Hamburger & Breadcrumb -->
+        <div class="header-left">
+          <button class="mobile-hamburger-btn" id="mobileHamburgerBtn" aria-label="Open sidebar menu" type="button">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+          
+          <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+            <span class="breadcrumb-root">Account</span>
+            <span class="breadcrumb-sep">/</span>
+            <span class="breadcrumb-current">My Profile</span>
+          </nav>
+        </div>
+
+        <!-- Center: Search Input -->
+        <div class="header-center">
+          <div class="search-input-wrapper">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input 
+              type="search" 
+              id="globalSearchInput" 
+              class="global-search-input" 
+              placeholder="Search anything..." 
+              aria-label="Search anything"
+              autocomplete="off"
+            >
+            <kbd class="search-shortcut" title="Press Ctrl+K to search">Ctrl K</kbd>
+          </div>
+        </div>
+
+        <!-- Right: Actions & User Controls -->
+        <div class="header-right">
+          
+          <!-- Help Icon & Dropdown -->
+          <div class="help-wrap">
+            <button class="header-icon-btn" id="helpHeaderBtn" aria-label="Help and resources" type="button">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            </button>
+            <div class="dropdown-menu help-dropdown" id="helpDropdown">
+              <div class="dropdown-header-sm">Profile & Account Help</div>
+              <a href="#" class="dropdown-item"><span>Updating Personal Details</span></a>
+              <a href="#" class="dropdown-item"><span>Managing Role Permissions</span></a>
+              <a href="#" class="dropdown-item"><span>Two-Factor Authentication</span></a>
+            </div>
+          </div>
+
+          <!-- Notification Bell -->
+          <div class="notification-wrap">
+            <a href="notifications.html" class="header-icon-btn" id="notificationsBtn" aria-label="Notifications" title="View notifications">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+              <span class="notification-indicator"></span>
+            </a>
+          </div>
+
+          <!-- User Profile Trigger in Top Header (Arranged properly) -->
+          <div class="header-profile-wrap">
+            <button class="header-profile-btn" id="headerAvatarBtn" aria-label="User profile menu" type="button" aria-expanded="false" aria-haspopup="true">
+              <div class="header-avatar-circle av-lead" id="headerAvatarDisplay">
+                <span id="headerAvatarInitials">YB</span>
+              </div>
+              <div class="header-user-meta">
+                <span class="header-user-name" id="headerUserName">Your Name</span>
+                <span class="header-user-role" id="headerUserRole">Product Lead</span>
+              </div>
+              <svg class="header-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+
+            <!-- Header User Profile Dropdown -->
+            <div class="dropdown-menu header-profile-dropdown" id="headerProfileDropdown" role="menu">
+              <div class="profile-dropdown-header">
+                <div class="profile-avatar-row">
+                  <div class="user-avatar av-lead" id="headerMenuAvatar">YB</div>
+                  <div class="profile-header-text">
+                    <span class="user-name-full" id="headerMenuName">Your Name</span>
+                    <span class="user-email-full" id="headerMenuEmail">your.name@workspace.com</span>
+                  </div>
+                </div>
+                <div class="profile-status-badge">
+                  <span class="status-indicator-dot"></span>
+                  <span id="headerMenuStatus">Active • Product Lead</span>
+                </div>
+              </div>
+              <div class="dropdown-divider"></div>
+              <a href="my-profile.html" class="dropdown-item active" role="menuitem">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                <span>My Profile</span>
+              </a>
+              <a href="settings.html" class="dropdown-item" id="headerMenuSettings" role="menuitem">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                <span>Account Settings</span>
+              </a>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item item-danger" id="headerMenuLogOut" role="menuitem" type="button">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                <span>Log Out</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </header>
+
+      <!-- =======================================================================
+           3. Main Scrollable Workspace Content
+           ======================================================================= -->
+      <main class="workspace-scroll-area" id="mainScrollArea">
+        <div class="profile-container">
+          
+          <!-- Page Heading Row -->
+          <div class="page-heading-row">
+            <div class="heading-text-group">
+              <h1 class="page-title">My Profile</h1>
+              <p class="page-subtitle">Manage your personal information, work details, and account preferences.</p>
+            </div>
+            <div class="heading-actions">
+              <button type="button" class="btn btn-secondary" id="cancelEditHeaderBtn" style="display: none;">
+                Cancel
+              </button>
+              <button type="button" class="btn btn-primary" id="toggleEditModeBtn">
+                <svg class="btn-icon-pencil" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                <span id="toggleEditBtnText">Edit Profile</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Section 6: Profile Overview Card (Wide White Card) -->
+          <section class="profile-overview-card" aria-label="Profile Overview Summary">
+            
+            <!-- Left: Avatar, Name, Title, Badges -->
+            <div class="overview-left-block">
+              <div class="avatar-upload-wrapper">
+                <div class="profile-avatar-large av-lead" id="profileOverviewAvatar">
+                  <span id="overviewAvatarInitials">YB</span>
+                  <img id="overviewAvatarImg" src="" alt="Profile picture" class="avatar-img-element" style="display: none;">
+                </div>
+                <button type="button" class="avatar-camera-btn" id="openAvatarModalBtn" aria-label="Change profile picture" title="Change profile picture">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                </button>
+              </div>
+
+              <div class="overview-info-block">
+                <div class="overview-name-row">
+                  <h2 class="overview-name" id="overviewName">Your Name</h2>
+                  <span class="status-chip chip-active" id="overviewStatusChip">
+                    <span class="chip-dot"></span>
+                    <span>Active Member</span>
+                  </span>
+                </div>
+                <div class="overview-title-row">
+                  <span class="overview-job-title" id="overviewJobTitle">Product Lead</span>
+                  <span class="overview-sep">•</span>
+                  <span class="overview-email" id="overviewEmail">your.name@workspace.com</span>
+                </div>
+                <div class="overview-meta-tags">
+                  <span class="meta-tag" id="overviewLocationTag">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    <span id="overviewLocationText">San Francisco, CA</span>
+                  </span>
+                  <span class="meta-tag" id="overviewTeamTag">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    <span id="overviewTeamText">Product & Design Team</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Three Compact Account Metrics -->
+            <div class="overview-stats-grid">
+              <div class="overview-stat-tile">
+                <div class="stat-tile-top">
+                  <span class="stat-tile-number" id="overviewAssignedTasks">18</span>
+                  <div class="stat-tile-icon icon-blue">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+                  </div>
+                </div>
+                <span class="stat-tile-label">Assigned Tasks</span>
+              </div>
+
+              <div class="overview-stat-tile">
+                <div class="stat-tile-top">
+                  <span class="stat-tile-number text-green" id="overviewCompletedTasks">14</span>
+                  <div class="stat-tile-icon icon-green">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  </div>
+                </div>
+                <span class="stat-tile-label">Completed Tasks</span>
+              </div>
+
+              <div class="overview-stat-tile">
+                <div class="stat-tile-top">
+                  <span class="stat-tile-number text-purple" id="overviewProjectsCount">4</span>
+                  <div class="stat-tile-icon icon-purple">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                  </div>
+                </div>
+                <span class="stat-tile-label">Projects</span>
+              </div>
+            </div>
+
+          </section>
+
+          <!-- Section 7: Main Two-Column Content Layout (67% / 33%) -->
+          <div class="profile-two-column-layout">
+            
+            <!-- Left Column: Personal Information & Work Details (~67%) -->
+            <div class="profile-left-column">
+              
+              <!-- Form Wrapper for Edit Mode -->
+              <form id="profileForm" novalidate>
+                
+                <!-- Card 1: Personal Information -->
+                <section class="content-card" aria-labelledby="cardTitlePersonal">
+                  <div class="card-header">
+                    <div class="card-title-group">
+                      <h3 class="card-title" id="cardTitlePersonal">Personal Information</h3>
+                      <p class="card-subtitle">Your basic profile details and contact information.</p>
+                    </div>
+                    <span class="mode-indicator-pill" id="modeIndicatorPill">View Mode</span>
+                  </div>
+
+                  <div class="card-body">
+                    <div class="form-grid-two-col">
+                      
+                      <!-- Field 1: Full Name -->
+                      <div class="form-group" id="groupFullName">
+                        <label class="form-label" for="inputFullName">
+                          Full Name <span class="required-star">*</span>
+                        </label>
+                        <div class="view-val-display" id="viewFullName">Your Name</div>
+                        <input 
+                          type="text" 
+                          id="inputFullName" 
+                          class="form-input form-field-editable" 
+                          placeholder="Enter your full name" 
+                          value="Your Name" 
+                          required 
+                          maxlength="60"
+                          style="display: none;"
+                        >
+                        <span class="field-error-msg" id="errFullName">Please enter your full name.</span>
+                      </div>
+
+                      <!-- Field 2: Email Address -->
+                      <div class="form-group" id="groupEmail">
+                        <label class="form-label" for="inputEmail">
+                          Email Address <span class="required-star">*</span>
+                        </label>
+                        <div class="view-val-display" id="viewEmail">your.name@workspace.com</div>
+                        <input 
+                          type="email" 
+                          id="inputEmail" 
+                          class="form-input form-field-editable" 
+                          placeholder="Enter email address" 
+                          value="your.name@workspace.com" 
+                          required 
+                          style="display: none;"
+                        >
+                        <span class="field-error-msg" id="errEmail">Please enter a valid email address.</span>
+                      </div>
+
+                      <!-- Field 3: Phone Number -->
+                      <div class="form-group" id="groupPhone">
+                        <label class="form-label" for="inputPhone">Phone Number</label>
+                        <div class="view-val-display" id="viewPhone">+1 (555) 234-5678</div>
+                        <input 
+                          type="tel" 
+                          id="inputPhone" 
+                          class="form-input form-field-editable" 
+                          placeholder="+1 (555) 000-0000" 
+                          value="+1 (555) 234-5678" 
+                          maxlength="25"
+                          style="display: none;"
+                        >
+                        <span class="field-error-msg" id="errPhone">Please enter a valid phone number.</span>
+                      </div>
+
+                      <!-- Field 4: Location -->
+                      <div class="form-group" id="groupLocation">
+                        <label class="form-label" for="inputLocation">Location</label>
+                        <div class="view-val-display" id="viewLocation">San Francisco, CA</div>
+                        <input 
+                          type="text" 
+                          id="inputLocation" 
+                          class="form-input form-field-editable" 
+                          placeholder="City, Country" 
+                          value="San Francisco, CA" 
+                          maxlength="80"
+                          style="display: none;"
+                        >
+                      </div>
+
+                      <!-- Field 5: Job Title -->
+                      <div class="form-group" id="groupJobTitle">
+                        <label class="form-label" for="inputJobTitle">Job Title</label>
+                        <div class="view-val-display" id="viewJobTitle">Product Lead</div>
+                        <input 
+                          type="text" 
+                          id="inputJobTitle" 
+                          class="form-input form-field-editable" 
+                          placeholder="e.g. Product Lead" 
+                          value="Product Lead" 
+                          maxlength="50"
+                          style="display: none;"
+                        >
+                      </div>
+
+                      <!-- Field 6: Department / Team -->
+                      <div class="form-group" id="groupDepartment">
+                        <label class="form-label" for="inputDepartment">Department / Team</label>
+                        <div class="view-val-display" id="viewDepartment">Product & Design</div>
+                        <input 
+                          type="text" 
+                          id="inputDepartment" 
+                          class="form-input form-field-editable" 
+                          placeholder="e.g. Product & Design" 
+                          value="Product & Design" 
+                          maxlength="60"
+                          style="display: none;"
+                        >
+                      </div>
+
+                      <!-- Field 7: About Me (Full Width) -->
+                      <div class="form-group full-width-group" id="groupAbout">
+                        <div class="label-with-counter">
+                          <label class="form-label" for="inputAbout">About Me</label>
+                          <span class="char-counter" id="aboutCharCounter" style="display: none;">0/300</span>
+                        </div>
+                        <div class="view-val-display text-multiline" id="viewAbout">
+                          Product strategist and engineering collaborator with 8+ years of SaaS leadership experience. Passionate about design systems, agile execution, and building high-impact collaborative workspaces for distributed cross-functional teams.
+                        </div>
+                        <textarea 
+                          id="inputAbout" 
+                          class="form-textarea form-field-editable" 
+                          rows="4" 
+                          maxlength="300" 
+                          placeholder="Write a short introduction about yourself..."
+                          style="display: none;"
+                        >Product strategist and engineering collaborator with 8+ years of SaaS leadership experience. Passionate about design systems, agile execution, and building high-impact collaborative workspaces for distributed cross-functional teams.</textarea>
+                      </div>
+
+                    </div>
+                  </div>
+                </section>
+
+                <!-- Card 2: Work Information -->
+                <section class="content-card" aria-labelledby="cardTitleWork">
+                  <div class="card-header">
+                    <div class="card-title-group">
+                      <h3 class="card-title" id="cardTitleWork">Work Information</h3>
+                      <p class="card-subtitle">System-managed organization, role permissions, and schedule.</p>
+                    </div>
+                  </div>
+
+                  <div class="card-body">
+                    <div class="work-specs-grid">
+                      
+                      <!-- Spec 1: System Role -->
+                      <div class="work-spec-item">
+                        <span class="work-spec-label">SYSTEM ROLE</span>
+                        <div class="work-spec-val">
+                          <span class="role-badge role-admin">Administrator</span>
+                          <span class="spec-note">(Workspace Permissions)</span>
+                        </div>
+                      </div>
+
+                      <!-- Spec 2: Associated Team -->
+                      <div class="work-spec-item">
+                        <span class="work-spec-label">ASSOCIATED TEAM</span>
+                        <div class="work-spec-val" id="workTeamVal">Product & Design Team</div>
+                      </div>
+
+                      <!-- Spec 3: Reporting Manager -->
+                      <div class="work-spec-item">
+                        <span class="work-spec-label">REPORTING LEAD / MANAGER</span>
+                        <div class="work-spec-val manager-val">
+                          <div class="mini-manager-avatar">SW</div>
+                          <span>Sarah Wilson (Director of Engineering)</span>
+                        </div>
+                      </div>
+
+                      <!-- Spec 4: Membership Joined Date -->
+                      <div class="work-spec-item">
+                        <span class="work-spec-label">JOINED DATE</span>
+                        <div class="work-spec-val">January 10, 2026 (Active for 9 months)</div>
+                      </div>
+
+                      <!-- Spec 5: Work Schedule -->
+                      <div class="work-spec-item">
+                        <span class="work-spec-label">WORKING SCHEDULE</span>
+                        <div class="work-spec-val">Mon – Fri • 9:00 AM – 6:00 PM PST (Standard Hours)</div>
+                      </div>
+
+                      <!-- Spec 6: Workspace Primary Scope -->
+                      <div class="work-spec-item">
+                        <span class="work-spec-label">CURRENT ACTIVE WORKSPACE</span>
+                        <div class="work-spec-val" id="workActiveWorkspace">Team Workspace (Pro Plan)</div>
+                      </div>
+
+                    </div>
+                  </div>
+                </section>
+
+                <!-- Bottom Action Area (Visible in Edit Mode) -->
+                <div class="profile-bottom-actions-bar" id="bottomActionsBar" style="display: none;">
+                  <button type="button" class="btn btn-outline text-danger" id="discardChangesBtn">
+                    Discard Changes
+                  </button>
+                  <div class="bottom-actions-right">
+                    <button type="button" class="btn btn-secondary" id="cancelEditBottomBtn">
+                      Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary" id="saveProfileBtn">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                      <span id="saveProfileBtnText">Save Changes</span>
+                    </button>
+                  </div>
+                </div>
+
+              </form>
+            </div>
+
+            <!-- Right Column: Task Overview & Recent Activity (~33%) -->
+            <div class="profile-right-column">
+              
+              <!-- Card 3: Task Overview -->
+              <section class="content-card" aria-labelledby="cardTitleTasks">
+                <div class="card-header">
+                  <div class="card-title-group">
+                    <h3 class="card-title" id="cardTitleTasks">Task Overview</h3>
+                    <p class="card-subtitle">Summary of your personal work agenda.</p>
+                  </div>
+                  <a href="my-tasks.html" class="card-header-link">Open Tasks →</a>
+                </div>
+
+                <div class="card-body">
+                  
+                  <!-- 4 Status Tiles Grid -->
+                  <div class="task-summary-grid">
+                    
+                    <div class="task-stat-box box-total">
+                      <span class="task-box-number" id="taskStatTotal">18</span>
+                      <span class="task-box-label">Total Assigned</span>
+                    </div>
+
+                    <div class="task-stat-box box-progress">
+                      <span class="task-box-number text-blue" id="taskStatProgress">3</span>
+                      <span class="task-box-label">In Progress</span>
+                    </div>
+
+                    <div class="task-stat-box box-completed">
+                      <span class="task-box-number text-green" id="taskStatCompleted">14</span>
+                      <span class="task-box-label">Completed</span>
+                    </div>
+
+                    <div class="task-stat-box box-overdue">
+                      <span class="task-box-number text-red" id="taskStatOverdue">1</span>
+                      <span class="task-box-label">Overdue</span>
+                    </div>
+
+                  </div>
+
+                  <!-- Completion Progress Bar -->
+                  <div class="progress-section-block">
+                    <div class="progress-header-row">
+                      <span class="progress-label-title">Completion Progress</span>
+                      <span class="progress-ratio-value" id="completionRatioText">78%</span>
+                    </div>
+
+                    <div class="progress-track" aria-hidden="true">
+                      <div class="progress-fill-bar" id="progressFillBar" style="width: 78%;"></div>
+                    </div>
+
+                    <span class="progress-sub-caption" id="progressSubCaption">14 of 18 tasks completed</span>
+                  </div>
+
+                </div>
+              </section>
+
+              <!-- Card 4: Recent Activity Timeline -->
+              <section class="content-card" aria-labelledby="cardTitleActivity">
+                <div class="card-header">
+                  <div class="card-title-group">
+                    <h3 class="card-title" id="cardTitleActivity">Recent Activity</h3>
+                    <p class="card-subtitle">Timeline of your latest collaborative contributions.</p>
+                  </div>
+                </div>
+
+                <div class="card-body">
+                  <div class="activity-timeline-list" id="activityTimelineList">
+                    
+                    <!-- Activity 1 -->
+                    <div class="timeline-entry">
+                      <div class="timeline-node node-green">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                      </div>
+                      <div class="timeline-content">
+                        <p class="timeline-text">Completed task <strong>Conduct usability testing on checkout</strong></p>
+                        <span class="timeline-time">2 hours ago</span>
+                      </div>
+                    </div>
+
+                    <!-- Activity 2 -->
+                    <div class="timeline-entry">
+                      <div class="timeline-node node-blue">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                      </div>
+                      <div class="timeline-content">
+                        <p class="timeline-text">Created milestone sprint in <strong>Website Redesign</strong></p>
+                        <span class="timeline-time">Yesterday</span>
+                      </div>
+                    </div>
+
+                    <!-- Activity 3 -->
+                    <div class="timeline-entry">
+                      <div class="timeline-node node-purple">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                      </div>
+                      <div class="timeline-content">
+                        <p class="timeline-text">Commented on <strong>Color token palette adjustments</strong></p>
+                        <span class="timeline-time">2 days ago</span>
+                      </div>
+                    </div>
+
+                    <!-- Activity 4 -->
+                    <div class="timeline-entry">
+                      <div class="timeline-node node-amber">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+                      </div>
+                      <div class="timeline-content">
+                        <p class="timeline-text">Invited <strong>Alex Morgan</strong> and <strong>Sarah Wilson</strong> to project</p>
+                        <span class="timeline-time">3 days ago</span>
+                      </div>
+                    </div>
+
+                    <!-- Activity 5 -->
+                    <div class="timeline-entry">
+                      <div class="timeline-node node-slate">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                      </div>
+                      <div class="timeline-content">
+                        <p class="timeline-text">Joined workspace project <strong>Brand Identity Design</strong></p>
+                        <span class="timeline-time">Oct 04, 2026</span>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </section>
+
+            </div>
+
+          </div>
+
+        </div>
+      </main>
+
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       4. Modals & File Upload
+       ========================================================================= -->
+
+  <!-- Hidden Image File Input -->
+  <input type="file" id="avatarFileInput" accept="image/png, image/jpeg, image/webp" style="display: none;" aria-hidden="true">
+
+  <!-- Profile Picture Upload / Editor Modal -->
+  <div class="modal-backdrop" id="avatarModalBackdrop" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="avatarModalTitle">
+      <div class="modal-header">
+        <div class="modal-icon-info">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+        </div>
+        <div>
+          <h3 class="modal-title" id="avatarModalTitle">Update Profile Picture</h3>
+          <p class="modal-desc">Upload a high-resolution photo or remove your current avatar.</p>
+        </div>
+        <button type="button" class="modal-close-btn" id="closeAvatarModalBtn" aria-label="Close modal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        
+        <div class="avatar-crop-preview-area">
+          <div class="preview-avatar-circle" id="modalPreviewAvatarCircle">
+            <span id="modalPreviewInitials">YB</span>
+            <img id="modalPreviewImg" src="" alt="Avatar preview" style="display: none;">
+          </div>
+          <div class="upload-rules-text">
+            <span>Accepted formats: JPEG, PNG, WebP</span>
+            <span>Maximum file size: 5 MB</span>
+          </div>
+        </div>
+
+        <div class="upload-dropzone" id="uploadDropzone">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+          <div class="dropzone-text">
+            <span class="dropzone-prompt"><strong>Click to browse</strong> or drag & drop image</span>
+            <span class="dropzone-sub">High resolution square image recommended</span>
+          </div>
+        </div>
+
+        <div class="file-error-alert" id="avatarFileError" style="display: none;"></div>
+
+      </div>
+
+      <div class="modal-actions" style="justify-content: space-between;">
+        <button type="button" class="btn btn-outline text-danger" id="removeAvatarPhotoBtn">
+          Remove Photo
+        </button>
+        <div style="display: flex; gap: 10px;">
+          <button type="button" class="btn btn-secondary" id="cancelAvatarModalBtn">Cancel</button>
+          <button type="button" class="btn btn-primary" id="saveAvatarPhotoBtn">Save Photo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Discard Changes Confirmation Modal -->
+  <div class="modal-backdrop" id="discardModalBackdrop" aria-hidden="true">
+    <div class="modal-card modal-sm" role="dialog" aria-modal="true" aria-labelledby="discardModalTitle">
+      <div class="modal-header">
+        <div class="modal-icon-warning text-amber" style="background-color: #FEF3C7; color: #D97706;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+        </div>
+        <div>
+          <h3 class="modal-title" id="discardModalTitle">Discard Profile Changes?</h3>
+          <p class="modal-desc">You have unsaved edits. Discarding will restore your previously saved profile information.</p>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" id="keepEditingBtn">Keep Editing</button>
+        <button type="button" class="btn btn-danger" id="confirmDiscardBtn">Discard Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Create Workspace Modal -->
+  <div class="modal-backdrop" id="createWorkspaceModalBackdrop" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="createWsModalTitle">
+      <div class="modal-header">
+        <div class="modal-icon-info">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+        </div>
+        <div>
+          <h3 class="modal-title" id="createWsModalTitle">Create Workspace</h3>
+          <p class="modal-desc">Create a new workspace space to organize projects, teams, and workflows.</p>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="newWorkspaceNameInput" class="form-label">Workspace Name</label>
+          <input type="text" id="newWorkspaceNameInput" class="form-input" placeholder="e.g. Innovation Hub" maxlength="40">
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" id="cancelCreateWsBtn">Cancel</button>
+        <button type="button" class="btn btn-primary" id="confirmCreateWsBtn">Create & Switch</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Application Logic -->
+  <script src="api.js"></script>
+  <script src="websocket.js"></script>
+  <script src="my-profile.js"></script>
+</body>
+</html>

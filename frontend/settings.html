@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings — TaskFlow</title>
+  <meta name="description" content="Manage your account preferences, security credentials, notification channels, visual appearance, and workspace integrations in TaskFlow.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="settings.css">
+</head>
+<body>
+  <!-- App Layout Container -->
+  <div class="app-layout">
+    
+    <!-- Mobile Sidebar Backdrop -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop" aria-hidden="true"></div>
+
+    <!-- =========================================================================
+         1. Left Sidebar Navigation (240px)
+         ========================================================================= -->
+    <aside class="app-sidebar" id="appSidebar" aria-label="Main Navigation">
+      
+      <!-- Top Brand Logo -->
+      <div class="sidebar-brand-row">
+        <a href="dashboard.html" class="brand-logo" aria-label="TaskFlow Dashboard">
+          <div class="logo-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <span class="brand-name">TaskFlow</span>
+        </a>
+        <button class="mobile-close-sidebar-btn" id="closeSidebarBtn" aria-label="Close sidebar navigation" type="button">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <!-- Workspace Selector Dropdown Trigger -->
+      <div class="workspace-selector-wrap">
+        <button class="workspace-selector-btn" id="workspaceBtn" aria-expanded="false" aria-haspopup="true" type="button">
+          <div class="workspace-avatar" id="currentWorkspaceAvatar">T</div>
+          <div class="workspace-info">
+            <span class="workspace-label">WORKSPACE</span>
+            <span class="workspace-name" id="currentWorkspaceName">Team Workspace</span>
+          </div>
+          <svg class="chevron-icon" id="workspaceChevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+
+        <!-- Workspace Dropdown Menu -->
+        <div class="dropdown-menu workspace-dropdown" id="workspaceDropdown" role="menu">
+          <div class="dropdown-section-title">ACTIVE WORKSPACES</div>
+          
+          <button class="dropdown-item active ws-item" role="menuitem" data-workspace="Team Workspace" data-avatar="T" type="button">
+            <div class="ws-item-avatar bg-blue">T</div>
+            <div class="ws-item-info">
+              <span class="ws-item-title">Team Workspace</span>
+              <span class="ws-item-meta">12 members • Pro Plan</span>
+            </div>
+            <svg class="ws-item-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </button>
+
+          <button class="dropdown-item ws-item" role="menuitem" data-workspace="Personal Workspace" data-avatar="P" type="button">
+            <div class="ws-item-avatar bg-purple">P</div>
+            <div class="ws-item-info">
+              <span class="ws-item-title">Personal Workspace</span>
+              <span class="ws-item-meta">1 member • Free Tier</span>
+            </div>
+            <svg class="ws-item-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </button>
+
+          <button class="dropdown-item ws-item" role="menuitem" data-workspace="Acme Corp Enterprise" data-avatar="A" type="button">
+            <div class="ws-item-avatar bg-emerald">A</div>
+            <div class="ws-item-info">
+              <span class="ws-item-title">Acme Corp Enterprise</span>
+              <span class="ws-item-meta">48 members • Enterprise</span>
+            </div>
+            <svg class="ws-item-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </button>
+
+          <div class="dropdown-divider"></div>
+
+          <button class="dropdown-item item-action" id="createWorkspaceOption" role="menuitem" type="button">
+            <div class="action-icon-pill">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            </div>
+            <span>Create New Workspace</span>
+          </button>
+
+          <button class="dropdown-item item-action" id="workspaceSettingsOption" role="menuitem" type="button">
+            <div class="action-icon-pill">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            </div>
+            <span>Workspace Settings</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Navigation Menu (Established 5 items in order) -->
+      <div class="sidebar-nav-container">
+        
+        <div class="nav-section">
+          <span class="nav-section-title">CORE APPLICATION</span>
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="dashboard.html" class="nav-link">
+                <span class="nav-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                </span>
+                <span>Overview</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="my-tasks.html" class="nav-link">
+                <span class="nav-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                </span>
+                <span>My Tasks</span>
+                <span class="nav-badge">12</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="projects.html" class="nav-link">
+                <span class="nav-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                </span>
+                <span>Projects</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="inbox.html" class="nav-link">
+                <span class="nav-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                </span>
+                <span>Inbox</span>
+                <span class="nav-badge badge-gray">3</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="calendar.html" class="nav-link">
+                <span class="nav-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                </span>
+                <span>Calendar</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Secondary Navigation (Settings highlighted as active!) -->
+        <div class="nav-section">
+          <span class="nav-section-title">PREFERENCES</span>
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="projects.html?filter=starred" class="nav-link">
+                <span class="nav-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                </span>
+                <span>Starred</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="settings.html" class="nav-link active" id="navSettingsBtn">
+                <span class="nav-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                </span>
+                <span>Settings</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="help-support.html" class="nav-link" id="navHelpBtn">
+                <span class="nav-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                </span>
+                <span>Help & Support</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- User Profile Row at bottom -->
+      <div class="sidebar-footer">
+        <div class="user-profile-wrap">
+          <button class="user-profile-btn" id="profileBtn" aria-expanded="false" aria-haspopup="true" type="button" title="Your Account Profile">
+            <div class="user-avatar av-lead" id="sidebarAvatar">YB</div>
+            <div class="user-meta">
+              <span class="user-name" id="sidebarUserName">Your Name</span>
+              <span class="user-role" id="sidebarUserRole">Product Lead</span>
+            </div>
+            <svg class="chevron-icon" id="profileChevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+
+          <!-- User Profile Dropdown Menu -->
+          <div class="dropdown-menu profile-dropdown" id="profileDropdown" role="menu">
+            <div class="profile-dropdown-header">
+              <div class="profile-avatar-row">
+                <div class="user-avatar av-lead" id="profileMenuAvatar">YB</div>
+                <div class="profile-header-text">
+                  <span class="user-name-full" id="profileMenuName">Your Name</span>
+                  <span class="user-email-full" id="profileMenuEmail">your.name@workspace.com</span>
+                </div>
+              </div>
+              <div class="profile-status-badge">
+                <span class="status-indicator-dot"></span>
+                <span id="profileMenuStatus">Active • Product Lead</span>
+              </div>
+            </div>
+            <div class="dropdown-divider"></div>
+            <a href="my-profile.html" class="dropdown-item" role="menuitem">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              <span>My Profile</span>
+            </a>
+            <a href="settings.html" class="dropdown-item active" role="menuitem">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+              <span>Account Settings</span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item item-danger" id="logoutSidebarBtn" role="menuitem" type="button">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+              <span>Sign Out</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- =========================================================================
+         2. Main Application Area (Header + Scrollable Settings Workspace)
+         ========================================================================= -->
+    <div class="app-main">
+      
+      <!-- Top Header (72px) -->
+      <header class="app-header">
+        
+        <!-- Left: Mobile Hamburger & Breadcrumb -->
+        <div class="header-left">
+          <button class="mobile-hamburger-btn" id="mobileHamburgerBtn" aria-label="Open sidebar menu" type="button">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+          
+          <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+            <span class="breadcrumb-root">Home</span>
+            <span class="breadcrumb-sep">/</span>
+            <span class="breadcrumb-current">Settings</span>
+          </nav>
+        </div>
+
+        <!-- Center: Search Input -->
+        <div class="header-center">
+          <div class="search-input-wrapper">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input 
+              type="search" 
+              id="globalSearchInput" 
+              class="global-search-input" 
+              placeholder="Search anything..." 
+              aria-label="Search anything"
+              autocomplete="off"
+            >
+            <kbd class="search-shortcut" title="Press Ctrl+K to search">Ctrl K</kbd>
+          </div>
+        </div>
+
+        <!-- Right: Actions & User Controls -->
+        <div class="header-right">
+          
+          <!-- Help Icon & Dropdown -->
+          <div class="help-wrap">
+            <button class="header-icon-btn" id="helpHeaderBtn" aria-label="Help and resources" type="button">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            </button>
+            <div class="dropdown-menu help-dropdown" id="helpDropdown">
+              <div class="dropdown-header-sm">Help & Resources</div>
+              <a href="#" class="dropdown-item"><span>Settings Documentation</span></a>
+              <a href="#" class="dropdown-item"><span>Security & 2FA Guide</span></a>
+              <a href="#" class="dropdown-item"><span>Connected Apps API</span></a>
+              <div class="dropdown-divider"></div>
+              <a href="mailto:support@taskflow.io" class="dropdown-item"><span>Contact Support</span></a>
+            </div>
+          </div>
+
+          <!-- Notification Bell -->
+          <div class="notification-wrap">
+            <a href="notifications.html" class="header-icon-btn" id="notificationsBtn" aria-label="Notifications" title="View notifications">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+              <span class="notification-indicator"></span>
+            </a>
+          </div>
+
+          <!-- User Profile Trigger in Top Header -->
+          <div class="header-profile-wrap">
+            <button class="header-profile-btn" id="headerAvatarBtn" aria-label="User profile menu" type="button" aria-expanded="false" aria-haspopup="true">
+              <div class="header-avatar-circle av-lead" id="headerAvatarDisplay">
+                <span id="headerAvatarInitials">YB</span>
+              </div>
+              <div class="header-user-meta">
+                <span class="header-user-name" id="headerUserName">Your Name</span>
+                <span class="header-user-role" id="headerUserRole">Product Lead</span>
+              </div>
+              <svg class="header-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+
+            <!-- Header User Profile Dropdown -->
+            <div class="dropdown-menu header-profile-dropdown" id="headerProfileDropdown" role="menu">
+              <div class="profile-dropdown-header">
+                <div class="profile-avatar-row">
+                  <div class="user-avatar av-lead" id="headerMenuAvatar">YB</div>
+                  <div class="profile-header-text">
+                    <span class="user-name-full" id="headerMenuName">Your Name</span>
+                    <span class="user-email-full" id="headerMenuEmail">your.name@workspace.com</span>
+                  </div>
+                </div>
+                <div class="profile-status-badge">
+                  <span class="status-indicator-dot"></span>
+                  <span id="headerMenuStatus">Active • Product Lead</span>
+                </div>
+              </div>
+              <div class="dropdown-divider"></div>
+              <a href="my-profile.html" class="dropdown-item" role="menuitem">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                <span>My Profile</span>
+              </a>
+              <a href="settings.html" class="dropdown-item active" role="menuitem">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                <span>Settings</span>
+              </a>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item item-danger" id="logoutHeaderBtn" role="menuitem" type="button">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                <span>Log Out</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </header>
+
+      <!-- Scrollable Main Settings Workspace -->
+      <main class="settings-scroll-area" id="settingsScrollArea">
+        <div class="settings-container">
+          
+          <!-- =======================================================================
+               3. Page Heading
+               ======================================================================= -->
+          <div class="page-heading-row">
+            <div class="page-title-group">
+              <h1 class="page-main-title">Settings</h1>
+              <p class="page-subtitle">Manage your account, preferences, notifications, and workspace configuration.</p>
+            </div>
+          </div>
+
+          <!-- =======================================================================
+               4. Two-Column Settings Layout
+               ======================================================================= -->
+          <div class="settings-layout">
+            
+            <!-- Left Column: Settings Navigation Panel (240px) -->
+            <nav class="settings-nav-panel" aria-label="Settings Categories">
+              <ul class="settings-menu-list">
+                
+                <li>
+                  <button class="settings-menu-btn active" data-section="general" type="button">
+                    <span class="settings-menu-icon">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                    </span>
+                    <span class="settings-menu-label">General</span>
+                  </button>
+                </li>
+
+                <li>
+                  <button class="settings-menu-btn" data-section="security" type="button">
+                    <span class="settings-menu-icon">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                    </span>
+                    <span class="settings-menu-label">Account & Security</span>
+                  </button>
+                </li>
+
+                <li>
+                  <button class="settings-menu-btn" data-section="notifications" type="button">
+                    <span class="settings-menu-icon">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                    </span>
+                    <span class="settings-menu-label">Notifications</span>
+                  </button>
+                </li>
+
+                <li>
+                  <button class="settings-menu-btn" data-section="appearance" type="button">
+                    <span class="settings-menu-icon">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    </span>
+                    <span class="settings-menu-label">Appearance</span>
+                  </button>
+                </li>
+
+                <li>
+                  <button class="settings-menu-btn" data-section="language" type="button">
+                    <span class="settings-menu-icon">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                    </span>
+                    <span class="settings-menu-label">Language & Region</span>
+                  </button>
+                </li>
+
+                <li>
+                  <button class="settings-menu-btn" data-section="privacy" type="button">
+                    <span class="settings-menu-icon">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    </span>
+                    <span class="settings-menu-label">Privacy</span>
+                  </button>
+                </li>
+
+                <li>
+                  <button class="settings-menu-btn" data-section="apps" type="button">
+                    <span class="settings-menu-icon">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    </span>
+                    <span class="settings-menu-label">Connected Apps</span>
+                  </button>
+                </li>
+
+              </ul>
+            </nav>
+
+            <!-- Right Column: Settings Content Panels -->
+            <div class="settings-content-panel">
+              
+              <!-- ===================================================================
+                   SECTION 1: General Settings (Default active)
+                   =================================================================== -->
+              <section class="settings-section active" id="panelGeneral">
+                <div class="settings-card">
+                  
+                  <div class="settings-card-header">
+                    <div>
+                      <h2 class="settings-card-title">General Settings</h2>
+                      <p class="settings-card-desc">Customize your basic TaskFlow account preferences.</p>
+                    </div>
+                  </div>
+
+                  <!-- Profile Summary Banner -->
+                  <div class="profile-summary-box">
+                    <div class="summary-avatar-wrap">
+                      <div class="user-avatar av-lead summary-avatar" id="summaryAvatar">YB</div>
+                    </div>
+                    <div class="summary-info">
+                      <div class="summary-name-row">
+                        <span class="summary-name" id="summaryName">Your Name</span>
+                        <span class="status-chip chip-active">Active Member</span>
+                      </div>
+                      <span class="summary-email" id="summaryEmail">your.name@workspace.com</span>
+                      <span class="summary-meta" id="summaryMeta">Product Lead • Design System Team</span>
+                    </div>
+                    <a href="my-profile.html" class="btn-secondary btn-sm" id="btnEditProfileLink">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                      <span>Edit Profile</span>
+                    </a>
+                  </div>
+
+                  <!-- General Form -->
+                  <form id="generalForm" novalidate>
+                    <div class="form-grid-2">
+                      
+                      <!-- Display Name -->
+                      <div class="form-group">
+                        <label for="generalDisplayName" class="form-label">
+                          Display Name <span class="req-star">*</span>
+                        </label>
+                        <input 
+                          type="text" 
+                          id="generalDisplayName" 
+                          class="form-input" 
+                          placeholder="Enter display name" 
+                          required 
+                          value="Your Name"
+                        >
+                        <span class="form-hint">This name will appear on your assigned tasks, comments, and project boards.</span>
+                        <span class="error-msg" id="errDisplayName">Please enter your display name.</span>
+                      </div>
+
+                      <!-- Email Address -->
+                      <div class="form-group">
+                        <label for="generalEmail" class="form-label">
+                          Email Address <span class="req-star">*</span>
+                        </label>
+                        <input 
+                          type="email" 
+                          id="generalEmail" 
+                          class="form-input" 
+                          placeholder="name@company.com" 
+                          required 
+                          value="your.name@workspace.com"
+                        >
+                        <span class="form-hint">Used for notifications, invitations, and password recovery.</span>
+                        <span class="error-msg" id="errEmail">Please enter a valid email address.</span>
+                      </div>
+
+                    </div>
+
+                    <div class="form-grid-2">
+                      
+                      <!-- Default Workspace -->
+                      <div class="form-group">
+                        <label for="generalWorkspace" class="form-label">Default Workspace</label>
+                        <div class="select-wrapper">
+                          <select id="generalWorkspace" class="form-select">
+                            <option value="Team Workspace" selected>Team Workspace (Pro Plan)</option>
+                            <option value="Personal Workspace">Personal Workspace (Free)</option>
+                            <option value="Acme Corp Enterprise">Acme Corp Enterprise</option>
+                            <option value="Design System Team">Design System Team</option>
+                          </select>
+                          <svg class="select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
+                        <span class="form-hint">The workspace loaded automatically upon login.</span>
+                      </div>
+
+                      <!-- Default Landing Page -->
+                      <div class="form-group">
+                        <label for="generalLandingPage" class="form-label">Default Landing Page</label>
+                        <div class="select-wrapper">
+                          <select id="generalLandingPage" class="form-select">
+                            <option value="dashboard.html" selected>Overview (Dashboard)</option>
+                            <option value="my-tasks.html">My Tasks</option>
+                            <option value="projects.html">Projects Hub</option>
+                            <option value="inbox.html">Inbox</option>
+                            <option value="calendar.html">Calendar</option>
+                          </select>
+                          <svg class="select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
+                        <span class="form-hint">Your initial destination screen after signing in.</span>
+                      </div>
+
+                    </div>
+
+                    <!-- Time Zone -->
+                    <div class="form-group">
+                      <label for="generalTimezone" class="form-label">Time Zone</label>
+                      <div class="select-wrapper">
+                        <select id="generalTimezone" class="form-select">
+                          <option value="America/New_York">(GMT-05:00) Eastern Time (US & Canada)</option>
+                          <option value="America/Chicago">(GMT-06:00) Central Time (US & Canada)</option>
+                          <option value="America/Denver">(GMT-07:00) Mountain Time (US & Canada)</option>
+                          <option value="America/Los_Angeles">(GMT-08:00) Pacific Time (US & Canada)</option>
+                          <option value="UTC" selected>(GMT+00:00) Universal Coordinated Time (UTC)</option>
+                          <option value="Europe/London">(GMT+00:00) London, Edinburgh, Dublin</option>
+                          <option value="Europe/Paris">(GMT+01:00) Paris, Berlin, Rome, Madrid</option>
+                          <option value="Asia/Kolkata">(GMT+05:30) India Standard Time (IST)</option>
+                          <option value="Asia/Singapore">(GMT+08:00) Singapore, Beijing, Hong Kong</option>
+                          <option value="Asia/Tokyo">(GMT+09:00) Tokyo, Osaka, Sapporo</option>
+                        </select>
+                        <svg class="select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                      </div>
+                      <span class="form-hint">Affects scheduled reminders, deadline warnings, and calendar events.</span>
+                    </div>
+
+                    <!-- Action Bar -->
+                    <div class="settings-action-bar">
+                      <div class="action-bar-left">
+                        <span class="save-status-indicator" id="generalSaveStatus">All changes saved</span>
+                      </div>
+                      <div class="action-bar-right">
+                        <button type="button" class="btn-secondary" id="btnCancelGeneral">Cancel</button>
+                        <button type="submit" class="btn-primary" id="btnSaveGeneral">Save Changes</button>
+                      </div>
+                    </div>
+
+                  </form>
+
+                </div>
+              </section>
+
+              <!-- ===================================================================
+                   SECTION 2: Account & Security
+                   =================================================================== -->
+              <section class="settings-section" id="panelSecurity">
+                
+                <!-- Password Card -->
+                <div class="settings-card">
+                  <div class="settings-card-header">
+                    <div>
+                      <h2 class="settings-card-title">Password & Authentication</h2>
+                      <p class="settings-card-desc">Update your password to ensure your TaskFlow account remains secure.</p>
+                    </div>
+                  </div>
+
+                  <form id="passwordForm" novalidate>
+                    <div class="form-group">
+                      <label for="currentPassword" class="form-label">
+                        Current Password <span class="req-star">*</span>
+                      </label>
+                      <div class="password-field-wrapper">
+                        <input 
+                          type="password" 
+                          id="currentPassword" 
+                          class="form-input password-input" 
+                          placeholder="Enter your current password" 
+                          required
+                        >
+                        <button type="button" class="password-toggle-btn" data-target="currentPassword" aria-label="Toggle password visibility">
+                          <svg class="eye-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                        </button>
+                      </div>
+                      <span class="error-msg" id="errCurrentPass">Please enter your current password.</span>
+                    </div>
+
+                    <div class="form-grid-2">
+                      <div class="form-group">
+                        <label for="newPassword" class="form-label">
+                          New Password <span class="req-star">*</span>
+                        </label>
+                        <div class="password-field-wrapper">
+                          <input 
+                            type="password" 
+                            id="newPassword" 
+                            class="form-input password-input" 
+                            placeholder="Enter a new password" 
+                            required
+                          >
+                          <button type="button" class="password-toggle-btn" data-target="newPassword" aria-label="Toggle password visibility">
+                            <svg class="eye-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                          </button>
+                        </div>
+                        <span class="error-msg" id="errNewPass">Password must be at least 8 characters.</span>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="confirmPassword" class="form-label">
+                          Confirm New Password <span class="req-star">*</span>
+                        </label>
+                        <div class="password-field-wrapper">
+                          <input 
+                            type="password" 
+                            id="confirmPassword" 
+                            class="form-input password-input" 
+                            placeholder="Re-enter your new password" 
+                            required
+                          >
+                          <button type="button" class="password-toggle-btn" data-target="confirmPassword" aria-label="Toggle password visibility">
+                            <svg class="eye-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                          </button>
+                        </div>
+                        <span class="error-msg" id="errConfirmPass">Passwords do not match.</span>
+                      </div>
+                    </div>
+
+                    <!-- Password Requirement Checklist -->
+                    <div class="password-requirements-card">
+                      <span class="req-title">Password must contain:</span>
+                      <div class="req-grid">
+                        <div class="req-item" id="reqLength">
+                          <svg class="req-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                          <span>At least 8 characters</span>
+                        </div>
+                        <div class="req-item" id="reqUpper">
+                          <svg class="req-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                          <span>At least 1 uppercase letter</span>
+                        </div>
+                        <div class="req-item" id="reqNumber">
+                          <svg class="req-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                          <span>At least 1 number (0-9)</span>
+                        </div>
+                        <div class="req-item" id="reqSpecial">
+                          <svg class="req-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                          <span>At least 1 special character (!@#$%^&*)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="settings-action-bar">
+                      <div class="action-bar-left"></div>
+                      <div class="action-bar-right">
+                        <button type="submit" class="btn-primary" id="btnChangePassword">Change Password</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+
+                <!-- Two-Factor Authentication Card -->
+                <div class="settings-card">
+                  <div class="settings-card-header">
+                    <div>
+                      <h2 class="settings-card-title">Two-Factor Authentication (2FA)</h2>
+                      <p class="settings-card-desc">Add a verified security layer to safeguard your workspace access.</p>
+                    </div>
+                    <span class="status-chip chip-gray" id="twoFaStatusBadge">Disabled</span>
+                  </div>
+
+                  <div class="two-fa-info-box">
+                    <div class="two-fa-icon-pill">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+                    </div>
+                    <div class="two-fa-text">
+                      <span class="two-fa-title">Authenticator App (TOTP)</span>
+                      <span class="two-fa-desc">Use Google Authenticator, 1Password, or Authy to generate single-use authentication codes upon login.</span>
+                    </div>
+                    <button type="button" class="btn-secondary" id="btnManage2FA">Configure 2FA</button>
+                  </div>
+                </div>
+
+                <!-- Active Sessions Card -->
+                <div class="settings-card">
+                  <div class="settings-card-header">
+                    <div>
+                      <h2 class="settings-card-title">Active Sessions</h2>
+                      <p class="settings-card-desc">Devices currently authenticated to your TaskFlow account.</p>
+                    </div>
+                    <button type="button" class="btn-secondary btn-sm" id="btnSignOutOtherSessions">Sign Out Other Sessions</button>
+                  </div>
+
+                  <div class="sessions-list" id="sessionsList">
+                    
+                    <div class="session-item">
+                      <div class="session-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                      </div>
+                      <div class="session-meta">
+                        <div class="session-title-row">
+                          <span class="session-device">Windows PC — Chrome 124</span>
+                          <span class="session-badge-current">Current Session</span>
+                        </div>
+                        <span class="session-location">Dallas, TX, United States • IP: 192.168.1.104</span>
+                        <span class="session-time">Active now</span>
+                      </div>
+                    </div>
+
+                    <div class="session-item other-session">
+                      <div class="session-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                      </div>
+                      <div class="session-meta">
+                        <div class="session-title-row">
+                          <span class="session-device">MacBook Pro 16" — Safari 17.4</span>
+                        </div>
+                        <span class="session-location">San Francisco, CA, United States • IP: 74.125.224.72</span>
+                        <span class="session-time">Last active 2 hours ago</span>
+                      </div>
+                    </div>
+
+                    <div class="session-item other-session">
+                      <div class="session-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+                      </div>
+                      <div class="session-meta">
+                        <div class="session-title-row">
+                          <span class="session-device">iPhone 15 Pro — TaskFlow Mobile</span>
+                        </div>
+                        <span class="session-location">New York, NY, United States • IP: 172.56.21.89</span>
+                        <span class="session-time">Last active yesterday</span>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <!-- Danger Zone Card -->
+                <div class="settings-card danger-card">
+                  <div class="settings-card-header">
+                    <div>
+                      <h2 class="settings-card-title text-danger">Danger Zone</h2>
+                      <p class="settings-card-desc">Irreversible account actions. Please proceed with caution.</p>
+                    </div>
+                  </div>
+
+                  <div class="danger-row">
+                    <div class="danger-text">
+                      <span class="danger-title">Delete Account</span>
+                      <span class="danger-desc">Permanently remove your TaskFlow account, personal workspaces, task assignments, and activity history. This action cannot be reversed.</span>
+                    </div>
+                    <button type="button" class="btn-danger" id="btnOpenDeleteModal">Delete Account</button>
+                  </div>
+                </div>
+
+              </section>
+
+              <!-- ===================================================================
+                   SECTION 3: Notifications Preferences
+                   =================================================================== -->
+              <section class="settings-section" id="panelNotifications">
+                <div class="settings-card">
+                  
+                  <div class="settings-card-header">
+                    <div>
+                      <h2 class="settings-card-title">Notification Preferences</h2>
+                      <p class="settings-card-desc">Control which alerts TaskFlow sends to your email inbox and in-app bell.</p>
+                    </div>
+                  </div>
+
+                  <!-- Email Notifications Group -->
+                  <div class="pref-group">
+                    <h3 class="pref-group-title">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                      <span>Email Notifications</span>
+                    </h3>
+
+                    <div class="toggle-row">
+                      <div class="toggle-text">
+                        <span class="toggle-label">Task Assignments</span>
+                        <span class="toggle-desc">Receive an email immediately when a task is assigned to you.</span>
+                      </div>
+                      <label class="switch-toggle" for="toggleEmailAssign">
+                        <input type="checkbox" id="toggleEmailAssign" checked>
+                        <span class="switch-slider"></span>
+                      </label>
+                    </div>
+
+                    <div class="toggle-row">
+                      <div class="toggle-text">
+                        <span class="toggle-label">Due Dates & Deadlines</span>
+                        <span class="toggle-desc">Send alert 24 hours before your assigned tasks are due.</span>
+                      </div>
+                      <label class="switch-toggle" for="toggleEmailDue">
+                        <input type="checkbox" id="toggleEmailDue" checked>
+                        <span class="switch-slider"></span>
+                      </label>
+                    </div>
+
+                    <div class="toggle-row">
+                      <div class="toggle-text">
+                        <span class="toggle-label">Comments & @Mentions</span>
+                        <span class="toggle-desc">Notify when a team member mentions you or comments on your task.</span>
+                      </div>
+                      <label class="switch-toggle" for="toggleEmailMentions">
+                        <input type="checkbox" id="toggleEmailMentions" checked>
+                        <span class="switch-slider"></span>
+                      </label>
+                    </div>
+
+                    <div class="toggle-row">
+                      <div class="toggle-text">
+                        <span class="toggle-label">Project Updates</span>
+                        <span class="toggle-desc">Receive milestone completion reports and sprint progress updates.</span>
+                      </div>
+                      <label class="switch-toggle" for="toggleEmailProjects">
+                        <input type="checkbox" id="toggleEmailProjects">
+                        <span class="switch-slider"></span>
+                      </label>
+                    </div>
+
+                    <div class="toggle-row">
+                      <div class="toggle-text">
+                        <span class="toggle-label">Weekly Activity Digest</span>
+                        <span class="toggle-desc">A consolidated summary of workspace velocity sent every Monday morning.</span>
+                      </div>
+                      <label class="switch-toggle" for="toggleEmailWeekly">
+                        <input type="checkbox" id="toggleEmailWeekly" checked>
+                        <span class="switch-slider"></span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <!-- In-App Notifications Group -->
+                  <div class="pref-group">
+                    <h3 class="pref-group-title">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                      <span>In-App Notifications</span>
+                    </h3>
+
+                    <div class="toggle-row">
+                      <div class="toggle-text">
+                        <span class="toggle-label">New Task Assignments</span>
+                        <span class="toggle-desc">Show bell badges and toast notifications for newly assigned work.</span>
+                      </div>
+                      <label class="switch-toggle" for="toggleAppAssign">
+                        <input type="checkbox" id="toggleAppAssign" checked>
+                        <span class="switch-slider"></span>
+                      </label>
+                    </div>
+
+                    <div class="toggle-row">
+                      <div class="toggle-text">
+                        <span class="toggle-label">Status Changes</span>
+                        <span class="toggle-desc">Notify when tasks you watch move between Backlog, In Progress, or Done.</span>
+                      </div>
+                      <label class="switch-toggle" for="toggleAppStatus">
+                        <input type="checkbox" id="toggleAppStatus" checked>
+                        <span class="switch-slider"></span>
+                      </label>
+                    </div>
+
+                    <div class="toggle-row">
+                      <div class="toggle-text">
+                        <span class="toggle-label">Comments & Discussions</span>
+                        <span class="toggle-desc">Alert in real-time when new comments are posted on your active tasks.</span>
+                      </div>
+                      <label class="switch-toggle" for="toggleAppComments">
+                        <input type="checkbox" id="toggleAppComments" checked>
+                        <span class="switch-slider"></span>
+                      </label>
+                    </div>
+
+                    <div class="toggle-row">
+                      <div class="toggle-text">
+                        <span class="toggle-label">Project Invitations</span>
+                        <span class="toggle-desc">Notify when team members invite you to collaborate on projects.</span>
+                      </div>
+                      <label class="switch-toggle" for="toggleAppInvites">
+                        <input type="checkbox" id="toggleAppInvites" checked>
+                        <span class="switch-slider"></span>
+                      </label>
+                    </div>
+
+                    <div class="toggle-row">
+                      <div class="toggle-text">
+                        <span class="toggle-label">Team Member Joins</span>
+                        <span class="toggle-desc">Notify when new collaborators accept workspace invitations.</span>
+                      </div>
+                      <label class="switch-toggle" for="toggleAppTeam">
+                        <input type="checkbox" id="toggleAppTeam">
+                        <span class="switch-slider"></span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <!-- Frequency Selector -->
+                  <div class="pref-group">
+                    <h3 class="pref-group-title">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                      <span>Notification Delivery Frequency</span>
+                    </h3>
+
+                    <div class="radio-pill-group">
+                      <label class="radio-pill-card active">
+                        <input type="radio" name="notifFrequency" value="immediately" checked>
+                        <div class="pill-card-body">
+                          <span class="pill-card-title">Immediately</span>
+                          <span class="pill-card-desc">Deliver notifications in real-time as events occur.</span>
+                        </div>
+                      </label>
+
+                      <label class="radio-pill-card">
+                        <input type="radio" name="notifFrequency" value="daily">
+                        <div class="pill-card-body">
+                          <span class="pill-card-title">Daily Summary</span>
+                          <span class="pill-card-desc">Batch all notifications into a single morning digest at 09:00.</span>
+                        </div>
+                      </label>
+
+                      <label class="radio-pill-card">
+                        <input type="radio" name="notifFrequency" value="weekly">
+                        <div class="pill-card-body">
+                          <span class="pill-card-title">Weekly Summary</span>
+                          <span class="pill-card-desc">Receive a combined report on Monday mornings only.</span>
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+
+                  <!-- Action Bar -->
+                  <div class="settings-action-bar">
+                    <div class="action-bar-left">
+                      <button type="button" class="btn-text-btn" id="btnResetNotifs">Reset to Defaults</button>
+                    </div>
+                    <div class="action-bar-right">
+                      <button type="button" class="btn-primary" id="btnSaveNotifs">Save Notification Preferences</button>
+                    </div>
+                  </div>
+
+                </div>
+              </section>
+
+              <!-- ===================================================================
+                   SECTION 4: Appearance Settings
+                   =================================================================== -->
+              <section class="settings-section" id="panelAppearance">
+                <div class="settings-card">
+                  
+                  <div class="settings-card-header">
+                    <div>
+                      <h2 class="settings-card-title">Appearance & Display</h2>
+                      <p class="settings-card-desc">Customize theme styling, layout density, and visual contrast.</p>
+                    </div>
+                  </div>
+
+                  <!-- Theme Selection -->
+                  <div class="pref-group">
+                    <h3 class="pref-group-title">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C6.5 2 2 6.5 2 12c0 2 1.5 3 3 3 1.5 0 2.5-1 2.5-2.5 0-.5.5-1 1-1h1c3.5 0 6.5-3 6.5-6.5C16 4 14.5 2 12 2z"></path></svg>
+                      <span>Interface Theme</span>
+                    </h3>
+
+                    <div class="theme-cards-grid">
+                      
+                      <!-- Light Theme -->
+                      <label class="theme-card active" data-theme="light">
+                        <input type="radio" name="themeOption" value="light" checked>
+                        <div class="theme-preview-box preview-light">
+                          <div class="mini-sidebar"></div>
+                          <div class="mini-content">
+                            <div class="mini-header"></div>
+                            <div class="mini-card-row">
+                              <div class="mini-card"></div>
+                              <div class="mini-card"></div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="theme-card-info">
+                          <span class="theme-name">Light Theme</span>
+                          <span class="theme-desc">Default clean crisp SaaS aesthetic</span>
+                        </div>
+                      </label>
+
+                      <!-- Dark Theme -->
+                      <label class="theme-card" data-theme="dark">
+                        <input type="radio" name="themeOption" value="dark">
+                        <div class="theme-preview-box preview-dark">
+                          <div class="mini-sidebar"></div>
+                          <div class="mini-content">
+                            <div class="mini-header"></div>
+                            <div class="mini-card-row">
+                              <div class="mini-card"></div>
+                              <div class="mini-card"></div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="theme-card-info">
+                          <span class="theme-name">Dark Theme</span>
+                          <span class="theme-desc">Low-glare dark navy background</span>
+                        </div>
+                      </label>
+
+                      <!-- System Default -->
+                      <label class="theme-card" data-theme="system">
+                        <input type="radio" name="themeOption" value="system">
+                        <div class="theme-preview-box preview-system">
+                          <div class="mini-sidebar-half"></div>
+                          <div class="mini-content-half">
+                            <div class="mini-header-half"></div>
+                            <div class="mini-card-row-half">
+                              <div class="mini-card-half"></div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="theme-card-info">
+                          <span class="theme-name">System Default</span>
+                          <span class="theme-desc">Sync automatically with your OS preference</span>
+                        </div>
+                      </label>
+
+                    </div>
+                  </div>
+
+                  <!-- Interface Density -->
+                  <div class="pref-group">
+                    <h3 class="pref-group-title">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                      <span>Interface Density</span>
+                    </h3>
+
+                    <div class="density-cards-grid">
+                      <label class="density-card active" data-density="comfortable">
+                        <input type="radio" name="densityOption" value="comfortable" checked>
+                        <div class="density-card-body">
+                          <div class="density-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="3" y1="15" x2="21" y2="15"></line></svg>
+                          </div>
+                          <span class="density-title">Comfortable</span>
+                          <span class="density-desc">Spacious row heights, generous padding, and larger touch areas.</span>
+                        </div>
+                      </label>
+
+                      <label class="density-card" data-density="compact">
+                        <input type="radio" name="densityOption" value="compact">
+                        <div class="density-card-body">
+                          <div class="density-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="3" y1="7" x2="21" y2="7"></line><line x1="3" y1="11" x2="21" y2="11"></line><line x1="3" y1="15" x2="21" y2="15"></line><line x1="3" y1="19" x2="21" y2="19"></line></svg>
+                          </div>
+                          <span class="density-title">Compact</span>
+                          <span class="density-desc">Condensed tables, tighter card gaps, and higher information density.</span>
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+
+                  <!-- Motion & Accessibility -->
+                  <div class="pref-group">
+                    <h3 class="pref-group-title">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v4l3 3"></path></svg>
+                      <span>Motion & Contrast</span>
+                    </h3>
+
+                    <div class="toggle-row">
+                      <div class="toggle-text">
+                        <span class="toggle-label">Reduce Motion & Animations</span>
+                        <span class="toggle-desc">Disable sliding card transitions and subtle micro-animations for smoother performance.</span>
+                      </div>
+                      <label class="switch-toggle" for="toggleReducedMotion">
+                        <input type="checkbox" id="toggleReducedMotion">
+                        <span class="switch-slider"></span>
+                      </label>
+                    </div>
+
+                    <div class="toggle-row">
+                      <div class="toggle-text">
+                        <span class="toggle-label">High Contrast Mode</span>
+                        <span class="toggle-desc">Sharpen border contrasts and text saturation for increased visual accessibility.</span>
+                      </div>
+                      <label class="switch-toggle" for="toggleHighContrast">
+                        <input type="checkbox" id="toggleHighContrast">
+                        <span class="switch-slider"></span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <!-- Action Bar -->
+                  <div class="settings-action-bar">
+                    <div class="action-bar-left">
+                      <span class="save-status-indicator" id="appearanceSaveStatus">Theme applied immediately</span>
+                    </div>
+                    <div class="action-bar-right">
+                      <button type="button" class="btn-primary" id="btnSaveAppearance">Save Appearance Settings</button>
+                    </div>
+                  </div>
+
+                </div>
+              </section>
+
+              <!-- ===================================================================
+                   SECTION 5: Language & Region
+                   =================================================================== -->
+              <section class="settings-section" id="panelLanguage">
+                <div class="settings-card">
+                  
+                  <div class="settings-card-header">
+                    <div>
+                      <h2 class="settings-card-title">Language & Regional Settings</h2>
+                      <p class="settings-card-desc">Configure your preferred interface language, calendar conventions, and date formats.</p>
+                    </div>
+                  </div>
+
+                  <form id="languageForm">
+                    <div class="form-grid-2">
+                      
+                      <!-- Interface Language -->
+                      <div class="form-group">
+                        <label for="selectLanguage" class="form-label">Interface Language</label>
+                        <div class="select-wrapper">
+                          <select id="selectLanguage" class="form-select">
+                            <option value="en-US" selected>English (United States)</option>
+                            <option value="en-GB">English (United Kingdom)</option>
+                            <option value="te-IN">Telugu (తెలుగు)</option>
+                            <option value="hi-IN">Hindi (हिन्दी)</option>
+                            <option value="ta-IN">Tamil (தமிழ்)</option>
+                            <option value="kn-IN">Kannada (ಕನ್ನಡ)</option>
+                            <option value="es-ES">Spanish (Español)</option>
+                            <option value="fr-FR">French (Français)</option>
+                            <option value="de-DE">German (Deutsch)</option>
+                          </select>
+                          <svg class="select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
+                        <span class="form-hint">Labels, tooltips, and system notifications will be translated accordingly.</span>
+                      </div>
+
+                      <!-- Date Format -->
+                      <div class="form-group">
+                        <label for="selectDateFormat" class="form-label">Date Format</label>
+                        <div class="select-wrapper">
+                          <select id="selectDateFormat" class="form-select">
+                            <option value="MM/DD/YYYY" selected>MM/DD/YYYY (e.g. 10/11/2026)</option>
+                            <option value="DD/MM/YYYY">DD/MM/YYYY (e.g. 11/10/2026)</option>
+                            <option value="YYYY-MM-DD">YYYY-MM-DD (e.g. 2026-10-11 - ISO)</option>
+                          </select>
+                          <svg class="select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
+                        <span class="form-hint">Used across project milestones, task lists, and deadlines.</span>
+                      </div>
+
+                    </div>
+
+                    <div class="form-grid-2">
+                      
+                      <!-- Time Format -->
+                      <div class="form-group">
+                        <label class="form-label">Time Format</label>
+                        <div class="radio-inline-group">
+                          <label class="radio-custom-label">
+                            <input type="radio" name="timeFormatOption" value="12h" checked>
+                            <span class="radio-indicator"></span>
+                            <span>12-hour (1:30 PM)</span>
+                          </label>
+                          <label class="radio-custom-label">
+                            <input type="radio" name="timeFormatOption" value="24h">
+                            <span class="radio-indicator"></span>
+                            <span>24-hour (13:30)</span>
+                          </label>
+                        </div>
+                        <span class="form-hint">Specifies how timestamps are rendered in task logs and messages.</span>
+                      </div>
+
+                      <!-- First Day of the Week -->
+                      <div class="form-group">
+                        <label for="selectFirstDay" class="form-label">First Day of the Week</label>
+                        <div class="select-wrapper">
+                          <select id="selectFirstDay" class="form-select">
+                            <option value="sunday" selected>Sunday (Standard US)</option>
+                            <option value="monday">Monday (ISO Standard / European)</option>
+                            <option value="saturday">Saturday</option>
+                          </select>
+                          <svg class="select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
+                        <span class="form-hint">Adjusts the initial column in TaskFlow calendar views and datepickers.</span>
+                      </div>
+
+                    </div>
+
+                    <div class="settings-action-bar">
+                      <div class="action-bar-left"></div>
+                      <div class="action-bar-right">
+                        <button type="submit" class="btn-primary" id="btnSaveLanguage">Save Regional Settings</button>
+                      </div>
+                    </div>
+                  </form>
+
+                </div>
+              </section>
+
+              <!-- ===================================================================
+                   SECTION 6: Privacy
+                   =================================================================== -->
+              <section class="settings-section" id="panelPrivacy">
+                <div class="settings-card">
+                  
+                  <div class="settings-card-header">
+                    <div>
+                      <h2 class="settings-card-title">Privacy & Permissions</h2>
+                      <p class="settings-card-desc">Control visibility into your profile card, activity feeds, and discoverability.</p>
+                    </div>
+                  </div>
+
+                  <form id="privacyForm">
+                    
+                    <div class="form-group">
+                      <label for="selectProfileVisibility" class="form-label">Profile Visibility</label>
+                      <div class="select-wrapper">
+                        <select id="selectProfileVisibility" class="form-select">
+                          <option value="public" selected>Public to Workspace (Visible to all members)</option>
+                          <option value="team">Team Members Only (Collaborators on assigned projects)</option>
+                          <option value="private">Private (Only Workspace Admins & Owners)</option>
+                        </select>
+                        <svg class="select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                      </div>
+                      <span class="form-hint">Controls who can inspect your personal bio, contact phone, and task statistics.</span>
+                    </div>
+
+                    <div class="form-grid-2">
+                      <div class="form-group">
+                        <label for="selectProjectInvites" class="form-label">Who Can Invite You to Projects</label>
+                        <div class="select-wrapper">
+                          <select id="selectProjectInvites" class="form-select">
+                            <option value="anyone" selected>Anyone in Workspace</option>
+                            <option value="leads">Workspace Admins & Team Leads Only</option>
+                          </select>
+                          <svg class="select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="selectContactVisibility" class="form-label">Contact Information Visibility</label>
+                        <div class="select-wrapper">
+                          <select id="selectContactVisibility" class="form-select">
+                            <option value="workspace" selected>Workspace Members</option>
+                            <option value="collaborators">Project Collaborators Only</option>
+                            <option value="admins">Workspace Admins Only</option>
+                          </select>
+                          <svg class="select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Privacy Toggles -->
+                    <div class="pref-group">
+                      <div class="toggle-row">
+                        <div class="toggle-text">
+                          <span class="toggle-label">Share Activity in Team Feeds</span>
+                          <span class="toggle-desc">Broadcast your completed tasks, milestone closures, and project commits to the workspace activity timeline.</span>
+                        </div>
+                        <label class="switch-toggle" for="toggleActivityFeed">
+                          <input type="checkbox" id="toggleActivityFeed" checked>
+                          <span class="switch-slider"></span>
+                        </label>
+                      </div>
+
+                      <div class="toggle-row">
+                        <div class="toggle-text">
+                          <span class="toggle-label">Search Discoverability</span>
+                          <span class="toggle-desc">Allow team members to find your profile by searching your full name or email address.</span>
+                        </div>
+                        <label class="switch-toggle" for="toggleSearchDiscoverable">
+                          <input type="checkbox" id="toggleSearchDiscoverable" checked>
+                          <span class="switch-slider"></span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="settings-action-bar">
+                      <div class="action-bar-left"></div>
+                      <div class="action-bar-right">
+                        <button type="submit" class="btn-primary" id="btnSavePrivacy">Save Privacy Settings</button>
+                      </div>
+                    </div>
+
+                  </form>
+
+                </div>
+              </section>
+
+              <!-- ===================================================================
+                   SECTION 7: Connected Apps
+                   =================================================================== -->
+              <section class="settings-section" id="panelApps">
+                <div class="settings-card">
+                  
+                  <div class="settings-card-header">
+                    <div>
+                      <h2 class="settings-card-title">Connected Apps & Integrations</h2>
+                      <p class="settings-card-desc">Connect external tools to automate task workflows and synchronize project updates.</p>
+                    </div>
+                  </div>
+
+                  <div class="integrations-list">
+                    
+                    <!-- 1. GitHub -->
+                    <div class="integration-item" data-app="github">
+                      <div class="app-icon-wrap bg-dark">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                          <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path>
+                        </svg>
+                      </div>
+                      <div class="app-info">
+                        <div class="app-title-row">
+                          <span class="app-name">GitHub</span>
+                          <span class="status-chip chip-active">Connected</span>
+                        </div>
+                        <span class="app-desc">Link commits, branches, and pull requests directly to TaskFlow task boards.</span>
+                        <span class="app-meta">Account: <strong>@your-username</strong> • 4 repositories linked</span>
+                      </div>
+                      <button type="button" class="btn-secondary btn-sm btn-disconnect" data-app="github">Disconnect</button>
+                    </div>
+
+                    <!-- 2. Slack -->
+                    <div class="integration-item" data-app="slack">
+                      <div class="app-icon-wrap bg-purple-subtle">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zM18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zM15.165 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zM15.165 17.688a2.527 2.527 0 0 1-2.52-2.523 2.527 2.527 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z"></path>
+                        </svg>
+                      </div>
+                      <div class="app-info">
+                        <div class="app-title-row">
+                          <span class="app-name">Slack</span>
+                          <span class="status-chip chip-active">Connected</span>
+                        </div>
+                        <span class="app-desc">Post task notifications, status changes, and sprint updates to designated channels.</span>
+                        <span class="app-meta">Workspace: <strong>TaskFlow Engineering</strong> • Channel: #taskflow-alerts</span>
+                      </div>
+                      <button type="button" class="btn-secondary btn-sm btn-disconnect" data-app="slack">Disconnect</button>
+                    </div>
+
+                    <!-- 3. Google Workspace / Drive -->
+                    <div class="integration-item" data-app="google">
+                      <div class="app-icon-wrap bg-emerald-subtle">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"></path><polyline points="10 9 9 9 8 9"></polyline><line x1="8" y1="13" x2="16" y2="13"></line><line x1="8" y1="17" x2="14" y2="17"></line>
+                        </svg>
+                      </div>
+                      <div class="app-info">
+                        <div class="app-title-row">
+                          <span class="app-name">Google Workspace</span>
+                          <span class="status-chip chip-gray">Not Connected</span>
+                        </div>
+                        <span class="app-desc">Attach Google Docs, Sheets, and Slides directly to tasks and auto-sync permissions.</span>
+                        <span class="app-meta">Sync drive folders and collaborative spreadsheets.</span>
+                      </div>
+                      <button type="button" class="btn-primary btn-sm btn-connect" data-app="google">Connect App</button>
+                    </div>
+
+                    <!-- 4. Figma -->
+                    <div class="integration-item" data-app="figma">
+                      <div class="app-icon-wrap bg-blue-subtle">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M5 5.5A3.5 3.5 0 0 1 8.5 2H12v7H8.5A3.5 3.5 0 0 1 5 5.5z"></path><path d="M12 2h3.5a3.5 3.5 0 1 1 0 7H12V2z"></path><path d="M12 12.5a3.5 3.5 0 1 1 7 0 3.5 3.5 0 1 1-7 0z"></path><path d="M5 19.5A3.5 3.5 0 0 1 8.5 16H12v3.5a3.5 3.5 0 1 1-7 0z"></path><path d="M5 12.5A3.5 3.5 0 0 1 8.5 9H12v7H8.5A3.5 3.5 0 0 1 5 12.5z"></path>
+                        </svg>
+                      </div>
+                      <div class="app-info">
+                        <div class="app-title-row">
+                          <span class="app-name">Figma</span>
+                          <span class="status-chip chip-gray">Not Connected</span>
+                        </div>
+                        <span class="app-desc">Embed live design frames in task descriptions and inspect component changes.</span>
+                        <span class="app-meta">Preview UI prototypes and sync design tokens.</span>
+                      </div>
+                      <button type="button" class="btn-primary btn-sm btn-connect" data-app="figma">Connect App</button>
+                    </div>
+
+                    <!-- 5. Jira Software -->
+                    <div class="integration-item" data-app="jira">
+                      <div class="app-icon-wrap bg-indigo-subtle">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M11.53 2c0 2.4 1.97 4.35 4.39 4.35h2.18v2.18c0 2.4 1.97 4.35 4.39 4.35V2h-10.96zm-5.77 5.76c0 2.4 1.97 4.35 4.39 4.35h2.18v2.18c0 2.4 1.97 4.35 4.39 4.35V7.76H5.76zM0 13.52c0 2.4 1.97 4.35 4.39 4.35h2.18v2.18C6.57 22.45 8.54 24 10.96 24V13.52H0z"></path>
+                        </svg>
+                      </div>
+                      <div class="app-info">
+                        <div class="app-title-row">
+                          <span class="app-name">Jira Software</span>
+                          <span class="status-chip chip-gray">Not Connected</span>
+                        </div>
+                        <span class="app-desc">Two-way synchronization for sprint backlog epics, user stories, and issue tracking.</span>
+                        <span class="app-meta">Map TaskFlow boards to Jira Cloud or Data Center.</span>
+                      </div>
+                      <button type="button" class="btn-primary btn-sm btn-connect" data-app="jira">Connect App</button>
+                    </div>
+
+                  </div>
+
+                </div>
+              </section>
+
+            </div>
+
+          </div>
+
+        </div>
+      </main>
+
+    </div>
+
+  </div>
+
+  <!-- =========================================================================
+       5. Interactive Modals
+       ========================================================================= -->
+
+  <!-- Modal 1: Two-Factor Authentication Setup -->
+  <div class="modal-overlay" id="twoFaModal" aria-hidden="true">
+    <div class="modal-container modal-md" role="dialog" aria-modal="true" aria-labelledby="twoFaModalTitle">
+      <div class="modal-header">
+        <h3 class="modal-title" id="twoFaModalTitle">Configure Two-Factor Authentication</h3>
+        <button type="button" class="modal-close-btn" id="close2FaModalBtn" aria-label="Close dialog">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-intro">Scan this QR code with your authenticator app (Google Authenticator, Authy, 1Password) to link your TaskFlow account.</p>
+        
+        <div class="qr-code-box">
+          <div class="qr-code-graphic">
+            <svg width="140" height="140" viewBox="0 0 100 100" fill="#172B4D">
+              <!-- Simulated High-Precision QR Code Pattern -->
+              <rect x="5" y="5" width="25" height="25" fill="#172B4D"/>
+              <rect x="8" y="8" width="19" height="19" fill="#FFFFFF"/>
+              <rect x="12" y="12" width="11" height="11" fill="#172B4D"/>
+              <rect x="70" y="5" width="25" height="25" fill="#172B4D"/>
+              <rect x="73" y="8" width="19" height="19" fill="#FFFFFF"/>
+              <rect x="77" y="12" width="11" height="11" fill="#172B4D"/>
+              <rect x="5" y="70" width="25" height="25" fill="#172B4D"/>
+              <rect x="8" y="73" width="19" height="19" fill="#FFFFFF"/>
+              <rect x="12" y="77" width="11" height="11" fill="#172B4D"/>
+              <rect x="35" y="10" width="8" height="8"/>
+              <rect x="48" y="8" width="12" height="6"/>
+              <rect x="40" y="24" width="20" height="6"/>
+              <rect x="10" y="40" width="12" height="12"/>
+              <rect x="28" y="38" width="8" height="18"/>
+              <rect x="42" y="38" width="16" height="16"/>
+              <rect x="65" y="40" width="14" height="8"/>
+              <rect x="85" y="38" width="8" height="20"/>
+              <rect x="36" y="62" width="10" height="10"/>
+              <rect x="52" y="65" width="16" height="8"/>
+              <rect x="74" y="65" width="18" height="8"/>
+              <rect x="38" y="80" width="14" height="12"/>
+              <rect x="60" y="78" width="10" height="14"/>
+              <rect x="76" y="82" width="16" height="10"/>
+            </svg>
+          </div>
+          <div class="qr-secret-key-wrap">
+            <span class="qr-secret-label">Manual Setup Key:</span>
+            <code class="qr-secret-code">TASK-FLOW-8X92-SECURE-KEY</code>
+            <button type="button" class="btn-copy-code" id="btnCopySecretKey">Copy Key</button>
+          </div>
+        </div>
+
+        <div class="form-group code-input-group">
+          <label for="twoFaVerificationCode" class="form-label">Enter 6-Digit Verification Code</label>
+          <input 
+            type="text" 
+            id="twoFaVerificationCode" 
+            class="form-input code-input" 
+            placeholder="000000" 
+            maxlength="6" 
+            pattern="[0-9]{6}"
+            autocomplete="one-time-code"
+          >
+          <span class="error-msg" id="err2FaCode">Please enter a valid 6-digit code.</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" id="btnCancel2FA">Cancel</button>
+        <button type="button" class="btn-primary" id="btnVerify2FA">Verify & Enable</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2: Delete Account Confirmation -->
+  <div class="modal-overlay" id="deleteAccountModal" aria-hidden="true">
+    <div class="modal-container modal-sm" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle">
+      <div class="modal-header">
+        <div class="danger-header-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+        </div>
+        <h3 class="modal-title" id="deleteModalTitle">Delete TaskFlow Account</h3>
+        <button type="button" class="modal-close-btn" id="closeDeleteModalBtn" aria-label="Close dialog">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-warning-text">
+          This action is permanent and cannot be undone. All your workspaces, projects, task assignments, and personal comments will be permanently erased.
+        </p>
+        <div class="form-group">
+          <label for="deleteConfirmationInput" class="form-label">
+            Type <strong class="text-danger">DELETE</strong> to confirm:
+          </label>
+          <input 
+            type="text" 
+            id="deleteConfirmationInput" 
+            class="form-input" 
+            placeholder="DELETE" 
+            autocomplete="off"
+          >
+          <span class="error-msg" id="errDeleteConfirm">You must type DELETE exactly to proceed.</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" id="btnCancelDelete">Cancel</button>
+        <button type="button" class="btn-danger" id="btnConfirmDelete" disabled>Permanently Delete Account</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- JavaScript Module -->
+  <script src="api.js"></script>
+  <script src="websocket.js"></script>
+  <script src="settings.js"></script>
+</body>
+</html>

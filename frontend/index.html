@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TaskFlow — Collaborative Project Management Platform</title>
+  <meta name="description" content="Plan smarter, work better, and achieve more with TaskFlow. The all-in-one collaborative project management suite with 17 specialized application modules for agile teams.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Background Decorative Gradients -->
+  <div class="bg-gradient-shape shape-top-right" aria-hidden="true"></div>
+  <div class="bg-gradient-shape shape-bottom-left" aria-hidden="true"></div>
+
+  <!-- Header / Navigation Bar -->
+  <header class="site-header" id="header">
+    <div class="header-container">
+      <!-- Left side: Logo & Brand -->
+      <a href="index.html" class="brand-logo" aria-label="TaskFlow Home">
+        <div class="logo-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+        <span class="brand-name">TaskFlow</span>
+      </a>
+
+      <!-- Center navigation -->
+      <nav class="desktop-nav" aria-label="Primary Navigation">
+        <ul class="nav-links">
+          <li><a href="#features" class="nav-link">Features</a></li>
+          <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
+          
+          <!-- Dropdown for App Interfaces -->
+          <li class="nav-item-dropdown">
+            <button class="nav-link dropdown-toggle-btn" id="appScreensDropdownBtn" aria-expanded="false" aria-haspopup="true">
+              <span>App Screens (17)</span>
+              <svg class="chevron-sm" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="mega-menu" id="appScreensMenu" role="menu">
+              <div class="mega-menu-grid">
+                
+                <div class="mega-menu-col">
+                  <span class="mega-col-title">Core Workspace</span>
+                  <a href="dashboard.html" class="mega-item" role="menuitem">
+                    <span class="mega-icon icon-blue">📊</span>
+                    <div>
+                      <span class="mega-title">Main Dashboard</span>
+                      <span class="mega-desc">Overview metrics, tasks & activity</span>
+                    </div>
+                  </a>
+                  <a href="projects.html" class="mega-item" role="menuitem">
+                    <span class="mega-icon icon-indigo">📁</span>
+                    <div>
+                      <span class="mega-title">Projects Hub</span>
+                      <span class="mega-desc">Grid & list views with filters</span>
+                    </div>
+                  </a>
+                  <a href="team-members.html" class="mega-item" role="menuitem">
+                    <span class="mega-icon icon-cyan">👥</span>
+                    <div>
+                      <span class="mega-title">Team Members</span>
+                      <span class="mega-desc">Collaborators, roles & invites</span>
+                    </div>
+                  </a>
+                  <a href="create-project.html" class="mega-item" role="menuitem">
+                    <span class="mega-icon icon-blue">➕</span>
+                    <div>
+                      <span class="mega-title">Create Project</span>
+                      <span class="mega-desc">Live preview, lead & team invites</span>
+                    </div>
+                  </a>
+                  <a href="project-details.html" class="mega-item" role="menuitem">
+                    <span class="mega-icon icon-cyan">🎯</span>
+                    <div>
+                      <span class="mega-title">Project Details</span>
+                      <span class="mega-desc">Task boards, milestones & stats</span>
+                    </div>
+                  </a>
+                </div>
+
+                <div class="mega-menu-col">
+                  <span class="mega-col-title">Execution & Tasks</span>
+                  <a href="my-tasks.html" class="mega-item" role="menuitem">
+                    <span class="mega-icon icon-green">✅</span>
+                    <div>
+                      <span class="mega-title">My Tasks Page</span>
+                      <span class="mega-desc">Personal agenda & deadlines</span>
+                    </div>
+                  </a>
+                  <a href="task-details.html" class="mega-item" role="menuitem">
+                    <span class="mega-icon icon-amber">📝</span>
+                    <div>
+                      <span class="mega-title">Task Details</span>
+                      <span class="mega-desc">Subtasks, attachments & comments</span>
+                    </div>
+                  </a>
+                  <a href="calendar.html" class="mega-item" role="menuitem">
+                    <span class="mega-icon icon-purple">📅</span>
+                    <div>
+                      <span class="mega-title">Calendar Schedule</span>
+                      <span class="mega-desc">Monthly milestones & events</span>
+                    </div>
+                  </a>
+                  <a href="inbox.html" class="mega-item" role="menuitem">
+                    <span class="mega-icon icon-pink">💬</span>
+                    <div>
+                      <span class="mega-title">Inbox / Messages</span>
+                      <span class="mega-desc">Team conversations & threads</span>
+                    </div>
+                  </a>
+                  <a href="team-chat.html" class="mega-item highlighted-item" role="menuitem">
+                    <span class="mega-icon icon-blue">💬</span>
+                    <div>
+                      <span class="mega-title">Team Chat <span class="new-pill">NEW</span></span>
+                      <span class="mega-desc">Real-time messaging, channels & details</span>
+                    </div>
+                  </a>
+                </div>
+
+                <div class="mega-menu-col">
+                  <span class="mega-col-title">Account & Support</span>
+                  <a href="help-support.html" class="mega-item highlighted-item" role="menuitem">
+                    <span class="mega-icon icon-blue">❓</span>
+                    <div>
+                      <span class="mega-title">Help & Support <span class="new-pill">NEW</span></span>
+                      <span class="mega-desc">Search, FAQs, guides & ticket modal</span>
+                    </div>
+                  </a>
+                  <a href="settings.html" class="mega-item" role="menuitem">
+                    <span class="mega-icon icon-blue">⚙️</span>
+                    <div>
+                      <span class="mega-title">Settings</span>
+                      <span class="mega-desc">Account, 2FA, themes & integrations</span>
+                    </div>
+                  </a>
+                  <a href="my-profile.html" class="mega-item" role="menuitem">
+                    <span class="mega-icon icon-blue">👤</span>
+                    <div>
+                      <span class="mega-title">My Profile</span>
+                      <span class="mega-desc">Personal info, photo & work stats</span>
+                    </div>
+                  </a>
+                  <a href="notifications.html" class="mega-item" role="menuitem">
+                    <span class="mega-icon icon-red">🔔</span>
+                    <div>
+                      <span class="mega-title">Notifications Hub</span>
+                      <span class="mega-desc">Mentions, alerts & filters</span>
+                    </div>
+                  </a>
+                  <a href="login.html" class="mega-item" role="menuitem">
+                    <span class="mega-icon icon-slate">🔐</span>
+                    <div>
+                      <span class="mega-title">Sign In / Login</span>
+                      <span class="mega-desc">Secure session authentication</span>
+                    </div>
+                  </a>
+                  <a href="register.html" class="mega-item" role="menuitem">
+                    <span class="mega-icon icon-emerald">🚀</span>
+                    <div>
+                      <span class="mega-title">Registration</span>
+                      <span class="mega-desc">Fast workspace onboarding</span>
+                    </div>
+                  </a>
+                  <a href="forgot-password.html" class="mega-item" role="menuitem">
+                    <span class="mega-icon icon-gray">🔑</span>
+                    <div>
+                      <span class="mega-title">Forgot Password</span>
+                      <span class="mega-desc">Safe recovery flow</span>
+                    </div>
+                  </a>
+                </div>
+
+              </div>
+              <div class="mega-menu-footer">
+                <span class="mega-footer-text">Experience all 17 modules live in your browser</span>
+                <a href="#showcase" class="mega-footer-link">View Module Directory →</a>
+              </div>
+            </div>
+          </li>
+
+          <li><a href="#pricing" class="nav-link">Pricing</a></li>
+          <li><a href="#testimonials" class="nav-link">Testimonials</a></li>
+          <li><a href="#about" class="nav-link">About</a></li>
+        </ul>
+      </nav>
+
+      <!-- Right side: Actions -->
+      <div class="header-actions">
+        <a href="dashboard.html" class="btn-demo-header" id="liveDemoHeaderBtn">
+          <span class="live-dot"></span>
+          <span>Live Demo</span>
+        </a>
+        <a href="login.html" class="btn-text" id="loginBtn">Log In</a>
+        <a href="register.html" class="btn-primary" id="getStartedHeaderBtn">Get Started Free</a>
+      </div>
+
+      <!-- Mobile Hamburger Button -->
+      <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobileNav">
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+      </button>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+      <ul class="mobile-nav-links">
+        <li><a href="#features" class="mobile-nav-link">Features</a></li>
+        <li><a href="#how-it-works" class="mobile-nav-link">How It Works</a></li>
+        <li><a href="#showcase" class="mobile-nav-link">All 17 App Screens</a></li>
+        <li><a href="dashboard.html" class="mobile-nav-link text-highlight">📊 Open Dashboard</a></li>
+        <li><a href="team-chat.html" class="mobile-nav-link text-highlight">💬 Team Chat (New)</a></li>
+        <li><a href="help-support.html" class="mobile-nav-link text-highlight">❓ Help & Support</a></li>
+        <li><a href="settings.html" class="mobile-nav-link">⚙️ Settings</a></li>
+        <li><a href="my-profile.html" class="mobile-nav-link">👤 My Profile</a></li>
+        <li><a href="projects.html" class="mobile-nav-link">📁 Projects Hub</a></li>
+        <li><a href="team-members.html" class="mobile-nav-link">👥 Team Members</a></li>
+        <li><a href="create-project.html" class="mobile-nav-link">➕ Create Project</a></li>
+        <li><a href="my-tasks.html" class="mobile-nav-link">✅ My Tasks</a></li>
+        <li><a href="calendar.html" class="mobile-nav-link">📅 Calendar</a></li>
+        <li><a href="inbox.html" class="mobile-nav-link">💬 Inbox</a></li>
+        <li><a href="#pricing" class="mobile-nav-link">Pricing Plans</a></li>
+        <li><a href="#testimonials" class="mobile-nav-link">Testimonials</a></li>
+        <li><a href="#about" class="mobile-nav-link">About Us</a></li>
+      </ul>
+      <div class="mobile-nav-actions">
+        <a href="dashboard.html" class="btn-demo-header mobile-btn-demo">
+          <span class="live-dot"></span>
+          <span>Live Demo</span>
+        </a>
+        <a href="login.html" class="btn-text mobile-btn-text">Log In</a>
+        <a href="register.html" class="btn-primary mobile-btn-primary">Get Started Free</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- =======================================================================
+         1. Main Hero Section
+         ======================================================================= -->
+    <section class="hero-section" id="hero">
+      <div class="hero-container">
+        
+        <!-- Left Column: Hero Content -->
+        <div class="hero-content">
+          <!-- Small announcement badge -->
+          <a href="#showcase" class="announcement-badge">
+            <span class="sparkle-icon" aria-hidden="true">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2L14.4 8.6L21 11L14.4 13.4L12 20L9.6 13.4L3 11L9.6 8.6L12 2Z"/>
+              </svg>
+            </span>
+            <span class="badge-text">TaskFlow 2.0 • 17 Interactive Modules Ready</span>
+            <span class="badge-arrow">→</span>
+          </a>
+
+          <!-- Main headline -->
+          <h1 class="hero-headline">
+            Plan smarter.<br>
+            <span class="highlight-blue">Work better.</span><br>
+            Achieve more.
+          </h1>
+
+          <!-- Supporting paragraph -->
+          <p class="hero-description">
+            Bring your projects, tasks, and team conversations together in one modern workspace. Stay organized, collaborate effortlessly, and launch projects faster with zero friction.
+          </p>
+
+          <!-- Primary and secondary call-to-action buttons -->
+          <div class="hero-ctas">
+            <a href="dashboard.html" class="btn-primary btn-hero-primary" id="heroCtaPrimary">
+              <span class="live-pulse"></span>
+              <span>Launch Live App</span>
+              <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+            <a href="#showcase" class="btn-secondary" id="heroCtaSecondary">
+              Explore All 17 Screens
+            </a>
+          </div>
+
+          <!-- Trust indicator -->
+          <div class="trust-indicator">
+            <div class="avatar-group" aria-hidden="true">
+              <div class="avatar avatar-1" title="Alex Morgan">AM</div>
+              <div class="avatar avatar-2" title="Sarah Wilson">SW</div>
+              <div class="avatar avatar-3" title="Marcus Lee">ML</div>
+            </div>
+            <div class="trust-content">
+              <div class="trust-check-icon" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </div>
+              <span class="trust-text">Adopted by 25,000+ teams across product, design, and engineering</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Interactive Product Preview -->
+        <div class="hero-preview-wrapper">
+          
+          <!-- Floating notification card (upper-right) -->
+          <a href="notifications.html" class="floating-badge badge-top-right" title="View in Notifications">
+            <div class="badge-icon-wrap icon-success">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <div class="badge-text-group">
+              <span class="badge-title">Task completed</span>
+              <span class="badge-subtitle">Just now in Website Redesign</span>
+            </div>
+          </a>
+
+          <!-- Floating progress card (lower-left) -->
+          <a href="projects.html" class="floating-badge badge-bottom-left" title="View in Projects">
+            <div class="progress-info-row">
+              <span class="progress-label">Project progress</span>
+              <span class="progress-val">75%</span>
+            </div>
+            <div class="mini-progress-bar">
+              <div class="progress-fill" style="width: 75%;"></div>
+            </div>
+          </a>
+
+          <!-- Outer preview container (Realistic miniature TaskFlow application) -->
+          <div class="product-preview-card" role="region" aria-label="TaskFlow Product Interface Preview">
+            
+            <!-- Preview Top Bar -->
+            <div class="preview-top-bar">
+              <div class="window-controls" aria-hidden="true">
+                <span class="control-dot dot-red"></span>
+                <span class="control-dot dot-yellow"></span>
+                <span class="control-dot dot-green"></span>
+              </div>
+              <div class="preview-project-info">
+                <div class="preview-mini-logo" aria-hidden="true">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </div>
+                <span class="preview-project-title">Website Redesign</span>
+              </div>
+              <div class="preview-team-avatars" aria-label="Collaborating team members">
+                <span class="mini-avatar avatar-blue">AM</span>
+                <span class="mini-avatar avatar-purple">SW</span>
+                <span class="mini-avatar avatar-emerald">+4</span>
+              </div>
+            </div>
+
+            <!-- Preview Body (Sidebar + Main Board) -->
+            <div class="preview-body">
+              
+              <!-- Preview Sidebar -->
+              <aside class="preview-sidebar" aria-label="Mini Navigation">
+                <ul class="preview-sidebar-menu">
+                  <li>
+                    <a href="dashboard.html" class="sidebar-item" title="Open Overview Dashboard">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                      <span>Overview</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="my-tasks.html" class="sidebar-item" title="Open My Tasks">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                      <span>My Tasks</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="projects.html" class="sidebar-item active" title="Open Projects">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                      <span>Projects</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="calendar.html" class="sidebar-item" title="Open Calendar">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                      <span>Calendar</span>
+                    </a>
+                  </li>
+                </ul>
+              </aside>
+
+              <!-- Preview Main Content -->
+              <div class="preview-main">
+                <!-- Preview Header Row -->
+                <div class="preview-main-header">
+                  <div>
+                    <h2 class="preview-board-heading">Website Redesign</h2>
+                    <span class="preview-board-subheading">Design & Development Workspace</span>
+                  </div>
+                  <a href="create-project.html" class="mini-add-task-btn" title="Create a new project">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    <span>+ New Project</span>
+                  </a>
+                </div>
+
+                <!-- 3-Column Kanban Board -->
+                <div class="preview-kanban-board">
+                  
+                  <!-- Column: To Do -->
+                  <div class="kanban-col col-todo">
+                    <div class="kanban-col-header">
+                      <div class="col-indicator-wrap">
+                        <span class="status-dot dot-todo"></span>
+                        <span class="col-title">To Do</span>
+                      </div>
+                      <span class="col-count">2</span>
+                    </div>
+
+                    <div class="kanban-cards-stack">
+                      <a href="task-details.html" class="task-card" title="Click to view Task Details">
+                        <div class="task-card-title">Responsive navigation audit</div>
+                        <div class="task-card-footer">
+                          <span class="task-tag tag-blue">Frontend</span>
+                          <span class="card-avatar av-blue" title="Marcus Lee">ML</span>
+                        </div>
+                      </a>
+                      <a href="task-details.html" class="task-card" title="Click to view Task Details">
+                        <div class="task-card-title">Token schemas JSON setup</div>
+                        <div class="task-card-footer">
+                          <span class="task-tag tag-blue">Tokens</span>
+                          <span class="card-avatar av-indigo" title="Sarah Wilson">SW</span>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+
+                  <!-- Column: In Progress -->
+                  <div class="kanban-col col-inprogress">
+                    <div class="kanban-col-header">
+                      <div class="col-indicator-wrap">
+                        <span class="status-dot dot-inprogress"></span>
+                        <span class="col-title">In Progress</span>
+                      </div>
+                      <span class="col-count">2</span>
+                    </div>
+
+                    <div class="kanban-cards-stack">
+                      <a href="task-details.html" class="task-card" title="Click to view Task Details">
+                        <div class="task-card-title">Design landing page UI</div>
+                        <div class="task-card-footer">
+                          <span class="task-tag tag-amber">Design</span>
+                          <span class="card-avatar av-amber" title="Alex Morgan">AM</span>
+                        </div>
+                      </a>
+                      <a href="task-details.html" class="task-card" title="Click to view Task Details">
+                        <div class="task-card-title">API mock endpoints setup</div>
+                        <div class="task-card-footer">
+                          <span class="task-tag tag-amber">Backend</span>
+                          <span class="card-avatar av-teal" title="Jordan Davis">JD</span>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+
+                  <!-- Column: Completed -->
+                  <div class="kanban-col col-completed">
+                    <div class="kanban-col-header">
+                      <div class="col-indicator-wrap">
+                        <span class="status-dot dot-completed"></span>
+                        <span class="col-title">Completed</span>
+                      </div>
+                      <span class="col-count">1</span>
+                    </div>
+
+                    <div class="kanban-cards-stack">
+                      <a href="project-details.html" class="task-card card-done" title="View completed in Project Details">
+                        <div class="task-card-title">Homepage wireframes & spec</div>
+                        <div class="task-card-footer">
+                          <span class="task-tag tag-green">Done</span>
+                          <span class="card-avatar av-green" title="Alex Morgan">AM</span>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         Trusted By Logos Strip (Social Proof)
+         ======================================================================= -->
+    <div class="trusted-by-strip" aria-label="Trusted by industry leaders">
+      <span class="trusted-by-label">Trusted by high-velocity teams worldwide</span>
+      <div class="trusted-logos-grid">
+        <span class="company-logo">STRIPE</span>
+        <span class="company-logo">SPOTIFY</span>
+        <span class="company-logo">LINEAR</span>
+        <span class="company-logo">FIGMA</span>
+        <span class="company-logo">VERCEL</span>
+        <span class="company-logo">GITHUB</span>
+      </div>
+    </div>
+
+    <!-- =======================================================================
+         2. Key Features Section
+         ======================================================================= -->
+    <section class="section-features" id="features">
+      <div class="section-container">
+        <div class="section-badge">Platform Capabilities</div>
+        <h2 class="section-title">Everything you need to deliver high-impact work</h2>
+        <p class="section-subtitle">Streamlined workflows built specifically for software engineers, product designers, and agile teams.</p>
+        
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+            </div>
+            <h3>Kanban & List Boards</h3>
+            <p>Visualize progress with dynamic drag-and-drop boards, customizable swimlanes, and live status tracking across sprints.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <h3>Seamless Collaboration</h3>
+            <p>Comment in real-time, tag teammates, assign duties, and keep decisions linked directly to the task context.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            </div>
+            <h3>Automated Workflows</h3>
+            <p>Save hours each week by automating handoffs, notifications, status shifts, and recurring sprint schedules.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            </div>
+            <h3>Calendar & Deadlines</h3>
+            <p>Never miss a release milestone with synced schedules, team capacity visibility, and deadline alerts.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+            </div>
+            <h3>Intelligent Alerts</h3>
+            <p>Filter notifications by mentions, task updates, or system alerts to eliminate alert fatigue.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            </div>
+            <h3>Enterprise Privacy</h3>
+            <p>Role-based access control, encrypted communication, and granular private or team-wide project visibility.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         3. How It Works Section
+         ======================================================================= -->
+    <section class="section-how" id="how-it-works">
+      <div class="section-container">
+        <div class="section-badge">Simple 3-Step Setup</div>
+        <h2 class="section-title">How TaskFlow accelerates your team</h2>
+        <p class="section-subtitle">Get your entire team up and running in minutes, without complex training or onboarding lag.</p>
+
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-number">01</div>
+            <h3>Create your workspace</h3>
+            <p>Set up your project repository, invite team members, and choose your preferred view (Kanban, List, or Timeline).</p>
+          </div>
+          <div class="step-card">
+            <div class="step-number">02</div>
+            <h3>Organize & Prioritize</h3>
+            <p>Break initiatives down into actionable cards, assign owners, set deadlines, and attach essential files.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-number">03</div>
+            <h3>Track & Deliver</h3>
+            <p>Monitor sprint velocity with instant metrics, celebrate completed milestones, and stay ahead of deadlines.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         4. All 17 Interfaces App Showcase Section
+         ======================================================================= -->
+    <section class="section-showcase" id="showcase">
+      <div class="section-container">
+        
+        <div class="section-header-centered">
+          <div class="section-badge badge-blue">Complete Application Suite</div>
+          <h2 class="section-title">Explore All 17 TaskFlow Modules</h2>
+          <p class="section-subtitle">
+            Every screen has been designed to production-grade SaaS standards. Filter by category or launch any module directly in the application.
+          </p>
+        </div>
+
+        <!-- Showcase Category Filter Tabs -->
+        <div class="showcase-filter-tabs" role="tablist" aria-label="Showcase category filters">
+          <button class="showcase-tab-btn active" data-filter="all" type="button">All Modules (17)</button>
+          <button class="showcase-tab-btn" data-filter="workspace" type="button">Core Workspace (5)</button>
+          <button class="showcase-tab-btn" data-filter="tasks" type="button">Tasks & Execution (4)</button>
+          <button class="showcase-tab-btn" data-filter="collab" type="button">Chat & Collaboration (2)</button>
+          <button class="showcase-tab-btn" data-filter="account" type="button">Account & Support (6)</button>
+        </div>
+
+        <div class="showcase-grid">
+          <div class="showcase-card" data-category="workspace">
+            <div class="showcase-card-top">
+              <span class="screen-pill">Interface 04</span>
+              <span class="category-pill cat-blue">Core Workspace</span>
+            </div>
+            <div class="showcase-icon-box bg-blue-subtle">
+              📊
+            </div>
+            <h3 class="showcase-title">Main Dashboard</h3>
+            <p class="showcase-desc">
+              Holistic workspace command center with active project progress rings, prioritized task queues, upcoming deadlines, and team velocity metrics.
+            </p>
+            <div class="showcase-features-list">
+              <span>• Executive KPI cards</span>
+              <span>• Priority task agenda</span>
+              <span>• Real-time activity logs</span>
+            </div>
+            <a href="dashboard.html" class="showcase-launch-btn">
+              <span>Launch Dashboard</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </a>
+          </div>
+
+          <div class="showcase-card" data-category="workspace">
+            <div class="showcase-card-top">
+              <span class="screen-pill">Interface 06</span>
+              <span class="category-pill cat-indigo">Projects</span>
+            </div>
+            <div class="showcase-icon-box bg-indigo-subtle">
+              📁
+            </div>
+            <h3 class="showcase-title">Projects Hub</h3>
+            <p class="showcase-desc">
+              Comprehensive repository of team projects with Grid and List views, multi-criteria filtering by status/department, progress bars, and search.
+            </p>
+            <div class="showcase-features-list">
+              <span>• Grid & List switchers</span>
+              <span>• Progress indicators</span>
+              <span>• Team avatar stacks</span>
+            </div>
+            <a href="projects.html" class="showcase-launch-btn">
+              <span>View Projects</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </a>
+          </div>
+
+          <div class="showcase-card showcase-featured" data-category="workspace">
+            <div class="featured-badge">NEW • INTERFACE 12</div>
+            <div class="showcase-card-top">
+              <span class="screen-pill">Interface 12</span>
+              <span class="category-pill cat-blue">Creation</span>
+            </div>
+            <div class="showcase-icon-box bg-blue-subtle">
+              ✨
+            </div>
+            <h3 class="showcase-title">Create Project Page</h3>
+            <p class="showcase-desc">
+              Polished two-column project builder with live summary sync, Before-You-Create checklist, searchable lead selector, swatch picker, and member invites.
+            </p>
+            <div class="showcase-features-list">
+              <span>• Live project preview</span>
+              <span>• Dynamic checklist</span>
+              <span>• Team member chips</span>
+            </div>
+            <a href="create-project.html" class="showcase-launch-btn btn-featured">
+              <span>Create New Project</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </a>
+          </div>
+
+          <div class="showcase-card" data-category="workspace">
+            <div class="showcase-card-top">
+              <span class="screen-pill">Interface 11</span>
+              <span class="category-pill cat-cyan">Execution</span>
+            </div>
+            <div class="showcase-icon-box bg-cyan-subtle">
+              🎯
+            </div>
+            <h3 class="showcase-title">Project Details</h3>
+            <p class="showcase-desc">
+              Deep dive into project milestones with dynamic task filtering (All, To Do, In Progress, Done), quick task creation, and team member management.
+            </p>
+            <div class="showcase-features-list">
+              <span>• Dynamic task toggles</span>
+              <span>• Completion ratio rings</span>
+              <span>• Activity feed logging</span>
+            </div>
+            <a href="project-details.html" class="showcase-launch-btn">
+              <span>Inspect Project</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </a>
+          </div>
+
+          <div class="showcase-card showcase-featured" data-category="workspace">
+            <div class="featured-badge">NEW • INTERFACE 13</div>
+            <div class="showcase-card-top">
+              <span class="screen-pill">Interface 13</span>
+              <span class="category-pill cat-blue">Team</span>
+            </div>
+            <div class="showcase-icon-box bg-blue-subtle">
+              👥
+            </div>
+            <h3 class="showcase-title">Team Members Page</h3>
+            <p class="showcase-desc">
+              Full-screen collaborator directory with 4 dynamic metric cards, role & status filtering, multi-email invitation modal with chips, slide-over profile drawer, and CSV export.
+            </p>
+            <div class="showcase-features-list">
+              <span>• 4 live summary metrics</span>
+              <span>• Multi-email chips modal</span>
+              <span>• Slide-over profile preview</span>
+            </div>
+            <a href="team-members.html" class="showcase-launch-btn">
+              <span>Open Team Members</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </a>
+          </div>
+
+          <div class="showcase-card" data-category="tasks">
+            <div class="showcase-card-top">
+              <span class="screen-pill">Interface 05</span>
+              <span class="category-pill cat-green">Personal</span>
+            </div>
+            <div class="showcase-icon-box bg-green-subtle">
+              ✅
+            </div>
+            <h3 class="showcase-title">My Tasks Page</h3>
+            <p class="showcase-desc">
+              Dedicated personal workload manager sorting assigned tasks by Today, Upcoming, and Later with priority pills and overdue warnings.
+            </p>
+            <div class="showcase-features-list">
+              <span>• Date-segmented queues</span>
+              <span>• Instant status check</span>
+              <span>• Filter by priority</span>
+            </div>
+            <a href="my-tasks.html" class="showcase-launch-btn">
+              <span>Open My Tasks</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </a>
+          </div>
+
+          <div class="showcase-card" data-category="tasks">
+            <div class="showcase-card-top">
+              <span class="screen-pill">Interface 10</span>
+              <span class="category-pill cat-amber">Focus</span>
+            </div>
+            <div class="showcase-icon-box bg-amber-subtle">
+              📝
+            </div>
+            <h3 class="showcase-title">Task Details Page</h3>
+            <p class="showcase-desc">
+              In-depth task inspection screen featuring subtask checklists, Markdown descriptions, assignee chips, file attachments, and collaborative comments.
+            </p>
+            <div class="showcase-features-list">
+              <span>• Subtask progress</span>
+              <span>• Comment discussion</span>
+              <span>• Attachment uploads</span>
+            </div>
+            <a href="task-details.html" class="showcase-launch-btn">
+              <span>Open Task Details</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </a>
+          </div>
+
+          <div class="showcase-card" data-category="tasks">
+            <div class="showcase-card-top">
+              <span class="screen-pill">Interface 08</span>
+              <span class="category-pill cat-purple">Schedule</span>
+            </div>
+            <div class="showcase-icon-box bg-purple-subtle">
+              📅
+            </div>
+            <h3 class="showcase-title">Calendar Page</h3>
+            <p class="showcase-desc">
+              Interactive timeline view displaying sprint deliverables, milestones, meeting agendas, and upcoming project deadlines in Month/Week views.
+            </p>
+            <div class="showcase-features-list">
+              <span>• Month / Week views</span>
+              <span>• Event modal creation</span>
+              <span>• Deadline alerts</span>
+            </div>
+            <a href="calendar.html" class="showcase-launch-btn">
+              <span>Open Calendar</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </a>
+          </div>
+
+          <div class="showcase-card" data-category="tasks">
+            <div class="showcase-card-top">
+              <span class="screen-pill">Interface 09</span>
+              <span class="category-pill cat-red">Alerts</span>
+            </div>
+            <div class="showcase-icon-box bg-red-subtle">
+              🔔
+            </div>
+            <h3 class="showcase-title">Notifications Page</h3>
+            <p class="showcase-desc">
+              Clean notification center organizing mentions, task assignments, deadline notices, and status changes with Mark as Read controls.
+            </p>
+            <div class="showcase-features-list">
+              <span>• Filter by category</span>
+              <span>• Batch actions</span>
+              <span>• Direct task links</span>
+            </div>
+            <a href="notifications.html" class="showcase-launch-btn">
+              <span>View Notifications</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </a>
+          </div>
+
+          <div class="showcase-card showcase-featured" data-category="collab">
+            <div class="featured-badge">NEW • INTERFACE 17</div>
+            <div class="showcase-card-top">
+              <span class="screen-pill">Interface 17</span>
+              <span class="category-pill cat-blue">Chat</span>
+            </div>
+            <div class="showcase-icon-box bg-blue-subtle">
+              💬
+            </div>
+            <h3 class="showcase-title">Team Chat Page</h3>
+            <p class="showcase-desc">
+              Full-screen collaboration workspace featuring 3-panel layout, direct & group channels, rich attachments, emoji reactions, message replies, and collapsible details drawer.
+            </p>
+            <div class="showcase-features-list">
+              <span>• 3-panel chat workspace</span>
+              <span>• Direct & group channels</span>
+              <span>• Emoji reactions & replies</span>
+            </div>
+            <a href="team-chat.html" class="showcase-launch-btn btn-featured">
+              <span>Open Team Chat</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </a>
+          </div>
+
+          <div class="showcase-card" data-category="collab">
+            <div class="showcase-card-top">
+              <span class="screen-pill">Interface 07</span>
+              <span class="category-pill cat-pink">Chat</span>
+            </div>
+            <div class="showcase-icon-box bg-pink-subtle">
+              💬
+            </div>
+            <h3 class="showcase-title">Inbox / Messages</h3>
+            <p class="showcase-desc">
+              Contextual team messaging hub with direct teammate chats, project discussion channels, unread indicators, and instant message composer.
+            </p>
+            <div class="showcase-features-list">
+              <span>• Direct & channel chats</span>
+              <span>• Typing indicators</span>
+              <span>• Rich media previews</span>
+            </div>
+            <a href="inbox.html" class="showcase-launch-btn">
+              <span>Open Inbox</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </a>
+          </div>
+
+          <div class="showcase-card showcase-featured" data-category="account">
+            <div class="featured-badge">NEW • INTERFACE 14</div>
+            <div class="showcase-card-top">
+              <span class="screen-pill">Interface 14</span>
+              <span class="category-pill cat-blue">Profile</span>
+            </div>
+            <div class="showcase-icon-box bg-blue-subtle">
+              👤
+            </div>
+            <h3 class="showcase-title">My Profile Page</h3>
+            <p class="showcase-desc">
+              Full-screen user profile management with view & edit modes, avatar photo upload & removal modal, inline validation, task statistics, and activity timeline.
+            </p>
+            <div class="showcase-features-list">
+              <span>• View & Edit personal info</span>
+              <span>• Avatar photo upload & preview</span>
+              <span>• Live task stats & activity</span>
+            </div>
+            <a href="my-profile.html" class="showcase-launch-btn">
+              <span>Open My Profile</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </a>
+          </div>
+
+          <div class="showcase-card showcase-featured" data-category="account">
+            <div class="featured-badge">NEW • INTERFACE 15</div>
+            <div class="showcase-card-top">
+              <span class="screen-pill">Interface 15</span>
+              <span class="category-pill cat-blue">Config</span>
+            </div>
+            <div class="showcase-icon-box bg-blue-subtle">
+              ⚙️
+            </div>
+            <h3 class="showcase-title">Settings Page</h3>
+            <p class="showcase-desc">
+              Comprehensive two-column settings suite with 7 dedicated panels: General, Account & 2FA Security, Notification channels, Live Dark/Light themes, Regional formatting, Privacy controls, and Connected Apps.
+            </p>
+            <div class="showcase-features-list">
+              <span>• 7 interactive settings categories</span>
+              <span>• Live theme & density engine</span>
+              <span>• 2FA modal & app integrations</span>
+            </div>
+            <a href="settings.html" class="showcase-launch-btn">
+              <span>Open Settings</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </a>
+          </div>
+
+          <div class="showcase-card showcase-featured" data-category="account">
+            <div class="featured-badge">NEW • INTERFACE 16</div>
+            <div class="showcase-card-top">
+              <span class="screen-pill">Interface 16</span>
+              <span class="category-pill cat-blue">Support</span>
+            </div>
+            <div class="showcase-icon-box bg-blue-subtle">
+              ❓
+            </div>
+            <h3 class="showcase-title">Help & Support Page</h3>
+            <p class="showcase-desc">
+              Full-screen support center featuring live search, 6 categorized resource guides, 8 interactive FAQ accordions, step-by-step article reader modal, and support request ticket submission.
+            </p>
+            <div class="showcase-features-list">
+              <span>• Live query search engine</span>
+              <span>• 8 expandable FAQ accordions</span>
+              <span>• Support request ticket modal</span>
+            </div>
+            <a href="help-support.html" class="showcase-launch-btn btn-featured">
+              <span>Open Help & Support</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </a>
+          </div>
+
+          <div class="showcase-card" data-category="account">
+            <div class="showcase-card-top">
+              <span class="screen-pill">Interface 02</span>
+              <span class="category-pill cat-slate">Auth</span>
+            </div>
+            <div class="showcase-icon-box bg-slate-subtle">
+              🔐
+            </div>
+            <h3 class="showcase-title">Login / Sign In</h3>
+            <p class="showcase-desc">
+              Clean authentication gateway with email & password verification, remember me option, show/hide password toggle, and social OAuth buttons.
+            </p>
+            <div class="showcase-features-list">
+              <span>• Inline validation</span>
+              <span>• Social login triggers</span>
+              <span>• Remember session</span>
+            </div>
+            <a href="login.html" class="showcase-launch-btn">
+              <span>Test Sign In</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </a>
+          </div>
+
+          <div class="showcase-card" data-category="account">
+            <div class="showcase-card-top">
+              <span class="screen-pill">Interface 03</span>
+              <span class="category-pill cat-emerald">Onboard</span>
+            </div>
+            <div class="showcase-icon-box bg-emerald-subtle">
+              🚀
+            </div>
+            <h3 class="showcase-title">Register / Sign Up</h3>
+            <p class="showcase-desc">
+              Frictionless account onboarding with real-time password strength meter, terms acceptance modal, and direct workspace initialization.
+            </p>
+            <div class="showcase-features-list">
+              <span>• Password meter</span>
+              <span>• Terms modal link</span>
+              <span>• Immediate onboarding</span>
+            </div>
+            <a href="register.html" class="showcase-launch-btn">
+              <span>Test Registration</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </a>
+          </div>
+
+          <div class="showcase-card" data-category="account">
+            <div class="showcase-card-top">
+              <span class="screen-pill">Security</span>
+              <span class="category-pill cat-gray">Account</span>
+            </div>
+            <div class="showcase-icon-box bg-gray-subtle">
+              🔑
+            </div>
+            <h3 class="showcase-title">Forgot Password</h3>
+            <p class="showcase-desc">
+              Secure reset verification interface with email confirmation feedback, timer cooldown, and safety reassurance prompts.
+            </p>
+            <div class="showcase-features-list">
+              <span>• Email recovery</span>
+              <span>• Safety prompts</span>
+              <span>• Fast return to login</span>
+            </div>
+            <a href="forgot-password.html" class="showcase-launch-btn">
+              <span>Test Recovery</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         5. Transparent Pricing Section
+         ======================================================================= -->
+    <section class="section-pricing" id="pricing">
+      <div class="section-container">
+        
+        <div class="section-header-centered">
+          <div class="section-badge badge-blue">Simple Pricing</div>
+          <h2 class="section-title">Transparent Plans Built for Every Stage</h2>
+          <p class="section-subtitle">Choose the plan that fits your team. Start free, upgrade as you grow.</p>
+          
+          <!-- Billing Toggle -->
+          <div class="pricing-toggle-wrap">
+            <span class="toggle-label" id="monthlyLabel">Monthly</span>
+            <button type="button" class="billing-toggle-btn" id="billingToggleBtn" role="switch" aria-checked="true" aria-label="Toggle annual billing">
+              <span class="toggle-slider"></span>
+            </button>
+            <span class="toggle-label active" id="annualLabel">
+              Annually <span class="discount-pill">Save 20%</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="pricing-cards-grid">
+          
+          <!-- Plan 1: Free Starter -->
+          <div class="pricing-card">
+            <div class="plan-header">
+              <h3 class="plan-name">Starter</h3>
+              <p class="plan-desc">Essential tools for individuals and small startups starting out.</p>
+              <div class="plan-price-wrap">
+                <span class="price-currency">$</span>
+                <span class="price-val">0</span>
+                <span class="price-period">/ month</span>
+              </div>
+            </div>
+            <ul class="plan-features">
+              <li><span class="check-icon">✓</span> Up to 5 team members</li>
+              <li><span class="check-icon">✓</span> 3 active projects</li>
+              <li><span class="check-icon">✓</span> Standard Kanban boards</li>
+              <li><span class="check-icon">✓</span> 1 GB file storage</li>
+              <li><span class="check-icon">✓</span> Community support</li>
+            </ul>
+            <a href="register.html" class="btn-plan btn-plan-outline">Get Started Free</a>
+          </div>
+
+          <!-- Plan 2: Pro (Featured) -->
+          <div class="pricing-card pricing-card-featured">
+            <div class="popular-ribbon">MOST POPULAR</div>
+            <div class="plan-header">
+              <h3 class="plan-name">Professional</h3>
+              <p class="plan-desc">For growing product and engineering teams shipping regularly.</p>
+              <div class="plan-price-wrap">
+                <span class="price-currency">$</span>
+                <span class="price-val" id="proPriceVal">12</span>
+                <span class="price-period" id="proPricePeriod">/ user / mo</span>
+              </div>
+            </div>
+            <ul class="plan-features">
+              <li><span class="check-icon">✓</span> Unlimited team members</li>
+              <li><span class="check-icon">✓</span> Unlimited projects & boards</li>
+              <li><span class="check-icon">✓</span> Advanced Calendar & Gantt</li>
+              <li><span class="check-icon">✓</span> Team Inbox messaging</li>
+              <li><span class="check-icon">✓</span> 100 GB cloud storage</li>
+              <li><span class="check-icon">✓</span> Priority email support</li>
+            </ul>
+            <a href="register.html" class="btn-plan btn-plan-primary">Start 14-Day Free Trial</a>
+          </div>
+
+          <!-- Plan 3: Enterprise -->
+          <div class="pricing-card">
+            <div class="plan-header">
+              <h3 class="plan-name">Enterprise</h3>
+              <p class="plan-desc">For large organizations requiring security, compliance & scale.</p>
+              <div class="plan-price-wrap">
+                <span class="price-currency">$</span>
+                <span class="price-val" id="entPriceVal">29</span>
+                <span class="price-period" id="entPricePeriod">/ user / mo</span>
+              </div>
+            </div>
+            <ul class="plan-features">
+              <li><span class="check-icon">✓</span> Everything in Professional</li>
+              <li><span class="check-icon">✓</span> Custom roles & permissions</li>
+              <li><span class="check-icon">✓</span> SAML SSO & audit logs</li>
+              <li><span class="check-icon">✓</span> Dedicated customer success</li>
+              <li><span class="check-icon">✓</span> 99.9% uptime SLA</li>
+              <li><span class="check-icon">✓</span> Unlimited cloud storage</li>
+            </ul>
+            <a href="dashboard.html" class="btn-plan btn-plan-outline">Contact Sales</a>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         6. Testimonials Social Proof Section
+         ======================================================================= -->
+    <section class="section-testimonials" id="testimonials">
+      <div class="section-container">
+        
+        <div class="section-header-centered">
+          <div class="section-badge badge-blue">Customer Stories</div>
+          <h2 class="section-title">Loved by 25,000+ teams worldwide</h2>
+          <p class="section-subtitle">Here is what product leaders and engineering directors say about TaskFlow.</p>
+        </div>
+
+        <div class="testimonials-grid">
+          
+          <div class="testimonial-card">
+            <div class="stars-row">★★★★★</div>
+            <p class="testimonial-quote">
+              "TaskFlow replaced three fragmented tools for our 40-person product team. The instant clarity on sprint blockers and team capacity has been an absolute game changer."
+            </p>
+            <div class="testimonial-author">
+              <div class="author-avatar av-sarah">SW</div>
+              <div class="author-info">
+                <span class="author-name">Sarah Wilson</span>
+                <span class="author-title">VP of Product • CloudScale</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="stars-row">★★★★★</div>
+            <p class="testimonial-quote">
+              "The design is clean, snappy, and distraction-free. Our engineers actually enjoy updating their tickets now because everything takes two clicks instead of ten."
+            </p>
+            <div class="testimonial-author">
+              <div class="author-avatar av-marcus">ML</div>
+              <div class="author-info">
+                <span class="author-name">Marcus Lee</span>
+                <span class="author-title">Engineering Director • NextWave</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="stars-row">★★★★★</div>
+            <p class="testimonial-quote">
+              "Creating a new project with leadership and team members mapped in seconds is unmatched. The live summary preview alone saves our project managers hours of back-and-forth."
+            </p>
+            <div class="testimonial-author">
+              <div class="author-avatar av-alex">AM</div>
+              <div class="author-info">
+                <span class="author-name">Alex Morgan</span>
+                <span class="author-title">Principal Design Lead • Apex Studio</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         7. About Us Section
+         ======================================================================= -->
+    <section class="section-about" id="about">
+      <div class="section-container">
+        <div class="about-card">
+          <div class="about-content">
+            <div class="section-badge badge-white">About TaskFlow</div>
+            <h2>Built for teams that value clarity and speed</h2>
+            <p>
+              TaskFlow was designed to strip away the clutter of bloated legacy project tools. We combine the agility of modern issue trackers with the intuitive simplicity loved by product teams worldwide.
+            </p>
+            <div class="about-stats">
+              <div class="stat-item">
+                <span class="stat-value">99.9%</span>
+                <span class="stat-label">Uptime guarantee</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-value">4.9/5</span>
+                <span class="stat-label">Team satisfaction</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-value">25k+</span>
+                <span class="stat-label">Active projects</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-value">17</span>
+                <span class="stat-label">Full modules</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         8. Bottom Call To Action Banner
+         ======================================================================= -->
+    <section class="section-cta-banner">
+      <div class="section-container">
+        <div class="cta-banner-card">
+          <h2 class="cta-banner-title">Ready to streamline your team's workflow?</h2>
+          <p class="cta-banner-subtitle">Join thousands of high-performing teams already collaborating with TaskFlow.</p>
+          <div class="cta-banner-buttons">
+            <a href="register.html" class="btn-primary btn-cta-large">Get Started Free</a>
+            <a href="dashboard.html" class="btn-outline-white">Explore Live Demo</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =======================================================================
+       9. Clean & Comprehensive Footer
+       ======================================================================= -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      
+      <!-- Brand & Mission -->
+      <div class="footer-brand-col">
+        <div class="brand-logo footer-logo">
+          <div class="logo-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <span class="brand-name">TaskFlow</span>
+        </div>
+        <p class="footer-desc">The modern collaborative project management platform built for fast-moving agile teams.</p>
+        <div class="system-status-indicator">
+          <span class="status-pulse-green"></span>
+          <span>All 17 modules operational</span>
+        </div>
+      </div>
+
+      <!-- Core Workspace -->
+      <div class="footer-links-col">
+        <span class="footer-col-title">Core Workspace</span>
+        <ul>
+          <li><a href="dashboard.html">Main Dashboard</a></li>
+          <li><a href="projects.html">Projects Hub</a></li>
+          <li><a href="create-project.html">Create Project</a></li>
+          <li><a href="project-details.html">Project Details</a></li>
+          <li><a href="team-members.html">Team Members</a></li>
+        </ul>
+      </div>
+
+      <!-- Execution & Chat -->
+      <div class="footer-links-col">
+        <span class="footer-col-title">Execution & Chat</span>
+        <ul>
+          <li><a href="my-tasks.html">My Tasks</a></li>
+          <li><a href="task-details.html">Task Details</a></li>
+          <li><a href="calendar.html">Calendar Schedule</a></li>
+          <li><a href="team-chat.html">Team Chat (New)</a></li>
+          <li><a href="inbox.html">Inbox / Messages</a></li>
+          <li><a href="notifications.html">Notifications Hub</a></li>
+        </ul>
+      </div>
+
+      <!-- Account & Support -->
+      <div class="footer-links-col">
+        <span class="footer-col-title">Account & Support</span>
+        <ul>
+          <li><a href="my-profile.html">My Profile</a></li>
+          <li><a href="settings.html">Settings</a></li>
+          <li><a href="help-support.html">Help & Support</a></li>
+          <li><a href="login.html">Team Sign In</a></li>
+          <li><a href="register.html">Registration</a></li>
+          <li><a href="forgot-password.html">Forgot Password</a></li>
+        </ul>
+      </div>
+
+      <!-- Company & Legal -->
+      <div class="footer-links-col">
+        <span class="footer-col-title">Company & Legal</span>
+        <ul>
+          <li><a href="#about">About TaskFlow</a></li>
+          <li><a href="#features">Key Features</a></li>
+          <li><a href="#pricing">Pricing Plans</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Service</a></li>
+        </ul>
+      </div>
+
+    </div>
+    
+    <div class="footer-bottom">
+      <div class="footer-container bottom-inner">
+        <p>&copy; 2026 TaskFlow Inc. All rights reserved.</p>
+        <div class="footer-legal">
+          <a href="privacy.html">Privacy Policy</a>
+          <span class="divider">•</span>
+          <a href="terms.html">Terms of Service</a>
+          <span class="divider">•</span>
+          <a href="dashboard.html">Live Demo</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

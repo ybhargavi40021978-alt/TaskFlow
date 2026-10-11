@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website Redesign — Project Details — TaskFlow</title>
+  <meta name="description" content="View project progress, team members, deliverables, tasks, and recent activity for the Website Redesign project in TaskFlow.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="project-details.css">
+</head>
+<body>
+  <!-- App Layout Container -->
+  <div class="app-layout">
+    
+    <!-- Mobile Sidebar Backdrop -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop" aria-hidden="true"></div>
+
+    <!-- =========================================================================
+         1. Left Navigation Sidebar (240px)
+         ========================================================================= -->
+    <aside class="app-sidebar" id="appSidebar" aria-label="Main Navigation">
+      
+      <!-- Top Brand Logo -->
+      <div class="sidebar-brand-row">
+        <a href="dashboard.html" class="brand-logo" aria-label="TaskFlow Dashboard">
+          <div class="logo-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <span class="brand-name">TaskFlow</span>
+        </a>
+        <button class="mobile-close-sidebar-btn" id="closeSidebarBtn" aria-label="Close sidebar navigation">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <!-- Workspace Selector Dropdown Trigger -->
+      <div class="workspace-selector-wrap">
+        <button class="workspace-selector-btn" id="workspaceBtn" aria-expanded="false" aria-haspopup="true">
+          <div class="workspace-avatar">T</div>
+          <div class="workspace-info">
+            <span class="workspace-label">WORKSPACE</span>
+            <span class="workspace-name" id="currentWorkspaceName">Team Workspace</span>
+          </div>
+          <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+
+        <!-- Workspace Dropdown Menu -->
+        <div class="dropdown-menu workspace-dropdown" id="workspaceDropdown" role="menu">
+          <button class="dropdown-item active" role="menuitem" data-workspace="Team Workspace">
+            <span class="item-dot dot-blue"></span> Team Workspace
+          </button>
+          <button class="dropdown-item" role="menuitem" data-workspace="Personal Workspace">
+            <span class="item-dot dot-purple"></span> Personal Workspace
+          </button>
+          <div class="dropdown-divider"></div>
+          <button class="dropdown-item item-action" id="createWorkspaceOption" role="menuitem">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            <span>Create Workspace</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Navigation Menu (Exact Established Order) -->
+      <nav class="sidebar-nav" aria-label="Workspace Pages">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="dashboard.html" class="nav-link">
+              <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+              <span>Overview</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="my-tasks.html" class="nav-link">
+              <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+              <span>My Tasks</span>
+              <span class="nav-badge" id="sidebarTaskBadge">6</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <!-- Active Navigation Context: Projects -->
+            <a href="projects.html" class="nav-link active" aria-current="page">
+              <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+              <span>Projects</span>
+              <span class="nav-badge nav-badge-active" id="sidebarProjectsBadge">6</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="inbox.html" class="nav-link">
+              <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"></polyline><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path></svg>
+              <span>Inbox</span>
+              <span class="nav-badge badge-unread" id="sidebarInboxBadge">3</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="calendar.html" class="nav-link">
+              <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              <span>Calendar</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Auxiliary Navigation (Starred, Settings, Help) -->
+      <div class="sidebar-secondary-nav">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <button class="nav-link-btn" id="sidebarStarredBtn">
+              <svg class="nav-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+              <span>Starred</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Bottom Sidebar Controls -->
+      <div class="sidebar-bottom-controls">
+        <ul class="bottom-nav-list">
+          <li>
+            <button class="bottom-nav-btn" id="sidebarSettingsBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+              <span>Settings</span>
+            </button>
+          </li>
+          <li>
+            <button class="bottom-nav-btn" id="sidebarHelpBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+              <span>Help & Support</span>
+            </button>
+          </li>
+        </ul>
+
+        <!-- User Profile Pill -->
+        <div class="user-profile-wrap">
+          <button class="user-profile-btn" id="profileBtn" aria-expanded="false" aria-haspopup="true">
+            <div class="user-avatar" id="sidebarAvatar">YB</div>
+            <div class="user-meta">
+              <span class="user-name" id="sidebarUserName">Your Name</span>
+              <span class="user-role">Team Member</span>
+            </div>
+            <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+
+          <!-- User Profile Dropdown -->
+          <div class="dropdown-menu profile-dropdown" id="profileDropdown" role="menu">
+            <div class="profile-dropdown-header">
+              <span class="user-name-full">Your Name</span>
+              <span class="user-email-full">your.email@workspace.com</span>
+            </div>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item" id="menuMyProfile" role="menuitem">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              <span>My Profile</span>
+            </button>
+            <button class="dropdown-item" id="menuAccountSettings" role="menuitem">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+              <span>Account Settings</span>
+            </button>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item item-danger" id="menuLogOut" role="menuitem">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+              <span>Log Out</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- =========================================================================
+         2. Main Application Area (Header + Project Workspace)
+         ========================================================================= -->
+    <div class="app-main">
+      
+      <!-- Top Header (72px) -->
+      <header class="app-header">
+        
+        <!-- Left: Hamburger (Mobile) + Breadcrumb -->
+        <div class="header-left">
+          <button class="mobile-hamburger-btn" id="mobileHamburgerBtn" aria-label="Open sidebar menu">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+          
+          <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+            <a href="projects.html" class="breadcrumb-link-muted">Projects</a>
+            <span class="breadcrumb-sep">/</span>
+            <span class="breadcrumb-current-bold">Website Redesign</span>
+          </nav>
+        </div>
+
+        <!-- Center: Search Input -->
+        <div class="header-center">
+          <div class="search-input-wrapper">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input 
+              type="search" 
+              id="globalSearchInput" 
+              class="global-search-input" 
+              placeholder="Search anything..."
+              aria-label="Search project tasks and members"
+              autocomplete="off"
+            >
+            <kbd class="search-shortcut" title="Press Ctrl+K to search">Ctrl K</kbd>
+
+            <!-- Search Dropdown Results -->
+            <div class="search-results-dropdown" id="searchResultsDropdown" role="listbox">
+              <div class="search-results-header">Matching Elements</div>
+              <div class="search-results-list" id="searchResultsList"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Actions & Controls -->
+        <div class="header-right">
+          
+          <!-- Help Icon -->
+          <div class="help-wrap">
+            <button class="header-icon-btn" id="helpHeaderBtn" aria-label="Help and resources" aria-expanded="false">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            </button>
+            <div class="dropdown-menu help-dropdown" id="helpDropdown">
+              <div class="dropdown-header-sm">Project Help</div>
+              <a href="#" class="dropdown-item" id="helpDocsOption">
+                <span>Project Workflow Documentation</span>
+              </a>
+              <a href="#" class="dropdown-item" id="helpShortcutsOption">
+                <span>Keyboard Shortcuts (N for New Task)</span>
+              </a>
+              <a href="#" class="dropdown-item" id="helpContactOption">
+                <span>Contact Project Lead</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Notifications Bell -->
+          <div class="notification-wrap">
+            <a href="notifications.html" class="header-icon-btn" id="notificationsBtn" aria-label="Notifications" title="View notifications">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+              <span class="notification-indicator"></span>
+            </a>
+          </div>
+
+          <!-- User Avatar Icon -->
+          <button class="header-avatar-btn" id="headerAvatarBtn" aria-label="User profile menu">
+            <span>YB</span>
+          </button>
+
+        </div>
+      </header>
+
+      <!-- =======================================================================
+           3. Main Project Details Workspace (Scrollable Area)
+           ======================================================================= -->
+      <main class="workspace-scroll-area">
+        <div class="workspace-container">
+          
+          <!-- Section 5: Project Page Heading -->
+          <section class="project-heading-section">
+            <div class="heading-left-cluster">
+              <div class="project-icon-square">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+              </div>
+              <div class="project-title-text-group">
+                <div class="title-status-line">
+                  <h1 class="project-title-h1" id="projectTitle">Website Redesign</h1>
+                  <span class="status-badge-pill" id="projectStatusBadge">In Progress</span>
+                </div>
+                <p class="project-subtitle-text" id="projectSubtitle">Redesign the company website for a better user experience.</p>
+              </div>
+            </div>
+
+            <!-- Right Action Buttons -->
+            <div class="heading-right-cluster">
+              
+              <!-- Share Button -->
+              <button class="btn-action-outline" id="shareProjectBtn" title="Share project workspace">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+                <span>Share</span>
+              </button>
+
+              <!-- Invite Members Button -->
+              <button class="btn-action-outline" id="inviteMembersBtn" title="Invite new teammates">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+                <span>Invite Members</span>
+              </button>
+
+              <!-- Primary + Add Task Button -->
+              <button class="btn-primary-action" id="openAddTaskModalBtn">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                <span>+ Add Task</span>
+              </button>
+
+              <!-- Three-dot Overflow Menu -->
+              <div class="project-menu-wrap">
+                <button class="btn-icon-square" id="projectMoreBtn" aria-label="Project actions" aria-expanded="false">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+                </button>
+                <div class="dropdown-menu project-action-dropdown" id="projectMoreDropdown">
+                  <button class="dropdown-item" id="menuEditProject">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                    <span>Edit Project Info</span>
+                  </button>
+                  <button class="dropdown-item" id="menuCopyProjectLink">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                    <span>Copy project link</span>
+                  </button>
+                  <div class="dropdown-divider"></div>
+                  <button class="dropdown-item item-danger" id="menuArchiveProject">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line></svg>
+                    <span>Archive Project</span>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </section>
+
+          <!-- Section 6: Project Overview Cards (Row of 4) -->
+          <section class="overview-cards-row" aria-label="Project Statistics">
+            
+            <!-- Card 1: Total Tasks -->
+            <div class="summary-metric-card" data-card-filter="all" role="button" tabindex="0" title="Filter all tasks">
+              <div class="metric-top-line">
+                <span class="metric-label">Total Tasks</span>
+                <div class="metric-icon-wrap icon-bg-gray">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                </div>
+              </div>
+              <div class="metric-number-large" id="metricTotalTasks">24</div>
+              <span class="metric-subtext">Across this project</span>
+            </div>
+
+            <!-- Card 2: Completed -->
+            <div class="summary-metric-card" data-card-filter="Completed" role="button" tabindex="0" title="Filter completed tasks">
+              <div class="metric-top-line">
+                <span class="metric-label">Completed</span>
+                <div class="metric-icon-wrap icon-bg-green">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </div>
+              </div>
+              <div class="metric-number-large count-green" id="metricCompletedTasks">14</div>
+              <span class="metric-subtext">Tasks finished</span>
+            </div>
+
+            <!-- Card 3: In Progress -->
+            <div class="summary-metric-card" data-card-filter="In Progress" role="button" tabindex="0" title="Filter in-progress tasks">
+              <div class="metric-top-line">
+                <span class="metric-label">In Progress</span>
+                <div class="metric-icon-wrap icon-bg-blue">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                </div>
+              </div>
+              <div class="metric-number-large count-blue" id="metricInProgressTasks">7</div>
+              <span class="metric-subtext">Currently active</span>
+            </div>
+
+            <!-- Card 4: Team Members -->
+            <div class="summary-metric-card" role="button" tabindex="0" title="View team members">
+              <div class="metric-top-line">
+                <span class="metric-label">Team Members</span>
+                <div class="avatar-stack-mini" id="miniAvatarStack">
+                  <span class="stack-av av-alex">AM</span>
+                  <span class="stack-av av-sarah">SW</span>
+                  <span class="stack-av av-marcus">ML</span>
+                </div>
+              </div>
+              <div class="metric-number-large" id="metricTeamMembers">6</div>
+              <span class="metric-subtext">Collaborating</span>
+            </div>
+
+          </section>
+
+          <!-- Section 7: Project Progress Section Card -->
+          <section class="project-progress-card">
+            
+            <!-- Left Side: Progress Bar & Ratio -->
+            <div class="progress-left-block">
+              <div class="progress-heading-group">
+                <h2 class="progress-card-title">Project Progress</h2>
+                <p class="progress-card-subtitle">Track the overall completion of this project.</p>
+              </div>
+
+              <div class="progress-visual-row">
+                <div class="progress-number-display" id="progressPercentageText">58%</div>
+                <div class="progress-bar-container">
+                  <div class="progress-bar-fill" id="progressBarFill" style="width: 58%;"></div>
+                </div>
+              </div>
+
+              <div class="progress-ratio-caption" id="progressRatioCaption">14 of 24 tasks completed</div>
+            </div>
+
+            <!-- Right Side: Key Metadata Items -->
+            <div class="progress-right-block">
+              <div class="meta-data-card">
+                <span class="meta-data-label">Start Date</span>
+                <span class="meta-data-value" id="projectStartDate">Oct 01, 2026</span>
+              </div>
+              
+              <div class="meta-data-card">
+                <span class="meta-data-label">Due Date</span>
+                <span class="meta-data-value due-highlight" id="projectDueDate">Nov 15, 2026</span>
+              </div>
+
+              <div class="meta-data-card">
+                <span class="meta-data-label">Project Lead</span>
+                <div class="lead-person-badge">
+                  <div class="lead-avatar">YB</div>
+                  <span class="lead-name">Your Name (Lead)</span>
+                </div>
+              </div>
+            </div>
+
+          </section>
+
+          <!-- ===================================================================
+               Section 8: Main Content Area (Two Columns: ~66% / ~34%)
+               =================================================================== -->
+          <div class="project-main-columns-layout">
+            
+            <!-- Left Column: Project Tasks (~66%) -->
+            <div class="project-tasks-column">
+              <div class="project-tasks-card">
+                
+                <!-- Card Header -->
+                <div class="tasks-card-header">
+                  <div class="tasks-header-title-wrap">
+                    <h3 class="tasks-card-heading">Project Tasks</h3>
+                    <span class="tasks-count-pill" id="tasksListCountBadge">24 tasks</span>
+                  </div>
+
+                  <div class="tasks-header-controls">
+                    <!-- Compact Search Field -->
+                    <div class="task-search-input-wrap">
+                      <svg class="search-mini-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                      <input 
+                        type="text" 
+                        id="taskSearchFilterInput" 
+                        class="task-search-field" 
+                        placeholder="Search tasks..." 
+                        aria-label="Filter project tasks by title"
+                      >
+                    </div>
+
+                    <!-- Filter Dropdown Trigger -->
+                    <div class="filter-dropdown-wrap">
+                      <button class="btn-filter-toggle" id="filterDropdownBtn" aria-label="Filter options" aria-expanded="false">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+                        <span>Filter</span>
+                      </button>
+                      <div class="dropdown-menu filter-menu" id="filterMenuDropdown">
+                        <div class="dropdown-header-sm">Priority Filter</div>
+                        <button class="dropdown-item active" data-priority-filter="all">All Priorities</button>
+                        <button class="dropdown-item" data-priority-filter="High">High Priority Only</button>
+                        <button class="dropdown-item" data-priority-filter="Medium">Medium Priority Only</button>
+                        <button class="dropdown-item" data-priority-filter="Low">Low Priority Only</button>
+                      </div>
+                    </div>
+
+                    <!-- View All Link -->
+                    <button class="btn-view-all-link" id="viewAllTasksBtn">View All</button>
+                  </div>
+                </div>
+
+                <!-- Task Filter Tabs (All Tasks, To Do, In Progress, Completed) -->
+                <div class="task-tabs-row" role="tablist" aria-label="Task status tabs">
+                  <button class="task-tab-btn active" data-tab="all" role="tab" aria-selected="true" id="tabAllTasks">
+                    <span>All Tasks</span>
+                    <span class="tab-counter" id="tabCountAll">24</span>
+                  </button>
+                  <button class="task-tab-btn" data-tab="To Do" role="tab" aria-selected="false" id="tabToDo">
+                    <span>To Do</span>
+                    <span class="tab-counter" id="tabCountToDo">3</span>
+                  </button>
+                  <button class="task-tab-btn" data-tab="In Progress" role="tab" aria-selected="false" id="tabInProgress">
+                    <span>In Progress</span>
+                    <span class="tab-counter" id="tabCountInProgress">7</span>
+                  </button>
+                  <button class="task-tab-btn" data-tab="Completed" role="tab" aria-selected="false" id="tabCompleted">
+                    <span>Completed</span>
+                    <span class="tab-counter" id="tabCountCompleted">14</span>
+                  </button>
+                </div>
+
+                <!-- Tasks List Feed -->
+                <div class="project-tasks-list" id="projectTasksList">
+                  <!-- Dynamically rendered task rows -->
+                </div>
+
+                <!-- Empty State -->
+                <div class="tasks-empty-state" id="tasksEmptyState" style="display: none;">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <line x1="8" y1="6" x2="21" y2="6"></line>
+                    <line x1="8" y1="12" x2="21" y2="12"></line>
+                    <line x1="8" y1="18" x2="21" y2="18"></line>
+                    <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                    <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                    <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                  </svg>
+                  <h4>No tasks match this filter</h4>
+                  <p>Try switching tabs or resetting your search query.</p>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Right Column: Team Members & Recent Activity (~34%) -->
+            <div class="project-side-column">
+              
+              <!-- Section 10: Team Members Card -->
+              <div class="side-panel-card team-members-card">
+                <div class="side-card-header">
+                  <div class="side-card-title-wrap">
+                    <h3 class="side-card-title">Team Members</h3>
+                    <span class="side-count-badge" id="membersCountBadge">6</span>
+                  </div>
+                  <button class="btn-icon-plus" id="inviteMemberPlusBtn" title="Invite teammate" aria-label="Invite member">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                  </button>
+                </div>
+
+                <!-- Members List -->
+                <div class="team-members-list" id="teamMembersList">
+                  <!-- Injected dynamically -->
+                </div>
+
+                <!-- Bottom Link -->
+                <div class="side-card-footer">
+                  <button class="btn-side-footer-link" id="viewAllMembersBtn">View all members</button>
+                </div>
+              </div>
+
+              <!-- Section 11: Recent Activity Card -->
+              <div class="side-panel-card recent-activity-card">
+                <div class="side-card-header">
+                  <div class="side-card-title-wrap">
+                    <h3 class="side-card-title">Recent Activity</h3>
+                  </div>
+                </div>
+
+                <!-- Timeline Feed -->
+                <div class="activity-timeline-feed" id="activityTimelineFeed">
+                  <!-- Injected dynamically -->
+                </div>
+
+                <!-- Bottom Link -->
+                <div class="side-card-footer">
+                  <button class="btn-side-footer-link" id="viewAllActivityBtn">View all activity</button>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </main>
+
+    </div>
+
+  </div>
+
+  <!-- =========================================================================
+       12. Add Task Modal
+       ========================================================================= -->
+  <div class="app-modal-backdrop" id="addTaskModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="addTaskModalHeading">
+    <div class="app-modal-card modal-task-size">
+      
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title" id="addTaskModalHeading">Add Task to Website Redesign</h3>
+          <p class="modal-subtitle">Assign deliverables, set priorities, and track execution.</p>
+        </div>
+        <button class="modal-close-btn" id="closeAddTaskModalBtn" aria-label="Close modal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <form id="addTaskForm" class="modal-body-form">
+        <div class="modal-form-padding">
+          
+          <!-- Title -->
+          <div class="form-group">
+            <label class="form-label" for="taskTitleInput">Task Title <span class="req">*</span></label>
+            <input type="text" id="taskTitleInput" class="form-input" placeholder="e.g. Conduct usability testing on checkout" required>
+          </div>
+
+          <!-- Description -->
+          <div class="form-group">
+            <label class="form-label" for="taskDescInput">Description</label>
+            <textarea id="taskDescInput" class="form-textarea" rows="3" placeholder="Provide context, acceptance criteria, or relevant links…"></textarea>
+          </div>
+
+          <!-- Priority & Status Row -->
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="taskPrioritySelect">Priority <span class="req">*</span></label>
+              <select id="taskPrioritySelect" class="form-select" required>
+                <option value="High">High</option>
+                <option value="Medium" selected>Medium</option>
+                <option value="Low">Low</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="taskStatusSelect">Status <span class="req">*</span></label>
+              <select id="taskStatusSelect" class="form-select" required>
+                <option value="To Do" selected>To Do</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Assignee & Due Date Row -->
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="taskAssigneeSelect">Assignee</label>
+              <select id="taskAssigneeSelect" class="form-select">
+                <option value="Alex Morgan" selected>Alex Morgan (UI/UX)</option>
+                <option value="Sarah Wilson">Sarah Wilson (Design Lead)</option>
+                <option value="Marcus Lee">Marcus Lee (Frontend)</option>
+                <option value="Jordan Davis">Jordan Davis (Backend)</option>
+                <option value="Elena Rostova">Elena Rostova (QA)</option>
+                <option value="Your Name">Your Name (Product Lead)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="taskDueDateInput">Due Date <span class="req">*</span></label>
+              <input type="date" id="taskDueDateInput" class="form-input" value="2026-10-22" required>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-modal-secondary" id="cancelAddTaskBtn">Cancel</button>
+          <button type="submit" class="btn-modal-primary" id="saveAddTaskBtn">Create Task</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       13. Invite Members Modal
+       ========================================================================= -->
+  <div class="app-modal-backdrop" id="inviteModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="app-modal-card modal-compact">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title">Invite Team Members</h3>
+          <p class="modal-subtitle">Invite collaborators to the Website Redesign workspace.</p>
+        </div>
+        <button class="modal-close-btn" id="closeInviteModalBtn" aria-label="Close modal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <form id="inviteForm" class="modal-body-form">
+        <div class="modal-form-padding">
+          <div class="form-group">
+            <label class="form-label" for="inviteEmailInput">Teammate Email Address</label>
+            <input type="email" id="inviteEmailInput" class="form-input" placeholder="colleague@taskflow.io" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="inviteRoleSelect">Workspace Role</label>
+            <select id="inviteRoleSelect" class="form-select">
+              <option value="Contributor" selected>Contributor (Can create & edit tasks)</option>
+              <option value="Viewer">Viewer (Read-only access)</option>
+              <option value="Admin">Admin (Full project control)</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-modal-secondary" id="cancelInviteBtn">Cancel</button>
+          <button type="submit" class="btn-modal-primary" id="sendInviteBtn">Send Invitation</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Feedback Container -->
+  <div class="app-toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <script src="api.js"></script>
+  <script src="websocket.js"></script>
+  <script src="project-details.js"></script>
+</body>
+</html>
